@@ -1,75 +1,107 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { FlatList, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function HomeScreen() {
+  const todoList = [
+    { id: "1", title: "Complete project proposal" },
+    { id: "2", title: "Review code changes" },
+    { id: "3", title: "Prepare presentation" },
+    { id: "4", title: "Send status update" },
+    { id: "5", title: "Schedule team meeting" },
+  ];
+
+  const shoppingList = [
+    { id: "1", item: "Milk", quantity: "1 gallon" },
+    { id: "2", item: "Bread", quantity: "1 loaf" },
+    { id: "3", item: "Eggs", quantity: "1 dozen" },
+    { id: "4", item: "Cheese", quantity: "200g" },
+    { id: "5", item: "Apples", quantity: "6 pieces" },
+  ];
+
+  const renderTodoItem = ({ item }: { item: (typeof todoList)[0] }) => (
+    <ThemedView style={styles.listItem}>
+      <ThemedText style={styles.listItemText}>{item.title}</ThemedText>
+    </ThemedView>
+  );
+
+  const renderShoppingItem = ({ item }: { item: (typeof shoppingList)[0] }) => (
+    <ThemedView style={styles.listItem}>
+      <ThemedText style={styles.listItemText}>{item.item}</ThemedText>
+      <ThemedText style={styles.quantityText}>{item.quantity}</ThemedText>
+    </ThemedView>
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">My Lists</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.listContainer}>
+          <ThemedText type="subtitle" style={styles.listTitle}>
+            Todo List
+          </ThemedText>
+          <FlatList
+            data={todoList}
+            renderItem={renderTodoItem}
+            keyExtractor={(item) => item.id}
+            scrollEnabled={false}
+          />
+        </ThemedView>
+
+        <ThemedView style={styles.listContainer}>
+          <ThemedText type="subtitle" style={styles.listTitle}>
+            Shopping List
+          </ThemedText>
+          <FlatList
+            data={shoppingList}
+            renderItem={renderShoppingItem}
+            keyExtractor={(item) => item.id}
+            scrollEnabled={false}
+          />
+        </ThemedView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 8,
+    marginBottom: 16,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  listContainer: {
+    marginBottom: 24,
+    paddingHorizontal: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  listTitle: {
+    marginBottom: 12,
+  },
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginVertical: 4,
+    borderRadius: 8,
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
+  },
+  listItemText: {
+    fontSize: 16,
+  },
+  quantityText: {
+    fontSize: 14,
+    opacity: 0.7,
   },
 });
