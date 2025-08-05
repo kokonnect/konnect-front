@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const primaryColor = "#00B493";
 
@@ -29,7 +29,7 @@ export default function RootLayout() {
         options={{
           title: "Main",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="home" size={size} color={color} />
+            <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -38,7 +38,7 @@ export default function RootLayout() {
         options={{
           title: "Translate",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="language" size={size} color={color} />
+            <MaterialCommunityIcons name="translate" size={size} color={color} />
           ),
         }}
       />
@@ -47,7 +47,7 @@ export default function RootLayout() {
         options={{
           title: "Calendar",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="calendar" size={size} color={color} />
+            <MaterialCommunityIcons name="calendar" size={size} color={color} />
           ),
         }}
       />
@@ -56,7 +56,7 @@ export default function RootLayout() {
         options={{
           title: "Message",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="envelope" size={size} color={color} />
+            <MaterialCommunityIcons name="message" size={size} color={color} />
           ),
         }}
       />
@@ -65,7 +65,7 @@ export default function RootLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="user" size={size} color={color} />
+            <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
         }}
       />

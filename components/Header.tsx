@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface HeaderProps {
   title: string;
-  icon?: keyof typeof FontAwesome.glyphMap;
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
 export default function Header({ title, icon }: HeaderProps) {
@@ -12,7 +12,7 @@ export default function Header({ title, icon }: HeaderProps) {
     <View style={styles.header}>
       <View style={styles.headerContent}>
         {icon && (
-          <FontAwesome name={icon} size={24} color="#fff" style={styles.icon} />
+          <MaterialCommunityIcons name={icon} size={24} color="#fff" style={styles.icon} />
         )}
         <Text style={styles.headerTitle}>{title}</Text>
       </View>

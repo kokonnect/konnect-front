@@ -6,7 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 interface TranslationCard {
@@ -63,8 +63,8 @@ export default function RecentTranslation() {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <FontAwesome
-            name="clock-o"
+          <MaterialCommunityIcons
+            name="clock-outline"
             size={20}
             color="#333"
             style={styles.icon}
