@@ -22,8 +22,15 @@ export default function CalendarLayout() {
       <Stack.Screen
         name="add"
         options={{
-          title: "Add Event",
-          headerBackTitle: "Back",
+          presentation: "modal",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="modify"
+        options={{
+          presentation: "modal",
+          headerShown: false,
         }}
       />
     </Stack>

@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 interface ScheduleEvent {
   id: string;
@@ -67,6 +68,7 @@ const EmptySchedule = () => (
 export default function SelectedDateSchedule({
   selectedDate,
 }: SelectedDateScheduleProps) {
+  const router = useRouter();
   const scheduleEvents = mockScheduleData[selectedDate] || [];
 
   const formatDate = (dateString: string) => {
@@ -80,14 +82,18 @@ export default function SelectedDateSchedule({
   };
 
   const renderScheduleItem = ({ item }: { item: ScheduleEvent }) => (
-    <View style={styles.scheduleItem}>
+    <TouchableOpacity
+      style={styles.scheduleItem}
+      onPress={() => router.push(`/calendar/modify?eventId=${item.id}`)}
+      activeOpacity={0.7}
+    >
       <View style={styles.scheduleHeader}>
         <Text style={styles.scheduleTime}>{item.time}</Text>
         <Text style={styles.scheduleDate}>{item.date}</Text>
         <Text style={styles.scheduleChild}>{item.childName}</Text>
       </View>
       <Text style={styles.scheduleMemo}>{item.memo}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
