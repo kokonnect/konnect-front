@@ -17,6 +17,10 @@ interface Event {
   childName: string;
 }
 
+interface UpcomingEventsProps {
+  showViewAll?: boolean;
+}
+
 const mockEvents: Event[] = [
   {
     id: "1",
@@ -48,7 +52,7 @@ const mockEvents: Event[] = [
   },
 ];
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({ showViewAll = true }: UpcomingEventsProps) {
   const router = useRouter();
 
   const formatDate = (date: Date) => {
@@ -71,9 +75,11 @@ export default function UpcomingEvents() {
           />
           <Text style={styles.title}>Upcoming Events</Text>
         </View>
-        <TouchableOpacity onPress={() => router.push("/calendar")}>
-          <Text style={styles.viewAll}>View all</Text>
-        </TouchableOpacity>
+        {showViewAll && (
+          <TouchableOpacity onPress={() => router.push("/calendar")}>
+            <Text style={styles.viewAll}>View all</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.eventsList}>
