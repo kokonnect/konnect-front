@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 
-export default function MainScreen() {
+export default function TranslateScreen() {
   return <View style={styles.container}></View>;
 }
 
