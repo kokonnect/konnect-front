@@ -124,6 +124,14 @@ export default function HistoryScreen() {
     }
   };
 
+  const handleTTS = () => {
+    if (editedKoreanText) {
+      // Note: expo-speech would be used here if available
+      // Speech.speak(editedKoreanText, { language: 'ko' });
+      Alert.alert("TTS", "Text-to-speech would play the Korean text");
+    }
+  };
+
   const renderHistoryItem = ({ item }: { item: HistoryItem }) => (
     <TouchableOpacity
       style={styles.historyCard}
@@ -224,17 +232,31 @@ export default function HistoryScreen() {
               </View>
             </View>
 
-            <TouchableOpacity
-              style={styles.copyButton}
-              onPress={handleCopyKorean}
-            >
-              <MaterialCommunityIcons
-                name="content-copy"
-                size={20}
-                color="#fff"
-              />
-              <Text style={styles.copyButtonText}>Copy Korean</Text>
-            </TouchableOpacity>
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.ttsButton}
+                onPress={handleTTS}
+              >
+                <MaterialCommunityIcons
+                  name="volume-high"
+                  size={20}
+                  color="#666"
+                />
+                <Text style={styles.ttsButtonText}>TTS</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.copyButton}
+                onPress={handleCopyKorean}
+              >
+                <MaterialCommunityIcons
+                  name="content-copy"
+                  size={20}
+                  color="#fff"
+                />
+                <Text style={styles.copyButtonText}>Copy Korean</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -392,7 +414,30 @@ const styles = StyleSheet.create({
     color: "#666",
     lineHeight: 20,
   },
+  modalActions: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  ttsButton: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#f5f5f5",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  ttsButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#666",
+  },
   copyButton: {
+    flex: 2,
     flexDirection: "row",
     backgroundColor: primaryColor,
     paddingVertical: 12,

@@ -127,6 +127,14 @@ export default function ComposeScreen() {
     }
   };
 
+  const handleTTS = () => {
+    if (translatedText) {
+      // Note: expo-speech would be used here if available
+      // Speech.speak(translatedText, { language: 'ko' });
+      Alert.alert("TTS", "Text-to-speech would play the Korean translation");
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -237,17 +245,31 @@ export default function ComposeScreen() {
                   textAlignVertical="top"
                 />
 
-                <TouchableOpacity
-                  style={styles.copyButton}
-                  onPress={handleCopyTranslation}
-                >
-                  <MaterialCommunityIcons
-                    name="content-copy"
-                    size={20}
-                    color="#fff"
-                  />
-                  <Text style={styles.copyButtonText}>Copy</Text>
-                </TouchableOpacity>
+                <View style={styles.translationActions}>
+                  <TouchableOpacity
+                    style={styles.ttsButton}
+                    onPress={handleTTS}
+                  >
+                    <MaterialCommunityIcons
+                      name="volume-high"
+                      size={20}
+                      color="#666"
+                    />
+                    <Text style={styles.ttsButtonText}>TTS</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.copyButton}
+                    onPress={handleCopyTranslation}
+                  >
+                    <MaterialCommunityIcons
+                      name="content-copy"
+                      size={20}
+                      color="#fff"
+                    />
+                    <Text style={styles.copyButtonText}>Copy</Text>
+                  </TouchableOpacity>
+                </View>
               </>
             )}
           </View>
@@ -429,7 +451,30 @@ const styles = StyleSheet.create({
     borderColor: "#e0e0e0",
     marginBottom: 16,
   },
+  translationActions: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  ttsButton: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#f5f5f5",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  ttsButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#666",
+  },
   copyButton: {
+    flex: 2,
     flexDirection: "row",
     backgroundColor: primaryColor,
     paddingVertical: 12,
