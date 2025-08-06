@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  Modal,
+  FlatList,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -14,6 +16,23 @@ import UpcomingEvents from "../../components/UpcomingEvents";
 import SelectedDateSchedule from "../../components/SelectedDateSchedule";
 
 const primaryColor = "#00B493";
+
+const months = [
+  { id: 1, name: "January" },
+  { id: 2, name: "February" },
+  { id: 3, name: "March" },
+  { id: 4, name: "April" },
+  { id: 5, name: "May" },
+  { id: 6, name: "June" },
+  { id: 7, name: "July" },
+  { id: 8, name: "August" },
+  { id: 9, name: "September" },
+  { id: 10, name: "October" },
+  { id: 11, name: "November" },
+  { id: 12, name: "December" },
+];
+
+const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 5 + i);
 
 // Mock data for events on specific dates
 const eventsData = {
@@ -47,6 +66,9 @@ export default function CalendarScreen() {
   const [currentMonth, setCurrentMonth] = useState(
     new Date().toISOString().split("T")[0].substring(0, 7),
   );
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
+  const [tempYear, setTempYear] = useState(new Date().getFullYear());
+  const [tempMonth, setTempMonth] = useState(new Date().getMonth() + 1);
 
   // Combine events data with selected date
   const getMarkedDates = () => {
@@ -89,6 +111,8 @@ export default function CalendarScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Calendar
+          key={currentMonth}
+          current={`${currentMonth}-01`}
           style={styles.calendar}
           onDayPress={(day) => {
             setSelected(day.dateString);
@@ -98,12 +122,29 @@ export default function CalendarScreen() {
             setCurrentMonth(
               `${month.year}-${String(month.month).padStart(2, "0")}`,
             );
+            setSelected(""); // Clear selected date when month changes
           }}
           renderHeader={() => (
             <View style={styles.header}>
-              <Text style={styles.monthText}>
-                {formatMonthYear(currentMonth)}
-              </Text>
+              <TouchableOpacity
+                style={styles.monthSelector}
+                onPress={() => {
+                  setShowMonthPicker(true);
+                  const [year, month] = currentMonth.split("-");
+                  setTempYear(parseInt(year));
+                  setTempMonth(parseInt(month));
+                }}
+              >
+                <Text style={styles.monthText}>
+                  {formatMonthYear(currentMonth)}
+                </Text>
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={20}
+                  color="#333"
+                  style={styles.chevronIcon}
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.addButton}
                 onPress={() => router.push("/calendar/add")}
@@ -134,9 +175,102 @@ export default function CalendarScreen() {
         {selected ? (
           <SelectedDateSchedule selectedDate={selected} />
         ) : (
-          <UpcomingEvents showViewAll={false} />
+          <UpcomingEvents showViewAll={false} currentMonth={currentMonth} />
         )}
       </ScrollView>
+
+      <Modal
+        visible={showMonthPicker}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowMonthPicker(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowMonthPicker(false)}
+        >
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Select Month & Year</Text>
+              <TouchableOpacity
+                onPress={() => setShowMonthPicker(false)}
+                style={styles.closeButton}
+              >
+                <MaterialCommunityIcons name="close" size={24} color="#333" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.pickerContainer}>
+              <View style={styles.yearPicker}>
+                <Text style={styles.pickerLabel}>Year</Text>
+                <FlatList
+                  data={years}
+                  keyExtractor={(item) => item.toString()}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={[
+                        styles.pickerItem,
+                        tempYear === item && styles.selectedPickerItem,
+                      ]}
+                      onPress={() => setTempYear(item)}
+                    >
+                      <Text
+                        style={[
+                          styles.pickerItemText,
+                          tempYear === item && styles.selectedPickerItemText,
+                        ]}
+                      >
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+
+              <View style={styles.monthPicker}>
+                <Text style={styles.pickerLabel}>Month</Text>
+                <FlatList
+                  data={months}
+                  keyExtractor={(item) => item.id.toString()}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={[
+                        styles.pickerItem,
+                        tempMonth === item.id && styles.selectedPickerItem,
+                      ]}
+                      onPress={() => setTempMonth(item.id)}
+                    >
+                      <Text
+                        style={[
+                          styles.pickerItemText,
+                          tempMonth === item.id && styles.selectedPickerItemText,
+                        ]}
+                      >
+                        {item.name}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={() => {
+                const newMonth = `${tempYear}-${String(tempMonth).padStart(2, "0")}`;
+                setCurrentMonth(newMonth);
+                setSelected(""); // Clear selected date
+                setShowMonthPicker(false);
+              }}
+            >
+              <Text style={styles.confirmButtonText}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -193,5 +327,88 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  monthSelector: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  chevronIcon: {
+    marginLeft: 4,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    width: "90%",
+    maxWidth: 400,
+    maxHeight: "80%",
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+  },
+  closeButton: {
+    padding: 4,
+  },
+  pickerContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+    height: 300,
+  },
+  yearPicker: {
+    flex: 1,
+    marginRight: 10,
+  },
+  monthPicker: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  pickerLabel: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#666",
+    marginBottom: 10,
+  },
+  pickerItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 4,
+  },
+  selectedPickerItem: {
+    backgroundColor: primaryColor,
+  },
+  pickerItemText: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+  },
+  selectedPickerItemText: {
+    color: "#fff",
+    fontWeight: "500",
+  },
+  confirmButton: {
+    backgroundColor: primaryColor,
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  confirmButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

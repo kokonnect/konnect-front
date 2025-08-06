@@ -502,7 +502,7 @@ export default function AddCalendarScreen() {
         )}
 
         {/* Clear Form Button */}
-        <View style={styles.formGroup}>
+        {/* <View style={styles.formGroup}>
           <Button
             title="Clear Form"
             onPress={() => {
@@ -519,7 +519,7 @@ export default function AddCalendarScreen() {
             style={styles.clearButton}
             textStyle={styles.clearButtonText}
           />
-        </View>
+        </View> */}
       </ScrollView>
 
       {/* Child Dropdown Modal */}
