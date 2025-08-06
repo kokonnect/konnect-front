@@ -1,0 +1,329 @@
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+  FlatList,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import PreferencesSection from "@/components/UserPreference";
+
+const primaryColor = "#00B493";
+
+interface Child {
+  id: string;
+  name: string;
+  grade: string;
+  age: number;
+  className: string;
+  teacher: string;
+  school: string;
+}
+
+interface UserProfile {
+  name: string;
+  email: string;
+  language: string;
+  avatar?: string;
+}
+
+// Mock data
+const mockUser: UserProfile = {
+  name: "Sarah Johnson",
+  email: "sarah.johnson@email.com",
+  language: "English",
+  avatar: undefined, // Will use default avatar
+};
+
+const mockChildren: Child[] = [
+  {
+    id: "1",
+    name: "Emma Johnson",
+    grade: "3rd Grade",
+    age: 8,
+    className: "3A",
+    teacher: "Ms. Rodriguez",
+    school: "Riverside Elementary",
+  },
+  {
+    id: "2",
+    name: "Lucas Johnson",
+    grade: "5th Grade",
+    age: 10,
+    className: "5B",
+    teacher: "Mr. Thompson",
+    school: "Riverside Elementary",
+  },
+];
+
+export default function ProfileScreen() {
+  const router = useRouter();
+  const [isSignedIn] = useState(true); // Change to false to test login state
+
+  const renderChildCard = ({ item }: { item: Child }) => (
+    <View style={styles.childCard}>
+      <View style={styles.childHeader}>
+        <Text style={styles.childName}>{item.name}</Text>
+        <Text style={styles.childGrade}>{item.grade}</Text>
+      </View>
+      <View style={styles.childInfo}>
+        <View style={styles.childInfoRow}>
+          <MaterialCommunityIcons name="account" size={16} color="#666" />
+          <Text style={styles.childInfoText}>Age: {item.age}</Text>
+        </View>
+        <View style={styles.childInfoRow}>
+          <MaterialCommunityIcons name="door" size={16} color="#666" />
+          <Text style={styles.childInfoText}>Class: {item.className}</Text>
+        </View>
+        <View style={styles.childInfoRow}>
+          <MaterialCommunityIcons name="account-tie" size={16} color="#666" />
+          <Text style={styles.childInfoText}>Teacher: {item.teacher}</Text>
+        </View>
+        <View style={styles.childInfoRow}>
+          <MaterialCommunityIcons name="school" size={16} color="#666" />
+          <Text style={styles.childInfoText}>{item.school}</Text>
+        </View>
+      </View>
+    </View>
+  );
+
+  const UserProfileComponent = () => (
+    <View style={styles.section}>
+      <View style={styles.userProfile}>
+        <View style={styles.avatarContainer}>
+          {mockUser.avatar ? (
+            <Image source={{ uri: mockUser.avatar }} style={styles.avatar} />
+          ) : (
+            <View style={styles.defaultAvatar}>
+              <MaterialCommunityIcons name="account" size={40} color="#fff" />
+            </View>
+          )}
+        </View>
+        <View style={styles.userInfo}>
+          <Text style={styles.userName}>{mockUser.name}</Text>
+          <Text style={styles.userEmail}>{mockUser.email}</Text>
+          <View style={styles.languageContainer}>
+            <MaterialCommunityIcons name="translate" size={16} color="#666" />
+            <Text style={styles.userLanguage}>{mockUser.language}</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => router.push("/profile/edit")}
+        >
+          <MaterialCommunityIcons name="pencil" size={20} color="#666" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  const LoginPrompt = () => (
+    <View style={styles.section}>
+      <View style={styles.loginPrompt}>
+        <MaterialCommunityIcons name="account-circle" size={64} color="#ccc" />
+        <Text style={styles.loginTitle}>Sign in to access your profile</Text>
+        <Text style={styles.loginSubtitle}>
+          Connect with teachers and manage your children&apos;s information
+        </Text>
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
+  const ChildrenSection = () => (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>Children Information</Text>
+      <FlatList
+        data={mockChildren}
+        renderItem={renderChildCard}
+        keyExtractor={(item) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.childrenList}
+      />
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* User Profile or Login Prompt */}
+        {isSignedIn ? <UserProfileComponent /> : <LoginPrompt />}
+
+        {/* Children Information - Only show for signed in users */}
+        {isSignedIn && <ChildrenSection />}
+
+        {/* User Preferences */}
+        <PreferencesSection />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+  },
+  scrollView: {
+    flex: 1,
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 16,
+    paddingHorizontal: 20,
+  },
+  // User Profile Styles
+  userProfile: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 20,
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  avatarContainer: {
+    marginRight: 16,
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+  },
+  defaultAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: primaryColor,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 4,
+  },
+  userEmail: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 8,
+  },
+  languageContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userLanguage: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 4,
+  },
+  editButton: {
+    padding: 8,
+  },
+  // Login Prompt Styles
+  loginPrompt: {
+    alignItems: "center",
+    backgroundColor: "#fff",
+    marginHorizontal: 20,
+    marginTop: 20,
+    padding: 40,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  loginTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  loginSubtitle: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 24,
+    lineHeight: 20,
+  },
+  loginButton: {
+    backgroundColor: primaryColor,
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  loginButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  // Children Section Styles
+  childrenList: {
+    paddingHorizontal: 20,
+  },
+  childCard: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 16,
+    marginRight: 12,
+    width: 280,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  childHeader: {
+    marginBottom: 12,
+  },
+  childName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 2,
+  },
+  childGrade: {
+    fontSize: 14,
+    color: primaryColor,
+    fontWeight: "500",
+  },
+  childInfo: {
+    gap: 8,
+  },
+  childInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  childInfoText: {
+    fontSize: 14,
+    color: "#666",
+    marginLeft: 8,
+  },
+});
