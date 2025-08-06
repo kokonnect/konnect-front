@@ -40,4 +40,8 @@ yarn-error.*
 .vscode
 .vscode/
 
+# temp ios and android files
+ios/
+android/
+
 app-example
