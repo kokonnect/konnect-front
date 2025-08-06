@@ -9,47 +9,79 @@ import {
   TextInput,
   Image,
   Alert,
+  Modal,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import UserPreference from "../../components/UserPreference";
 
 const primaryColor = "#00B493";
 
+interface Child {
+  id: string;
+  name: string;
+  birthdate: Date;
+  school: string;
+  grade: string;
+  class: string;
+  teacherName: string;
+}
+
 interface UserProfile {
   name: string;
-  email: string;
-  language: string;
+  children: Child[];
   avatar?: string;
 }
 
 // Mock user data (would come from state management in real app)
 const mockUser: UserProfile = {
   name: "Sarah Johnson",
-  email: "sarah.johnson@email.com",
-  language: "English",
   avatar: undefined,
+  children: [
+    {
+      id: "1",
+      name: "Emma Johnson",
+      birthdate: new Date(2015, 5, 15),
+      school: "Greenfield Elementary",
+      grade: "3rd Grade",
+      class: "3A",
+      teacherName: "Ms. Smith",
+    },
+    {
+      id: "2",
+      name: "Lucas Johnson",
+      birthdate: new Date(2018, 2, 8),
+      school: "Greenfield Elementary",
+      grade: "Kindergarten",
+      class: "K2",
+      teacherName: "Mr. Brown",
+    },
+  ],
 };
-
-const languages = [
-  "English",
-  "Spanish",
-  "French", 
-  "German",
-  "Chinese",
-  "Japanese",
-  "Korean"
-];
 
 export default function EditProfileScreen() {
   const router = useRouter();
   const [name, setName] = useState(mockUser.name);
-  const [email, setEmail] = useState(mockUser.email);
-  const [language, setLanguage] = useState(mockUser.language);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [children, setChildren] = useState(mockUser.children);
+  const [showChildModal, setShowChildModal] = useState(false);
+  const [editingChild, setEditingChild] = useState<Child | null>(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Child form states
+  const [childName, setChildName] = useState("");
+  const [childBirthdate, setChildBirthdate] = useState(new Date());
+  const [childSchool, setChildSchool] = useState("");
+  const [childGrade, setChildGrade] = useState("");
+  const [childClass, setChildClass] = useState("");
+  const [childTeacherName, setChildTeacherName] = useState("");
 
   const handleSave = () => {
     // In real app, save to backend/state management
-    Alert.alert("Profile Updated", "Your profile has been updated successfully");
+    Alert.alert(
+      "Profile Updated",
+      "Your profile has been updated successfully",
+    );
     router.back();
   };
 
@@ -57,22 +89,107 @@ export default function EditProfileScreen() {
     router.back();
   };
 
-  const handleLanguageSelect = (selectedLanguage: string) => {
-    setLanguage(selectedLanguage);
-    setShowLanguageModal(false);
+  const openAddChildModal = () => {
+    setEditingChild(null);
+    resetChildForm();
+    setShowChildModal(true);
+  };
+
+  const openEditChildModal = (child: Child) => {
+    setEditingChild(child);
+    setChildName(child.name);
+    setChildBirthdate(child.birthdate);
+    setChildSchool(child.school);
+    setChildGrade(child.grade);
+    setChildClass(child.class);
+    setChildTeacherName(child.teacherName);
+    setShowChildModal(true);
+  };
+
+  const resetChildForm = () => {
+    setChildName("");
+    setChildBirthdate(new Date());
+    setChildSchool("");
+    setChildGrade("");
+    setChildClass("");
+    setChildTeacherName("");
+  };
+
+  const handleSaveChild = () => {
+    if (!childName.trim() || !childSchool.trim()) {
+      Alert.alert("Error", "Please fill in all required fields");
+      return;
+    }
+
+    const childData: Child = {
+      id: editingChild?.id || Date.now().toString(),
+      name: childName,
+      birthdate: childBirthdate,
+      school: childSchool,
+      grade: childGrade,
+      class: childClass,
+      teacherName: childTeacherName,
+    };
+
+    if (editingChild) {
+      setChildren(
+        children.map((child) =>
+          child.id === editingChild.id ? childData : child,
+        ),
+      );
+    } else {
+      setChildren([...children, childData]);
+    }
+
+    setShowChildModal(false);
+    resetChildForm();
+  };
+
+  const handleDeleteChild = () => {
+    if (editingChild) {
+      Alert.alert(
+        "Delete Child",
+        `Are you sure you want to remove ${editingChild.name} from your profile?`,
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Delete",
+            style: "destructive",
+            onPress: () => {
+              setChildren(
+                children.filter((child) => child.id !== editingChild.id),
+              );
+              setShowChildModal(false);
+            },
+          },
+        ],
+      );
+    }
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      setChildBirthdate(selectedDate);
+    }
+  };
+
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
           <MaterialCommunityIcons name="close" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.title}>Edit Profile</Text>
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Save</Text>
-        </TouchableOpacity>
-      </View>
+      </View> */}
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Avatar Section */}
@@ -103,57 +220,178 @@ export default function EditProfileScreen() {
               placeholder="Enter your full name"
             />
           </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Email Address</Text>
-            <TextInput
-              style={styles.textInput}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Preferred Language</Text>
-            <TouchableOpacity
-              style={styles.languageSelector}
-              onPress={() => setShowLanguageModal(true)}
-            >
-              <Text style={styles.languageSelectorText}>{language}</Text>
-              <MaterialCommunityIcons name="chevron-down" size={20} color="#666" />
-            </TouchableOpacity>
-          </View>
         </View>
 
-        {/* Language Selection Modal */}
-        {showLanguageModal && (
-          <View style={styles.languageModal}>
-            <View style={styles.languageModalHeader}>
-              <Text style={styles.languageModalTitle}>Select Language</Text>
-              <TouchableOpacity onPress={() => setShowLanguageModal(false)}>
+        {/* Children Section */}
+        <View style={styles.childrenSection}>
+          <Text style={styles.sectionTitle}>Children Information</Text>
+          {children.map((child) => (
+            <View key={child.id} style={styles.childBlock}>
+              <View style={styles.childInfo}>
+                <Text style={styles.childName}>{child.name}</Text>
+                <Text style={styles.childSchool}>{child.school}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.editButton}
+                onPress={() => openEditChildModal(child)}
+              >
+                <MaterialCommunityIcons
+                  name="pencil"
+                  size={18}
+                  color={primaryColor}
+                />
+              </TouchableOpacity>
+            </View>
+          ))}
+          <TouchableOpacity
+            style={styles.addChildButton}
+            onPress={openAddChildModal}
+          >
+            <MaterialCommunityIcons
+              name="plus"
+              size={20}
+              color={primaryColor}
+            />
+            <Text style={styles.addChildText}>Add Child Information</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Done Button */}
+        <View style={styles.doneSection}>
+          <TouchableOpacity style={styles.doneButton} onPress={handleSave}>
+            <Text style={styles.doneButtonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+      {/* Child Form Modal */}
+      <Modal
+        visible={showChildModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowChildModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.childModal}>
+            <View style={styles.childModalHeader}>
+              <Text style={styles.childModalTitle}>
+                {editingChild ? "Edit Child" : "Add Child"}
+              </Text>
+              <TouchableOpacity onPress={() => setShowChildModal(false)}>
                 <MaterialCommunityIcons name="close" size={24} color="#333" />
               </TouchableOpacity>
             </View>
-            <ScrollView style={styles.languageList}>
-              {languages.map((lang) => (
+
+            <ScrollView
+              style={styles.childForm}
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Child Name *</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={childName}
+                  onChangeText={setChildName}
+                  placeholder="Enter child's name"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Birthdate</Text>
                 <TouchableOpacity
-                  key={lang}
-                  style={styles.languageOption}
-                  onPress={() => handleLanguageSelect(lang)}
+                  style={styles.dateInput}
+                  onPress={() => setShowDatePicker(true)}
                 >
-                  <Text style={styles.languageOptionText}>{lang}</Text>
-                  {language === lang && (
-                    <MaterialCommunityIcons name="check" size={20} color={primaryColor} />
-                  )}
+                  {/* <Text style={styles.dateText}>
+                    {formatDate(childBirthdate)}
+                  </Text> */}
+                  <DateTimePicker
+                    value={childBirthdate}
+                    mode="date"
+                    display="default"
+                    maximumDate={new Date()}
+                    onChange={handleDateChange}
+                  />
+                  {/* <MaterialCommunityIcons
+                    name="calendar"
+                    size={20}
+                    color="#666"
+                  /> */}
                 </TouchableOpacity>
-              ))}
+                {/* {showDatePicker && (
+                  <DateTimePicker
+                    value={childBirthdate}
+                    mode="date"
+                    display="default"
+                    maximumDate={new Date()}
+                    onChange={handleDateChange}
+                  />
+                )} */}
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>School Name *</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={childSchool}
+                  onChangeText={setChildSchool}
+                  placeholder="Enter school name"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Grade</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={childGrade}
+                  onChangeText={setChildGrade}
+                  placeholder="Enter grade (e.g., 3rd Grade)"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Class</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={childClass}
+                  onChangeText={setChildClass}
+                  placeholder="Enter class (e.g., 3A)"
+                />
+              </View>
+
+              <View style={styles.inputGroup}>
+                <Text style={styles.inputLabel}>Teacher Name</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={childTeacherName}
+                  onChangeText={setChildTeacherName}
+                  placeholder="Enter teacher's name"
+                />
+              </View>
+
+              <View style={styles.modalButtons}>
+                <View style={styles.actionButtons}>
+                  {editingChild && (
+                    <TouchableOpacity
+                      style={styles.deleteButton}
+                      onPress={handleDeleteChild}
+                    >
+                      <Text style={styles.deleteButtonText}>Delete</Text>
+                    </TouchableOpacity>
+                  )}
+
+                  <TouchableOpacity
+                    style={styles.saveChildButton}
+                    onPress={handleSaveChild}
+                  >
+                    <Text style={styles.saveChildButtonText}>Save</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </ScrollView>
           </View>
-        )}
-      </ScrollView>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -166,7 +404,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    gap: 16,
     paddingHorizontal: 20,
     paddingVertical: 16,
     backgroundColor: "#fff",
@@ -238,6 +477,7 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   inputGroup: {
+    marginBottom: 16,
     gap: 8,
   },
   inputLabel: {
@@ -254,7 +494,17 @@ const styles = StyleSheet.create({
     borderColor: "#e0e0e0",
     color: "#333",
   },
-  languageSelector: {
+  childrenSection: {
+    marginTop: 32,
+    gap: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 8,
+  },
+  childBlock: {
     backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
@@ -264,26 +514,79 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e0e0e0",
   },
-  languageSelectorText: {
-    fontSize: 16,
-    color: "#333",
+  childInfo: {
+    flex: 1,
   },
-  languageModal: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  childName: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 4,
+  },
+  childSchool: {
+    fontSize: 14,
+    color: "#666",
+  },
+  editButton: {
+    padding: 8,
+  },
+  addChildButton: {
     backgroundColor: "#fff",
     borderRadius: 12,
-    marginTop: 40,
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderStyle: "dashed",
+    borderColor: primaryColor,
+    gap: 8,
+  },
+  addChildText: {
+    fontSize: 16,
+    color: primaryColor,
+    fontWeight: "500",
+  },
+  doneSection: {
+    marginTop: 32,
+    marginBottom: 20,
+  },
+  doneButton: {
+    backgroundColor: primaryColor,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  languageModalHeader: {
+  doneButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  childModal: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    width: "100%",
+    maxHeight: "90%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 10,
+  },
+  childModalHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -291,24 +594,71 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
   },
-  languageModalTitle: {
-    fontSize: 18,
+  childModalTitle: {
+    fontSize: 20,
     fontWeight: "600",
     color: "#333",
   },
-  languageList: {
-    flex: 1,
+  childForm: {
+    padding: 20,
   },
-  languageOption: {
+  dateInput: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
   },
-  languageOptionText: {
+  dateText: {
     fontSize: 16,
     color: "#333",
+  },
+  modalButtons: {
+    marginTop: 24,
+    gap: 16,
+  },
+  deleteButton: {
+    flex: 1,
+    backgroundColor: "#ff4757",
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  deleteButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  actionButtons: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  cancelButtonText: {
+    color: "#666",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  saveChildButton: {
+    flex: 1,
+    backgroundColor: primaryColor,
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  saveChildButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

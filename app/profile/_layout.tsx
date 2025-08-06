@@ -8,7 +8,15 @@ export default function ProfileLayout() {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="edit" />
+      <Stack.Screen
+        name="edit"
+        options={{
+          title: "Edit Profile",
+          headerShown: true,
+          headerBackTitle: "Back",
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 }
