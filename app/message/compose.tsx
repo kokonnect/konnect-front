@@ -1,161 +1,259 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  TouchableOpacity,
   TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
   Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import * as Clipboard from "expo-clipboard";
 
-interface Teacher {
-  id: string;
-  name: string;
-  subject: string;
-  childName: string;
-}
+const primaryColor = "#00B493";
+const MAX_CHAR_LIMIT = 500;
 
-const mockTeachers: Teacher[] = [
-  { id: "1", name: "Ms. Johnson", subject: "Math", childName: "Emma" },
-  { id: "2", name: "Mr. Smith", subject: "English", childName: "Emma" },
-  { id: "3", name: "Mrs. Davis", subject: "Science", childName: "Lucas" },
-  { id: "4", name: "Mr. Wilson", subject: "History", childName: "Lucas" },
-];
+// Mock translation function - replace with actual API call
+const mockTranslate = async (text: string): Promise<string> => {
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
-export default function ComposeScreen() {
-  const [selectedTeacher, setSelectedTeacher] = useState<string>("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleSend = () => {
-    if (!selectedTeacher || !subject || !message) {
-      Alert.alert(
-        "Missing Information",
-        "Please fill in all fields before sending.",
-      );
-      return;
-    }
-
-    Alert.alert("Message Sent", "Your message has been sent successfully!", [
-      {
-        text: "OK",
-        onPress: () => {
-          setSelectedTeacher("");
-          setSubject("");
-          setMessage("");
-        },
-      },
-    ]);
+  // Mock Korean translation
+  const mockTranslations: { [key: string]: string } = {
+    hello: "안녕하세요",
+    "thank you": "감사합니다",
+    "my child will be absent today": "오늘 저희 아이가 결석할 예정입니다",
+    "can we schedule a meeting": "미팅 일정을 잡을 수 있을까요",
   };
 
-  const handleSaveDraft = () => {
-    Alert.alert("Draft Saved", "Your message has been saved as a draft.");
+  // Simple mock translation logic
+  const lowerText = text.toLowerCase();
+  for (const [eng, kor] of Object.entries(mockTranslations)) {
+    if (lowerText.includes(eng)) {
+      return text.toLowerCase().replace(eng, kor);
+    }
+  }
+
+  // Default mock translation
+  return `[번역됨] ${text}`;
+};
+
+// Mock storage functions - replace with AsyncStorage
+const mockStorage = {
+  history: [] as {
+    id: string;
+    original: string;
+    translated: string;
+    date: Date;
+  }[],
+
+  async saveTranslation(original: string, translated: string) {
+    const item = {
+      id: Date.now().toString(),
+      original,
+      translated,
+      date: new Date(),
+    };
+    this.history.unshift(item);
+    // In real app, save to AsyncStorage here
+    return item;
+  },
+
+  async getHistory() {
+    // In real app, load from AsyncStorage here
+    return this.history;
+  },
+};
+
+export default function ComposeScreen() {
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const [userInput, setUserInput] = useState("");
+  const [translatedText, setTranslatedText] = useState("");
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [showTranslation, setShowTranslation] = useState(false);
+
+  // Handle prefilled data from history
+  useEffect(() => {
+    if (params.prefillOriginal) {
+      setUserInput(params.prefillOriginal as string);
+    }
+    if (params.prefillTranslated) {
+      setTranslatedText(params.prefillTranslated as string);
+      setShowTranslation(true);
+    }
+  }, [params]);
+
+  const handleGenerate = async () => {
+    if (!userInput.trim()) return;
+
+    setIsTranslating(true);
+    setShowTranslation(true);
+
+    try {
+      const translation = await mockTranslate(userInput);
+      setTranslatedText(translation);
+
+      // Save to history
+      await mockStorage.saveTranslation(userInput, translation);
+    } catch {
+      Alert.alert("Error", "Failed to translate. Please try again.");
+      setShowTranslation(false);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
+  const handleClear = () => {
+    setUserInput("");
+    setTranslatedText("");
+    setShowTranslation(false);
+  };
+
+  const handleEditDraft = () => {
+    setShowTranslation(false);
+  };
+
+  const handleCopyTranslation = async () => {
+    try {
+      await Clipboard.setStringAsync(translatedText);
+      Alert.alert("Copied", "Translation copied to clipboard");
+    } catch {
+      Alert.alert("Error", "Failed to copy text");
+    }
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.header}>
-        <Text style={styles.sectionTitle}>Compose Message</Text>
-        <Text style={styles.sectionSubtitle}>
-          Send a message to your child's teacher
-        </Text>
+        <View style={styles.headerTextContainer}>
+          <Text style={styles.title}>Create a Custom Message</Text>
+          <Text style={styles.subtitle}>
+            Draft messages for teacher communication in your language
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.historyButton}
+          onPress={() => router.push("/message/history")}
+        >
+          <MaterialCommunityIcons name="history" size={24} color="#333" />
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.form}>
-        <View style={styles.field}>
-          <Text style={styles.fieldLabel}>Recipient *</Text>
-          <View style={styles.teacherList}>
-            {mockTeachers.map((teacher) => (
-              <TouchableOpacity
-                key={teacher.id}
+      <View style={styles.content}>
+        {/* User Input Section */}
+        <View
+          style={[
+            styles.inputSection,
+            showTranslation
+              ? styles.inputSectionShrinked
+              : styles.inputSectionFull,
+          ]}
+        >
+          <View style={styles.inputHeader}>
+            <Text style={styles.inputLabel}>Your Message</Text>
+            <Text style={styles.charCount}>
+              {userInput.length}/{MAX_CHAR_LIMIT}
+            </Text>
+          </View>
+
+          <TextInput
+            style={[
+              styles.textInput,
+              showTranslation && styles.textInputShrinked,
+            ]}
+            placeholder="Type your message here..."
+            value={userInput}
+            onChangeText={(text) => setUserInput(text.slice(0, MAX_CHAR_LIMIT))}
+            multiline
+            textAlignVertical="top"
+            scrollEnabled={true}
+            editable={!isTranslating && !showTranslation}
+          />
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={handleClear}
+              disabled={isTranslating || !userInput}
+            >
+              <Text
                 style={[
-                  styles.teacherCard,
-                  selectedTeacher === teacher.id && styles.selectedTeacherCard,
+                  styles.clearButtonText,
+                  (!userInput || isTranslating) && styles.disabledButtonText,
                 ]}
-                onPress={() => setSelectedTeacher(teacher.id)}
               >
-                <View style={styles.teacherInfo}>
-                  <Text
-                    style={[
-                      styles.teacherName,
-                      selectedTeacher === teacher.id &&
-                        styles.selectedTeacherText,
-                    ]}
-                  >
-                    {teacher.name}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.teacherSubject,
-                      selectedTeacher === teacher.id &&
-                        styles.selectedTeacherSubtext,
-                    ]}
-                  >
-                    {teacher.subject} - {teacher.childName}
-                  </Text>
-                </View>
-                {selectedTeacher === teacher.id && (
-                  <MaterialCommunityIcons
-                    name="check-circle"
-                    size={20}
-                    color="#00B493"
-                  />
-                )}
+                Clear
+              </Text>
+            </TouchableOpacity>
+
+            {!showTranslation ? (
+              <TouchableOpacity
+                style={[
+                  styles.generateButton,
+                  (!userInput.trim() || isTranslating) && styles.disabledButton,
+                ]}
+                onPress={handleGenerate}
+                disabled={!userInput.trim() || isTranslating}
+              >
+                <Text style={styles.generateButtonText}>Generate</Text>
               </TouchableOpacity>
-            ))}
+            ) : (
+              <TouchableOpacity
+                style={styles.editDraftButton}
+                onPress={handleEditDraft}
+                disabled={isTranslating}
+              >
+                <Text style={styles.editDraftButtonText}>Edit Draft</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
-        <View style={styles.field}>
-          <Text style={styles.fieldLabel}>Subject *</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Enter message subject"
-            value={subject}
-            onChangeText={setSubject}
-            maxLength={100}
-          />
-        </View>
+        {/* Translation Section */}
+        {showTranslation && (
+          <View style={styles.translationSection}>
+            <Text style={styles.translationLabel}>Korean Translation</Text>
 
-        <View style={styles.field}>
-          <Text style={styles.fieldLabel}>Message *</Text>
-          <TextInput
-            style={[styles.textInput, styles.messageInput]}
-            placeholder="Type your message here..."
-            value={message}
-            onChangeText={setMessage}
-            multiline
-            numberOfLines={8}
-            textAlignVertical="top"
-            maxLength={1000}
-          />
-          <Text style={styles.characterCount}>
-            {message.length}/1000 characters
-          </Text>
-        </View>
+            {isTranslating ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color={primaryColor} />
+                <Text style={styles.loadingText}>Translating...</Text>
+              </View>
+            ) : (
+              <>
+                <TextInput
+                  style={styles.translationInput}
+                  value={translatedText}
+                  onChangeText={setTranslatedText}
+                  multiline
+                  textAlignVertical="top"
+                />
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.draftButton}
-            onPress={handleSaveDraft}
-          >
-            <MaterialCommunityIcons
-              name="content-save"
-              size={20}
-              color="#666"
-            />
-            <Text style={styles.draftButtonText}>Save Draft</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
-            <MaterialCommunityIcons name="send" size={20} color="#fff" />
-            <Text style={styles.sendButtonText}>Send Message</Text>
-          </TouchableOpacity>
-        </View>
+                <TouchableOpacity
+                  style={styles.copyButton}
+                  onPress={handleCopyTranslation}
+                >
+                  <MaterialCommunityIcons
+                    name="content-copy"
+                    size={20}
+                    color="#fff"
+                  />
+                  <Text style={styles.copyButtonText}>Copy</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        )}
       </View>
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -165,129 +263,185 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   header: {
-    padding: 20,
-    paddingBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
-  sectionTitle: {
+  headerTextContainer: {
+    flex: 1,
+    marginRight: 16,
+  },
+  title: {
     fontSize: 24,
     fontWeight: "600",
     color: "#333",
     marginBottom: 4,
   },
-  sectionSubtitle: {
+  subtitle: {
     fontSize: 14,
     color: "#666",
   },
-  form: {
+  historyButton: {
+    padding: 8,
+  },
+  content: {
+    flex: 1,
+    flexDirection: "column",
     padding: 20,
+    gap: 16,
   },
-  field: {
-    marginBottom: 24,
-  },
-  fieldLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 8,
-  },
-  teacherList: {
-    gap: 8,
-  },
-  teacherCard: {
+  inputSection: {
     backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-  },
-  selectedTeacherCard: {
-    borderColor: "#00B493",
-    backgroundColor: "#00B4930A",
-  },
-  teacherInfo: {
-    flex: 1,
-  },
-  teacherName: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-    marginBottom: 2,
-  },
-  selectedTeacherText: {
-    color: "#00B493",
-  },
-  teacherSubject: {
-    fontSize: 14,
-    color: "#666",
-  },
-  selectedTeacherSubtext: {
-    color: "#00B493",
-  },
-  textInput: {
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    color: "#333",
-  },
-  messageInput: {
-    minHeight: 120,
-    maxHeight: 200,
-  },
-  characterCount: {
-    fontSize: 12,
-    color: "#999",
-    textAlign: "right",
-    marginTop: 4,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 12,
-    marginTop: 20,
-  },
-  draftButton: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#f5f5f5",
-    padding: 14,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  draftButtonText: {
-    color: "#666",
-    fontSize: 16,
-    fontWeight: "500",
-    marginLeft: 8,
-  },
-  sendButton: {
-    flex: 2,
-    flexDirection: "row",
-    backgroundColor: "#00B493",
-    padding: 14,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 12,
+    padding: 16,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
-  sendButtonText: {
-    color: "#fff",
+  inputSectionFull: {
+    flex: 1,
+  },
+  inputSectionShrinked: {
+    flex: 2,
+  },
+  inputHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  inputLabel: {
     fontSize: 16,
     fontWeight: "600",
-    marginLeft: 8,
+    color: "#333",
+  },
+  charCount: {
+    fontSize: 14,
+    color: "#666",
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#333",
+    padding: 12,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    marginBottom: 16,
+  },
+  textInputShrinked: {
+    flex: 1,
+    color: "lightgray",
+    // minHeight: 120,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  clearButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    alignItems: "center",
+  },
+  clearButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#666",
+  },
+  generateButton: {
+    flex: 2,
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: primaryColor,
+    alignItems: "center",
+  },
+  generateButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  editDraftButton: {
+    flex: 2,
+    paddingVertical: 12,
+    borderRadius: 8,
+    backgroundColor: "#f5f5f5",
+    borderWidth: 1,
+    borderColor: primaryColor,
+    alignItems: "center",
+  },
+  editDraftButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: primaryColor,
+  },
+  disabledButton: {
+    backgroundColor: "#ccc",
+  },
+  disabledButtonText: {
+    color: "#ccc",
+  },
+  translationSection: {
+    flex: 4,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  translationLabel: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 12,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#666",
+  },
+  translationInput: {
+    flex: 1,
+    fontSize: 16,
+    lineHeight: 24,
+    color: "#333",
+    padding: 12,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    marginBottom: 16,
+  },
+  copyButton: {
+    flexDirection: "row",
+    backgroundColor: primaryColor,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  copyButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#fff",
   },
 });

@@ -11,6 +11,7 @@ export default function MessageLayout() {
   const isTemplate =
     pathname === "/message" || pathname === "/message/template";
   const isCompose = pathname === "/message/compose";
+  const isHistory = pathname === "/message/history";
 
   const handleTabPress = (route: string) => {
     // Only navigate if not already on the same route
@@ -24,24 +25,26 @@ export default function MessageLayout() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[styles.tab, isTemplate && styles.activeTab]}
-          onPress={() => handleTabPress("/message/template")}
-        >
-          <Text style={[styles.tabText, isTemplate && styles.activeTabText]}>
-            Template
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, isCompose && styles.activeTab]}
-          onPress={() => handleTabPress("/message/compose")}
-        >
-          <Text style={[styles.tabText, isCompose && styles.activeTabText]}>
-            Compose
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {!isHistory && (
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, isTemplate && styles.activeTab]}
+            onPress={() => handleTabPress("/message/template")}
+          >
+            <Text style={[styles.tabText, isTemplate && styles.activeTabText]}>
+              Template
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, isCompose && styles.activeTab]}
+            onPress={() => handleTabPress("/message/compose")}
+          >
+            <Text style={[styles.tabText, isCompose && styles.activeTabText]}>
+              Compose
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <Stack 
         screenOptions={{ 
           headerShown: false,
@@ -50,6 +53,7 @@ export default function MessageLayout() {
       >
         <Stack.Screen name="template" />
         <Stack.Screen name="compose" />
+        <Stack.Screen name="history" />
         <Stack.Screen name="index" />
       </Stack>
     </View>
