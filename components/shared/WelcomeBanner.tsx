@@ -54,9 +54,6 @@ export default function WelcomeBanner() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.actionButton} onPress={handleLogout}>
-          <MaterialCommunityIcons name="logout" size={20} color="#666" />
-        </TouchableOpacity>
       </View>
     );
   }
