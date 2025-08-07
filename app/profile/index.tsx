@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import PreferencesSection from "@/components/UserPreference";
+import PreferencesSection from "@/components/profile/UserPreference";
 
 const primaryColor = "#00B493";
 

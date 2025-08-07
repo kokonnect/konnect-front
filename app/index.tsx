@@ -1,6 +1,6 @@
 import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
-import RecentTranslation from "../components/RecentTranslation";
-import UpcomingEvents from "../components/UpcomingEvents";
+import RecentTranslation from "../components/home/RecentTranslation";
+import UpcomingEvents from "../components/shared/UpcomingEvents";
 
 export default function MainScreen() {
   return (
