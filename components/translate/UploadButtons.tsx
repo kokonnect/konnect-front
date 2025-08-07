@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   uploadContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 24,
+    marginTop: 8,
     gap: 16,
   },
   uploadButton: {

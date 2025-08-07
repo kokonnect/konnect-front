@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Modal,
   Alert,
+  ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import UploadButtons from "../components/translate/UploadButtons";
@@ -18,11 +19,13 @@ import TranslationEvents from "../components/translate/TranslationEvents";
 import TranslationWarning from "../components/translate/TranslationWarning";
 import TranslationButtons from "../components/translate/TranslationButtons";
 import CalendarModal from "../components/translate/CalendarModal";
+import RecentTranslations from "../components/translate/RecentTranslations";
 import {
   TranslationResult,
   TabType,
   UploadedFile,
 } from "../components/translate/types";
+// import { SafeAreaView } from "react-native-safe-area-context";
 
 const primaryColor = "#00B493";
 
@@ -39,6 +42,64 @@ export default function TranslateScreen() {
   // Calendar modal states
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [selectedEventData, setSelectedEventData] = useState(null);
+
+  // Recent translations states
+  const [recentTranslations, setRecentTranslations] = useState([]);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+
+  // Load recent translations on component mount
+  useEffect(() => {
+    const loadRecentTranslations = async () => {
+      setIsLoadingHistory(true);
+
+      // Simulate API call delay
+      setTimeout(() => {
+        // Mock data - in real app, this would come from API/storage
+        const mockTranslations = [
+          {
+            id: "1",
+            title: "Field Trip Permission Form",
+            date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+            summary:
+              "Annual field trip to Natural History Museum. Permission form and lunch required for all students.",
+          },
+          {
+            id: "2",
+            title: "School Event Notification",
+            date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+            summary:
+              "Parent-teacher conference scheduled for next week. Please confirm your availability.",
+          },
+          {
+            id: "3",
+            title: "Weekly Newsletter",
+            date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+            summary:
+              "Updates on school activities, upcoming events, and important reminders for parents.",
+          },
+          {
+            id: "4",
+            title: "Exam Schedule",
+            date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+            summary:
+              "Final exam schedule for the semester. Please check the dates and prepare accordingly.",
+          },
+          {
+            id: "5",
+            title: "Holiday Notice",
+            date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 days ago
+            summary:
+              "School will be closed for the upcoming holidays. Please plan accordingly.",
+          },
+        ];
+
+        setRecentTranslations(mockTranslations);
+        setIsLoadingHistory(false);
+      }, 1500);
+    };
+
+    loadRecentTranslations();
+  }, []);
 
   const handleImageUpload = () => {
     setShowImageModal(true);
@@ -207,6 +268,17 @@ export default function TranslateScreen() {
     // Calendar save logic handled by CalendarModal component
   };
 
+  // History navigation handlers
+  const handleHistoryPress = () => {
+    // Navigate to translation history page
+    Alert.alert("History", "Translation history page would open here");
+  };
+
+  const handleRecentTranslationPress = (item: any) => {
+    // Handle recent translation item press
+    Alert.alert("Translation", `Opening: ${item.title}`);
+  };
+
   const renderTabContent = () => {
     if (!translationResult) return null;
 
@@ -262,18 +334,42 @@ export default function TranslateScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Document Translation</Text>
-        <Text style={styles.headerSubtitle}>
-          Upload school documents for instant translation
-        </Text>
+        <View style={styles.headerTop}>
+          <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerTitle}>Document Translation</Text>
+            {!uploadedFile && (
+              <Text style={styles.headerSubtitle}>
+                Upload school documents for instant translation
+              </Text>
+            )}
+          </View>
+          <TouchableOpacity
+            style={styles.historyButton}
+            onPress={handleHistoryPress}
+          >
+            <MaterialCommunityIcons name="history" size={24} color="#333" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.content}>
-        {!uploadedFile && (
+
+      {!uploadedFile && (
+        <ScrollView
+          contentContainerStyle={styles.initialContent}
+          showsVerticalScrollIndicator={false}
+        >
           <UploadButtons
             onImageUpload={handleImageUpload}
             onPdfUpload={handlePdfUpload}
           />
-        )}
+          <RecentTranslations
+            translations={recentTranslations}
+            isLoading={isLoadingHistory}
+            onItemPress={handleRecentTranslationPress}
+          />
+        </ScrollView>
+      )}
+
+      <View style={styles.content}>
         <FileStatus
           uploadedFile={uploadedFile}
           isTranslating={isTranslating}
@@ -346,11 +442,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
-    marginBottom: 20,
   },
   header: {
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingVertical: 16,
+  },
+  headerTop: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+  },
+  headerTitleContainer: {
+    flex: 1,
   },
   headerTitle: {
     fontSize: 24,
@@ -362,6 +465,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     lineHeight: 22,
+  },
+  historyButton: {
+    padding: 8,
+    borderRadius: 8,
+    marginLeft: 12,
+  },
+  initialContent: {
+    paddingHorizontal: 20,
   },
   content: {
     flex: 1,

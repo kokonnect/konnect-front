@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     gap: 12,
-    marginTop: 16,
+    marginVertical: 16,
   },
   retranslateButton: {
     flex: 1,
