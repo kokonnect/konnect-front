@@ -8,17 +8,20 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TranslationEvent } from "./types";
+import SkeletonLoader from "./SkeletonLoader";
 
 const primaryColor = "#00B493";
 
 interface TranslationEventsProps {
   events: TranslationEvent[];
   onAddEvent?: (event: TranslationEvent) => void;
+  isLoading?: boolean;
 }
 
 export default function TranslationEvents({
   events,
   onAddEvent,
+  isLoading = false,
 }: TranslationEventsProps) {
   const renderEvent = ({ item: event }: { item: TranslationEvent }) => (
     <View style={styles.eventItem}>
@@ -43,6 +46,27 @@ export default function TranslationEvents({
       <Text style={styles.eventDescription}>{event.description}</Text>
     </View>
   );
+
+  const renderSkeletonEvent = ({ index }: { index: number }) => (
+    <View key={index} style={styles.eventItem}>
+      <View style={styles.eventHeader}>
+        <SkeletonLoader height={16} width="70%" marginBottom={0} />
+        <View style={styles.skeletonButton} />
+      </View>
+      <SkeletonLoader height={14} width="60%" marginBottom={4} />
+      <SkeletonLoader height={14} width="90%" marginBottom={4} />
+      <SkeletonLoader height={14} width="75%" marginBottom={0} />
+    </View>
+  );
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        {renderSkeletonEvent({ index: 0 })}
+        {renderSkeletonEvent({ index: 1 })}
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -103,5 +127,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     lineHeight: 20,
+  },
+  skeletonButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#e0e0e0",
   },
 });

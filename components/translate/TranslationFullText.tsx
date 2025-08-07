@@ -7,19 +7,42 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import SkeletonLoader from "./SkeletonLoader";
 
 const primaryColor = "#00B493";
 
 interface TranslationFullTextProps {
   fullText: string;
   originalText: string;
+  isLoading?: boolean;
 }
 
 export default function TranslationFullText({
   fullText,
   originalText,
+  isLoading = false,
 }: TranslationFullTextProps) {
   const [showOriginal, setShowOriginal] = useState(false);
+
+  if (isLoading) {
+    return (
+      <View style={styles.tabContent}>
+        <View style={styles.skeletonToggle}>
+          <SkeletonLoader height={12} width={80} borderRadius={6} marginBottom={0} />
+        </View>
+        <View style={styles.skeletonTextContainer}>
+          <SkeletonLoader height={14} width="100%" marginBottom={8} />
+          <SkeletonLoader height={14} width="95%" marginBottom={8} />
+          <SkeletonLoader height={14} width="90%" marginBottom={8} />
+          <SkeletonLoader height={14} width="100%" marginBottom={8} />
+          <SkeletonLoader height={14} width="85%" marginBottom={8} />
+          <SkeletonLoader height={14} width="95%" marginBottom={8} />
+          <SkeletonLoader height={14} width="90%" marginBottom={8} />
+          <SkeletonLoader height={14} width="80%" marginBottom={0} />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.tabContent}>
@@ -61,7 +84,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    marginBottom: 20,
+    marginBottom: 4,
     flex: 1,
   },
   toggleButton: {
@@ -87,5 +110,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#555",
     lineHeight: 22,
+  },
+  skeletonToggle: {
+    backgroundColor: `${primaryColor}10`,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  skeletonTextContainer: {
+    flex: 1,
   },
 });

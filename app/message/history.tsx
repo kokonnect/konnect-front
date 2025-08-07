@@ -233,10 +233,7 @@ export default function HistoryScreen() {
             </View>
 
             <View style={styles.modalActions}>
-              <TouchableOpacity
-                style={styles.ttsButton}
-                onPress={handleTTS}
-              >
+              <TouchableOpacity style={styles.ttsButton} onPress={handleTTS}>
                 <MaterialCommunityIcons
                   name="volume-high"
                   size={20}
@@ -244,7 +241,7 @@ export default function HistoryScreen() {
                 />
                 <Text style={styles.ttsButtonText}>TTS</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity
                 style={styles.copyButton}
                 onPress={handleCopyKorean}

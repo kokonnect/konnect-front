@@ -45,15 +45,22 @@ export default function MessageLayout() {
           </TouchableOpacity>
         </View>
       )}
-      <Stack 
-        screenOptions={{ 
+      <Stack
+        screenOptions={{
           headerShown: false,
-          animation: 'none' // Disable animation for instant switching
+          animation: "none", // Disable animation for instant switching
         }}
       >
         <Stack.Screen name="template" />
         <Stack.Screen name="compose" />
-        <Stack.Screen name="history" />
+        <Stack.Screen
+          name="history"
+          // options={{
+          //   headerShown: true,
+          //   title: "History",
+          //   animation: "slide_from_right",
+          // }}
+        />
         <Stack.Screen name="index" />
       </Stack>
     </View>

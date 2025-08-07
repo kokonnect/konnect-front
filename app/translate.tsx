@@ -15,6 +15,8 @@ import TranslationTabs from "../components/translate/TranslationTabs";
 import TranslationSummary from "../components/translate/TranslationSummary";
 import TranslationFullText from "../components/translate/TranslationFullText";
 import TranslationEvents from "../components/translate/TranslationEvents";
+import TranslationWarning from "../components/translate/TranslationWarning";
+import TranslationButtons from "../components/translate/TranslationButtons";
 import {
   TranslationResult,
   TabType,
@@ -27,9 +29,11 @@ export default function TranslateScreen() {
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [isRetranslating, setIsRetranslating] = useState(false);
   const [translationResult, setTranslationResult] =
     useState<TranslationResult | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("summary");
+  const [showWarning, setShowWarning] = useState(true);
 
   const handleImageUpload = () => {
     setShowImageModal(true);
@@ -84,6 +88,7 @@ export default function TranslateScreen() {
 
   const startTranslation = () => {
     setIsTranslating(true);
+    setShowWarning(true); // Reset warning for new translation
 
     setTimeout(() => {
       setTranslationResult({
@@ -123,17 +128,87 @@ export default function TranslateScreen() {
     Alert.alert("Add Event", `Adding "${event.title}" to calendar`);
   };
 
+  const handleDone = () => {
+    // Save to history first
+    if (translationResult && uploadedFile) {
+      const historyItem = {
+        id: Date.now().toString(),
+        fileName: uploadedFile.name,
+        fileType: uploadedFile.type,
+        summary: translationResult.summary,
+        fullText: translationResult.fullText,
+        originalText: translationResult.originalText,
+        events: translationResult.events,
+        date: new Date(),
+      };
+      console.log("Saved to history:", historyItem);
+    }
+
+    // Reset to initial state
+    setUploadedFile(null);
+    setTranslationResult(null);
+    setActiveTab("summary");
+    setShowWarning(true);
+  };
+
+  const handleDismissWarning = () => {
+    setShowWarning(false);
+  };
+
+  const handleRetranslate = () => {
+    if (!uploadedFile) return;
+
+    setIsRetranslating(true);
+    setActiveTab("summary"); // Reset to summary tab
+
+    // Simulate retranslation process
+    setTimeout(() => {
+      // Generate slightly different translation to show it's working
+      setTranslationResult({
+        summary:
+          "School field trip announcement for Natural History Museum visit on August 20th, 2025. Permission slip and packed lunch are required for all students.",
+        fullText:
+          "Dear Parents,\n\nThis is to inform you about our upcoming educational field trip to the Natural History Museum on August 20th, 2025. All students must bring their own packed lunch and wear comfortable walking shoes.\n\nKindly return the signed permission form by August 15th. The trip begins at 9:00 AM and students will return by 3:00 PM.\n\nThank you for your cooperation,\nSchool Administration Team",
+        originalText:
+          "학부모님께,\n\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\n\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\n\n감사합니다,\n학교 행정실",
+        events: [
+          {
+            id: "1",
+            title: "Field Trip - Natural History Museum",
+            date: "2025-08-20",
+            time: "9:00 AM",
+            description:
+              "Educational field trip to Natural History Museum. Bring lunch and comfortable shoes.",
+          },
+          {
+            id: "2",
+            title: "Permission Form Due",
+            date: "2025-08-15",
+            description: "Return signed permission form for the field trip.",
+          },
+        ],
+      });
+      setIsRetranslating(false);
+    }, 2500);
+  };
+
   const renderTabContent = () => {
     if (!translationResult) return null;
 
     switch (activeTab) {
       case "summary":
-        return <TranslationSummary summary={translationResult.summary} />;
+        return (
+          <TranslationSummary
+            summary={translationResult.summary}
+            isLoading={isRetranslating}
+          />
+        );
       case "fullText":
         return (
           <TranslationFullText
             fullText={translationResult.fullText}
             originalText={translationResult.originalText}
+            isLoading={isRetranslating}
           />
         );
       case "events":
@@ -141,6 +216,7 @@ export default function TranslateScreen() {
           <TranslationEvents
             events={translationResult.events}
             onAddEvent={handleAddEvent}
+            isLoading={isRetranslating}
           />
         );
       default:
@@ -155,6 +231,15 @@ export default function TranslateScreen() {
       <View style={styles.resultsContainer}>
         <TranslationTabs activeTab={activeTab} onTabChange={setActiveTab} />
         {renderTabContent()}
+        <TranslationWarning
+          showWarning={showWarning}
+          onDismissWarning={handleDismissWarning}
+        />
+        <TranslationButtons
+          onDone={handleDone}
+          onRetranslate={handleRetranslate}
+          isRetranslating={isRetranslating}
+        />
       </View>
     );
   };
@@ -238,6 +323,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
+    marginBottom: 20,
   },
   header: {
     paddingHorizontal: 20,

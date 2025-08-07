@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -14,7 +13,7 @@ const primaryColor = "#00B493";
 interface FileStatusProps {
   uploadedFile: UploadedFile | null;
   isTranslating: boolean;
-  onRemoveFile: () => void;
+  onRemoveFile?: () => void;
 }
 
 export default function FileStatus({
@@ -30,13 +29,10 @@ export default function FileStatus({
         <View style={styles.fileInfo}>
           <MaterialCommunityIcons
             name={uploadedFile.type === "pdf" ? "file-pdf-box" : "image"}
-            size={20}
+            size={16}
             color={primaryColor}
           />
           <Text style={styles.fileName}>{uploadedFile.name}</Text>
-          <TouchableOpacity onPress={onRemoveFile} style={styles.removeButton}>
-            <MaterialCommunityIcons name="close" size={16} color="#666" />
-          </TouchableOpacity>
         </View>
       )}
 
@@ -57,28 +53,19 @@ const styles = StyleSheet.create({
   fileInfo: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 12,
+    backgroundColor: "#f8f8f8",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
     marginBottom: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
   },
   fileName: {
-    flex: 1,
-    marginLeft: 12,
-    fontSize: 16,
+    marginLeft: 8,
+    fontSize: 14,
     color: "#333",
     fontWeight: "500",
-  },
-  removeButton: {
-    padding: 4,
   },
   loadingContainer: {
     alignItems: "center",
