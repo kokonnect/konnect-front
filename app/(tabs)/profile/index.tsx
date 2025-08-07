@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   Image,
   FlatList,
+  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -64,7 +65,7 @@ const mockChildren: Child[] = [
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const renderChildCard = ({ item }: { item: Child }) => (
     <View style={styles.childCard}>
@@ -160,6 +161,41 @@ export default function ProfileScreen() {
     </View>
   );
 
+  const LogoutSection = () => {
+    const handleLogout = () => {
+      Alert.alert(
+        "Logout",
+        "Are you sure you want to logout?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Logout",
+            onPress: logout,
+            style: "destructive",
+          },
+        ]
+      );
+    };
+
+    return (
+      <View style={styles.logoutSection}>
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={handleLogout}
+        >
+          <MaterialCommunityIcons name="logout" size={20} color="#ff4757" />
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
+        <Text style={styles.logoutNote}>
+          You can continue using the app without signing in
+        </Text>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -174,6 +210,9 @@ export default function ProfileScreen() {
 
         {/* User Preferences */}
         <PreferencesSection />
+
+        {/* Logout Section - Only show for signed in users */}
+        {isAuthenticated && <LogoutSection />}
       </ScrollView>
     </SafeAreaView>
   );
@@ -345,5 +384,40 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     marginLeft: 8,
+  },
+  // Logout Section Styles
+  logoutSection: {
+    marginTop: 40,
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  logoutButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: "#ff4757",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    gap: 8,
+  },
+  logoutButtonText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#ff4757",
+  },
+  logoutNote: {
+    fontSize: 12,
+    color: "#999",
+    textAlign: "center",
+    lineHeight: 16,
   },
 });
