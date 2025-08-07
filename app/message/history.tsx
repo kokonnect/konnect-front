@@ -161,7 +161,7 @@ export default function HistoryScreen() {
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.title}>Translation History</Text>
+        <Text style={styles.title}>Message Compose History</Text>
         <View style={styles.headerSpacer} />
       </View>
 
