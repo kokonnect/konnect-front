@@ -17,6 +17,7 @@ import TranslationFullText from "../components/translate/TranslationFullText";
 import TranslationEvents from "../components/translate/TranslationEvents";
 import TranslationWarning from "../components/translate/TranslationWarning";
 import TranslationButtons from "../components/translate/TranslationButtons";
+import CalendarModal from "../components/translate/CalendarModal";
 import {
   TranslationResult,
   TabType,
@@ -34,6 +35,10 @@ export default function TranslateScreen() {
     useState<TranslationResult | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("summary");
   const [showWarning, setShowWarning] = useState(true);
+
+  // Calendar modal states
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [selectedEventData, setSelectedEventData] = useState(null);
 
   const handleImageUpload = () => {
     setShowImageModal(true);
@@ -95,9 +100,9 @@ export default function TranslateScreen() {
         summary:
           "School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.",
         fullText:
-          "Dear Parents,\n\nWe are excited to announce our annual field trip to the Natural History Museum scheduled for August 20th, 2025. All students are required to bring a packed lunch and wear comfortable walking shoes.\n\nPlease submit the signed permission form by August 15th. The trip will start at 9:00 AM and we will return by 3:00 PM.\n\nBest regards,\nSchool Administration",
+          "Dear Parents,\\n\\nWe are excited to announce our annual field trip to the Natural History Museum scheduled for August 20th, 2025. All students are required to bring a packed lunch and wear comfortable walking shoes.\\n\\nPlease submit the signed permission form by August 15th. The trip will start at 9:00 AM and we will return by 3:00 PM.\\n\\nBest regards,\\nSchool Administration",
         originalText:
-          "학부모님께,\n\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\n\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\n\n감사합니다,\n학교 행정실",
+          "학부모님께,\\n\\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\\n\\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\\n\\n감사합니다,\\n학교 행정실",
         events: [
           {
             id: "1",
@@ -125,7 +130,8 @@ export default function TranslateScreen() {
   };
 
   const handleAddEvent = (event: any) => {
-    Alert.alert("Add Event", `Adding "${event.title}" to calendar`);
+    setSelectedEventData(event);
+    setShowCalendarModal(true);
   };
 
   const handleDone = () => {
@@ -168,9 +174,9 @@ export default function TranslateScreen() {
         summary:
           "School field trip announcement for Natural History Museum visit on August 20th, 2025. Permission slip and packed lunch are required for all students.",
         fullText:
-          "Dear Parents,\n\nThis is to inform you about our upcoming educational field trip to the Natural History Museum on August 20th, 2025. All students must bring their own packed lunch and wear comfortable walking shoes.\n\nKindly return the signed permission form by August 15th. The trip begins at 9:00 AM and students will return by 3:00 PM.\n\nThank you for your cooperation,\nSchool Administration Team",
+          "Dear Parents,\\n\\nThis is to inform you about our upcoming educational field trip to the Natural History Museum on August 20th, 2025. All students must bring their own packed lunch and wear comfortable walking shoes.\\n\\nKindly return the signed permission form by August 15th. The trip begins at 9:00 AM and students will return by 3:00 PM.\\n\\nThank you for your cooperation,\\nSchool Administration Team",
         originalText:
-          "학부모님께,\n\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\n\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\n\n감사합니다,\n학교 행정실",
+          "학부모님께,\\n\\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\\n\\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\\n\\n감사합니다,\\n학교 행정실",
         events: [
           {
             id: "1",
@@ -190,6 +196,15 @@ export default function TranslateScreen() {
       });
       setIsRetranslating(false);
     }, 2500);
+  };
+
+  // Calendar modal handlers
+  const handleCalendarClose = () => {
+    setShowCalendarModal(false);
+  };
+
+  const handleCalendarSave = () => {
+    // Calendar save logic handled by CalendarModal component
   };
 
   const renderTabContent = () => {
@@ -315,6 +330,14 @@ export default function TranslateScreen() {
           </View>
         </TouchableOpacity>
       </Modal>
+
+      {/* Calendar Modal */}
+      <CalendarModal
+        visible={showCalendarModal}
+        onClose={handleCalendarClose}
+        onSave={handleCalendarSave}
+        eventData={selectedEventData}
+      />
     </SafeAreaView>
   );
 }
