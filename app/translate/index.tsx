@@ -10,26 +10,28 @@ import {
   ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import UploadButtons from "../components/translate/UploadButtons";
-import FileStatus from "../components/translate/FileStatus";
-import TranslationTabs from "../components/translate/TranslationTabs";
-import TranslationSummary from "../components/translate/TranslationSummary";
-import TranslationFullText from "../components/translate/TranslationFullText";
-import TranslationEvents from "../components/translate/TranslationEvents";
-import TranslationWarning from "../components/translate/TranslationWarning";
-import TranslationButtons from "../components/translate/TranslationButtons";
-import CalendarModal from "../components/translate/CalendarModal";
-import RecentTranslations from "../components/translate/RecentTranslations";
+import { useRouter } from "expo-router";
+import UploadButtons from "@/components/translate/UploadButtons";
+import FileStatus from "@/components/translate/FileStatus";
+import TranslationTabs from "@/components/translate/TranslationTabs";
+import TranslationSummary from "@/components/translate/TranslationSummary";
+import TranslationFullText from "@/components/translate/TranslationFullText";
+import TranslationEvents from "@/components/translate/TranslationEvents";
+import TranslationWarning from "@/components/translate/TranslationWarning";
+import TranslationButtons from "@/components/translate/TranslationButtons";
+import CalendarModal from "@/components/translate/CalendarModal";
+import RecentTranslations from "@/components/translate/RecentTranslations";
 import {
   TranslationResult,
   TabType,
   UploadedFile,
-} from "../components/translate/types";
+} from "@/components/translate/types";
 // import { SafeAreaView } from "react-native-safe-area-context";
 
 const primaryColor = "#00B493";
 
 export default function TranslateScreen() {
+  const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
   const [showImageModal, setShowImageModal] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -270,8 +272,7 @@ export default function TranslateScreen() {
 
   // History navigation handlers
   const handleHistoryPress = () => {
-    // Navigate to translation history page
-    Alert.alert("History", "Translation history page would open here");
+    router.push("/translate/history");
   };
 
   const handleRecentTranslationPress = (item: any) => {
@@ -337,11 +338,9 @@ export default function TranslateScreen() {
         <View style={styles.headerTop}>
           <View style={styles.headerTitleContainer}>
             <Text style={styles.headerTitle}>Document Translation</Text>
-            {!uploadedFile && (
-              <Text style={styles.headerSubtitle}>
-                Upload school documents for instant translation
-              </Text>
-            )}
+            <Text style={styles.headerSubtitle}>
+              Upload school documents for instant translation
+            </Text>
           </View>
           <TouchableOpacity
             style={styles.historyButton}
@@ -449,7 +448,7 @@ const styles = StyleSheet.create({
   },
   headerTop: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
   },
   headerTitleContainer: {

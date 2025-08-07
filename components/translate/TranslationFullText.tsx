@@ -24,6 +24,19 @@ export default function TranslationFullText({
 }: TranslationFullTextProps) {
   const [showOriginal, setShowOriginal] = useState(false);
 
+  const formatText = (text: string) => {
+    return text
+      .replace(/\\n/g, '\n')    // Convert \n to actual line breaks
+      .replace(/\\t/g, '\t')    // Convert \t to actual tabs
+      .replace(/\\r/g, '\r')    // Convert \r to carriage returns
+      .replace(/\\\\/g, '\\')   // Convert \\ to single backslash
+      .replace(/\\"/g, '"')     // Convert \" to quotes
+      .replace(/\\'/g, "'")     // Convert \' to single quotes
+      .replace(/\\b/g, '\b')    // Convert \b to backspace
+      .replace(/\\f/g, '\f')    // Convert \f to form feed
+      .replace(/\\v/g, '\v');   // Convert \v to vertical tab
+  };
+
   if (isLoading) {
     return (
       <View style={styles.tabContent}>
@@ -64,7 +77,7 @@ export default function TranslationFullText({
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.fullText}>
-          {showOriginal ? originalText : fullText}
+          {formatText(showOriginal ? originalText : fullText)}
         </Text>
       </ScrollView>
     </View>
