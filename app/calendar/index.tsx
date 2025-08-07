@@ -32,7 +32,10 @@ const months = [
   { id: 12, name: "December" },
 ];
 
-const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 5 + i);
+const years = Array.from(
+  { length: 10 },
+  (_, i) => new Date().getFullYear() - 5 + i,
+);
 
 // Mock data for events on specific dates
 const eventsData = {
@@ -246,7 +249,8 @@ export default function CalendarScreen() {
                       <Text
                         style={[
                           styles.pickerItemText,
-                          tempMonth === item.id && styles.selectedPickerItemText,
+                          tempMonth === item.id &&
+                            styles.selectedPickerItemText,
                         ]}
                       >
                         {item.name}

@@ -1,12 +1,311 @@
-import { View, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Modal,
+  Alert,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import UploadButtons from "../components/translate/UploadButtons";
+import FileStatus from "../components/translate/FileStatus";
+import TranslationTabs from "../components/translate/TranslationTabs";
+import TranslationSummary from "../components/translate/TranslationSummary";
+import TranslationFullText from "../components/translate/TranslationFullText";
+import TranslationEvents from "../components/translate/TranslationEvents";
+import {
+  TranslationResult,
+  TabType,
+  UploadedFile,
+} from "../components/translate/types";
+
+const primaryColor = "#00B493";
 
 export default function TranslateScreen() {
-  return <View style={styles.container}></View>;
+  const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [translationResult, setTranslationResult] =
+    useState<TranslationResult | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>("summary");
+
+  const handleImageUpload = () => {
+    setShowImageModal(true);
+  };
+
+  const handlePdfUpload = () => {
+    Alert.alert(
+      "PDF Upload",
+      "PDF upload functionality requires expo-document-picker package",
+    );
+    setTimeout(() => {
+      const uploadedFile: UploadedFile = {
+        name: "document.pdf",
+        type: "pdf",
+      };
+      setUploadedFile(uploadedFile);
+      startTranslation();
+    }, 1000);
+  };
+
+  const handleCameraCapture = () => {
+    setShowImageModal(false);
+    Alert.alert(
+      "Camera",
+      "Camera functionality requires expo-image-picker package",
+    );
+    setTimeout(() => {
+      const uploadedFile: UploadedFile = {
+        name: "photo_capture.jpg",
+        type: "image",
+      };
+      setUploadedFile(uploadedFile);
+      startTranslation();
+    }, 1000);
+  };
+
+  const handleGallerySelect = () => {
+    setShowImageModal(false);
+    Alert.alert(
+      "Gallery",
+      "Gallery functionality requires expo-image-picker package",
+    );
+    setTimeout(() => {
+      const uploadedFile: UploadedFile = {
+        name: "selected_image.jpg",
+        type: "image",
+      };
+      setUploadedFile(uploadedFile);
+      startTranslation();
+    }, 1000);
+  };
+
+  const startTranslation = () => {
+    setIsTranslating(true);
+
+    setTimeout(() => {
+      setTranslationResult({
+        summary:
+          "School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.",
+        fullText:
+          "Dear Parents,\n\nWe are excited to announce our annual field trip to the Natural History Museum scheduled for August 20th, 2025. All students are required to bring a packed lunch and wear comfortable walking shoes.\n\nPlease submit the signed permission form by August 15th. The trip will start at 9:00 AM and we will return by 3:00 PM.\n\nBest regards,\nSchool Administration",
+        originalText:
+          "학부모님께,\n\n2025년 8월 20일로 예정된 자연사 박물관으로의 연례 현장 학습을 알려드리게 되어 기쁩니다. 모든 학생들은 도시락을 지참하고 편안한 운동화를 착용해야 합니다.\n\n8월 15일까지 서명된 동의서를 제출해 주시기 바랍니다. 견학은 오전 9시에 시작하여 오후 3시에 돌아올 예정입니다.\n\n감사합니다,\n학교 행정실",
+        events: [
+          {
+            id: "1",
+            title: "Field Trip - Natural History Museum",
+            date: "2025-08-20",
+            time: "9:00 AM",
+            description:
+              "Annual school field trip. Bring lunch and wear comfortable shoes.",
+          },
+          {
+            id: "2",
+            title: "Permission Form Deadline",
+            date: "2025-08-15",
+            description: "Submit signed permission form for field trip.",
+          },
+        ],
+      });
+      setIsTranslating(false);
+    }, 3000);
+  };
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setTranslationResult(null);
+  };
+
+  const handleAddEvent = (event: any) => {
+    Alert.alert("Add Event", `Adding "${event.title}" to calendar`);
+  };
+
+  const renderTabContent = () => {
+    if (!translationResult) return null;
+
+    switch (activeTab) {
+      case "summary":
+        return <TranslationSummary summary={translationResult.summary} />;
+      case "fullText":
+        return (
+          <TranslationFullText
+            fullText={translationResult.fullText}
+            originalText={translationResult.originalText}
+          />
+        );
+      case "events":
+        return (
+          <TranslationEvents
+            events={translationResult.events}
+            onAddEvent={handleAddEvent}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const renderTranslationResults = () => {
+    if (!translationResult) return null;
+
+    return (
+      <View style={styles.resultsContainer}>
+        <TranslationTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        {renderTabContent()}
+      </View>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Document Translation</Text>
+        <Text style={styles.headerSubtitle}>
+          Upload school documents for instant translation
+        </Text>
+      </View>
+      <View style={styles.content}>
+        {!uploadedFile && (
+          <UploadButtons
+            onImageUpload={handleImageUpload}
+            onPdfUpload={handlePdfUpload}
+          />
+        )}
+        <FileStatus
+          uploadedFile={uploadedFile}
+          isTranslating={isTranslating}
+          onRemoveFile={handleRemoveFile}
+        />
+        {renderTranslationResults()}
+      </View>
+
+      {/* Image Upload Modal */}
+      <Modal
+        visible={showImageModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowImageModal(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowImageModal(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choose Image Source</Text>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleCameraCapture}
+            >
+              <MaterialCommunityIcons
+                name="camera"
+                size={24}
+                color={primaryColor}
+              />
+              <Text style={styles.modalOptionText}>Take Photo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleGallerySelect}
+            >
+              <MaterialCommunityIcons
+                name="image"
+                size={24}
+                color={primaryColor}
+              />
+              <Text style={styles.modalOptionText}>Choose from Gallery</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalCancel}
+              onPress={() => setShowImageModal(false)}
+            >
+              <Text style={styles.modalCancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f5f5f5",
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  headerTitle: {
+    fontSize: 24,
+    color: "#333",
+    fontWeight: "600",
+    marginBottom: 6,
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: "#666",
+    lineHeight: 22,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  resultsContainer: {
+    flex: 1,
+    marginTop: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 24,
+    width: "100%",
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 24,
+  },
+  modalOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    marginBottom: 8,
+    borderRadius: 8,
+    backgroundColor: "#f8f8f8",
+  },
+  modalOptionText: {
+    marginLeft: 16,
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "500",
+  },
+  modalCancel: {
+    marginTop: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  modalCancelText: {
+    fontSize: 16,
+    color: "#666",
+    fontWeight: "500",
   },
 });
