@@ -13,6 +13,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import SkeletonLoader from "@/components/translate/SkeletonLoader";
 
 const primaryColor = "#00B493";
 
@@ -187,16 +188,19 @@ export default function DocumentHistoryScreen() {
     null,
   );
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loadHistory();
   }, []);
 
   const loadHistory = async () => {
+    setIsLoading(true);
     // Mock loading delay
     setTimeout(() => {
       setHistory(mockDocumentHistory);
-    }, 1000);
+      setIsLoading(false);
+    }, 2000);
   };
 
   const formatDate = (date: Date) => {
@@ -252,6 +256,30 @@ export default function DocumentHistoryScreen() {
   const getDocumentIcon = (type: "pdf" | "image") => {
     return type === "pdf" ? "file-pdf-box" : "image";
   };
+
+  const renderSkeletonItem = ({ index }: { index: number }) => (
+    <View key={index} style={styles.historyCard}>
+      <View style={styles.cardHeader}>
+        <View style={styles.titleContainer}>
+          <View style={styles.skeletonIconContainer}>
+            <SkeletonLoader height={20} width={20} borderRadius={4} marginBottom={0} />
+          </View>
+          <SkeletonLoader height={16} width="70%" borderRadius={4} marginBottom={0} />
+        </View>
+        <View style={styles.metaInfo}>
+          <SkeletonLoader height={12} width={50} borderRadius={6} marginBottom={4} />
+          <SkeletonLoader height={12} width={60} borderRadius={6} marginBottom={0} />
+        </View>
+      </View>
+
+      <SkeletonLoader height={14} width="100%" borderRadius={4} marginBottom={4} />
+      <SkeletonLoader height={14} width="85%" borderRadius={4} marginBottom={8} />
+
+      <View style={styles.skeletonEventContainer}>
+        <SkeletonLoader height={16} width={100} borderRadius={8} marginBottom={0} />
+      </View>
+    </View>
+  );
 
   const renderHistoryItem = ({ item }: { item: DocumentHistoryItem }) => (
     <TouchableOpacity
@@ -317,7 +345,11 @@ export default function DocumentHistoryScreen() {
         <View style={styles.headerSpacer} />
       </View>
 
-      {history.length === 0 ? (
+      {isLoading ? (
+        <View style={styles.listContent}>
+          {[0, 1, 2, 3, 4].map((index) => renderSkeletonItem({ index }))}
+        </View>
+      ) : history.length === 0 ? (
         <View style={styles.emptyContainer}>
           <MaterialCommunityIcons
             name="file-document-multiple"
@@ -703,5 +735,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     color: "#fff",
+  },
+  skeletonIconContainer: {
+    marginRight: 8,
+  },
+  skeletonEventContainer: {
+    alignSelf: "flex-start",
   },
 });
