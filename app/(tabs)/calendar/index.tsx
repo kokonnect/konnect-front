@@ -12,8 +12,8 @@ import {
 import { Calendar } from "react-native-calendars";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import UpcomingEvents from "../../components/shared/UpcomingEvents";
-import SelectedDateSchedule from "../../components/calendar/SelectedDateSchedule";
+import UpcomingEvents from "@/components/shared/UpcomingEvents";
+import SelectedDateSchedule from "@/components/calendar/SelectedDateSchedule";
 
 const primaryColor = "#00B493";
 

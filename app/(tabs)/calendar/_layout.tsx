@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import Header from "../../components/shared/Header";
+import Header from "@/components/shared/Header";
 
 const primaryColor = "#00B493";
 

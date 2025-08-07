@@ -14,7 +14,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import UserPreference from "../../components/profile/UserPreference";
+import UserPreference from "@/components/profile/UserPreference";
 
 const primaryColor = "#00B493";
 

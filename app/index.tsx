@@ -1,27 +1,6 @@
-import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
-import RecentTranslation from "../components/home/RecentTranslation";
-import UpcomingEvents from "../components/shared/UpcomingEvents";
+import { Redirect } from "expo-router";
 
-export default function MainScreen() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-      >
-        <RecentTranslation />
-        <UpcomingEvents />
-      </ScrollView>
-    </SafeAreaView>
-  );
+export default function RootIndex() {
+  // Redirect to main app (login is now optional)
+  return <Redirect href="/(tabs)" />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  scrollView: {
-    flex: 1,
-  },
-});

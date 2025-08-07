@@ -272,7 +272,7 @@ export default function TranslateScreen() {
 
   // History navigation handlers
   const handleHistoryPress = () => {
-    router.push("/translate/history");
+    router.push("/(tabs)/translate/history");
   };
 
   const handleRecentTranslationPress = (item: any) => {

@@ -149,7 +149,7 @@ export default function ComposeScreen() {
         </View>
         <TouchableOpacity
           style={styles.historyButton}
-          onPress={() => router.push("/message/history")}
+          onPress={() => router.push("/(tabs)/message/history")}
         >
           <MaterialCommunityIcons name="history" size={24} color="#333" />
         </TouchableOpacity>
