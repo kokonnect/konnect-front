@@ -9,6 +9,8 @@ export default function RootLayout() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="splash" />
+        <Stack.Screen name="onboarding" />
         <Stack.Screen
           name="login"
           options={{

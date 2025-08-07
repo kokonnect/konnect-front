@@ -1,6 +1,6 @@
 import { Redirect } from "expo-router";
 
 export default function RootIndex() {
-  // Redirect to main app (login is now optional)
-  return <Redirect href="/(tabs)" />;
+  // Always start with splash screen for first launch detection
+  return <Redirect href="/splash" />;
 }
