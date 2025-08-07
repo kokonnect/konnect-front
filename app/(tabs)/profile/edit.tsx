@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserPreference from "@/components/profile/UserPreference";
+import { useAuth } from "@/components/auth/AuthContext";
 
 const primaryColor = "#00B493";
 
@@ -62,7 +63,16 @@ const mockUser: UserProfile = {
 
 export default function EditProfileScreen() {
   const router = useRouter();
-  const [name, setName] = useState(mockUser.name);
+  const { user, isAuthenticated } = useAuth();
+  
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/(tabs)/profile");
+    }
+  }, [isAuthenticated, router]);
+
+  const [name, setName] = useState(user?.name || "");
   const [children, setChildren] = useState(mockUser.children);
   const [showChildModal, setShowChildModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
@@ -219,6 +229,29 @@ export default function EditProfileScreen() {
               onChangeText={setName}
               placeholder="Enter your full name"
             />
+          </View>
+          
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Email</Text>
+            <View style={styles.providerInfo}>
+              <Text style={styles.emailText}>{user?.email}</Text>
+              <View style={styles.providerBadge}>
+                <MaterialCommunityIcons
+                  name={user?.provider === 'kakao' ? 'chat' : 'google'}
+                  size={14}
+                  color={user?.provider === 'kakao' ? '#3C1E1E' : '#4285F4'}
+                />
+                <Text style={[
+                  styles.providerText,
+                  user?.provider === 'kakao' ? styles.kakaoText : styles.googleText
+                ]}>
+                  {user?.provider === 'kakao' ? 'Kakao' : 'Google'}
+                </Text>
+              </View>
+            </View>
+            <Text style={styles.providerNote}>
+              Email and login provider cannot be changed
+            </Text>
           </View>
         </View>
 
@@ -660,5 +693,45 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+  providerInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#f9f9f9",
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+  },
+  emailText: {
+    fontSize: 16,
+    color: "#333",
+    flex: 1,
+  },
+  providerBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    gap: 4,
+  },
+  providerText: {
+    fontSize: 12,
+    fontWeight: "500",
+  },
+  kakaoText: {
+    color: "#3C1E1E",
+  },
+  googleText: {
+    color: "#4285F4",
+  },
+  providerNote: {
+    fontSize: 12,
+    color: "#999",
+    marginTop: 4,
+    fontStyle: "italic",
   },
 });

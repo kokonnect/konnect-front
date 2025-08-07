@@ -12,6 +12,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import PreferencesSection from "@/components/profile/UserPreference";
+import { useAuth } from "@/components/auth/AuthContext";
 
 const primaryColor = "#00B493";
 
@@ -63,7 +64,7 @@ const mockChildren: Child[] = [
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const [isSignedIn] = useState(true); // Change to false to test login state
+  const { user, isAuthenticated } = useAuth();
 
   const renderChildCard = ({ item }: { item: Child }) => (
     <View style={styles.childCard}>
@@ -96,25 +97,30 @@ export default function ProfileScreen() {
     <View style={styles.section}>
       <View style={styles.userProfile}>
         <View style={styles.avatarContainer}>
-          {mockUser.avatar ? (
-            <Image source={{ uri: mockUser.avatar }} style={styles.avatar} />
-          ) : (
-            <View style={styles.defaultAvatar}>
-              <MaterialCommunityIcons name="account" size={40} color="#fff" />
-            </View>
-          )}
+          <View style={styles.defaultAvatar}>
+            <MaterialCommunityIcons name="account" size={40} color="#fff" />
+          </View>
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{mockUser.name}</Text>
-          <Text style={styles.userEmail}>{mockUser.email}</Text>
-          <View style={styles.languageContainer}>
-            <MaterialCommunityIcons name="translate" size={16} color="#666" />
-            <Text style={styles.userLanguage}>{mockUser.language}</Text>
+          <Text style={styles.userName}>{user?.name}</Text>
+          <Text style={styles.userEmail}>{user?.email}</Text>
+          <View style={styles.providerContainer}>
+            <MaterialCommunityIcons
+              name={user?.provider === 'kakao' ? 'chat' : 'google'}
+              size={16}
+              color={user?.provider === 'kakao' ? '#3C1E1E' : '#4285F4'}
+            />
+            <Text style={[
+              styles.providerText,
+              user?.provider === 'kakao' ? styles.kakaoText : styles.googleText
+            ]}>
+              {user?.provider === 'kakao' ? 'Kakao' : 'Google'}
+            </Text>
           </View>
         </View>
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => router.push("/profile/edit")}
+          onPress={() => router.push("/(tabs)/profile/edit")}
         >
           <MaterialCommunityIcons name="pencil" size={20} color="#666" />
         </TouchableOpacity>
@@ -130,7 +136,10 @@ export default function ProfileScreen() {
         <Text style={styles.loginSubtitle}>
           Connect with teachers and manage your children&apos;s information
         </Text>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => router.push('/login')}
+        >
           <Text style={styles.loginButtonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -158,10 +167,10 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* User Profile or Login Prompt */}
-        {isSignedIn ? <UserProfileComponent /> : <LoginPrompt />}
+        {isAuthenticated ? <UserProfileComponent /> : <LoginPrompt />}
 
         {/* Children Information - Only show for signed in users */}
-        {isSignedIn && <ChildrenSection />}
+        {isAuthenticated && <ChildrenSection />}
 
         {/* User Preferences */}
         <PreferencesSection />
@@ -233,14 +242,25 @@ const styles = StyleSheet.create({
     color: "#666",
     marginBottom: 8,
   },
-  languageContainer: {
+  providerContainer: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    alignSelf: "flex-start",
   },
-  userLanguage: {
-    fontSize: 14,
-    color: "#666",
+  providerText: {
+    fontSize: 12,
+    fontWeight: "500",
     marginLeft: 4,
+  },
+  kakaoText: {
+    color: "#3C1E1E",
+  },
+  googleText: {
+    color: "#4285F4",
   },
   editButton: {
     padding: 8,
