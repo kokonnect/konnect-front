@@ -68,6 +68,28 @@ const mockEvents: Event[] = [
   },
 ];
 
+const createEventItemRenderer = (filteredEvents: Event[], formatDate: (date: Date) => string) => 
+  ({ item, index }: { item: Event; index: number }) => (
+    <TouchableOpacity
+      style={[
+        styles.eventItem,
+        index === filteredEvents.slice(0, 3).length - 1 && styles.lastItem,
+      ]}
+    >
+      <View style={styles.dateContainer}>
+        <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+      </View>
+      <View style={styles.eventDetails}>
+        <Text style={styles.eventTitle}>{item.title}</Text>
+        <View style={styles.eventMeta}>
+          <Text style={styles.eventTime}>{item.time}</Text>
+          <Text style={styles.separator}>•</Text>
+          <Text style={styles.childName}>{item.childName}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
 export default function UpcomingEvents({
   showViewAll = true,
   events,
@@ -99,6 +121,8 @@ export default function UpcomingEvents({
     return date.toLocaleDateString("en-US", options);
   };
 
+  const renderEventItem = createEventItemRenderer(filteredEvents, formatDate);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -128,26 +152,7 @@ export default function UpcomingEvents({
             data={filteredEvents.slice(0, 3)}
             keyExtractor={(item) => item.id}
             scrollEnabled={false}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                style={[
-                  styles.eventItem,
-                  index === filteredEvents.slice(0, 3).length - 1 && styles.lastItem,
-                ]}
-              >
-                <View style={styles.dateContainer}>
-                  <Text style={styles.dateText}>{formatDate(item.date)}</Text>
-                </View>
-                <View style={styles.eventDetails}>
-                  <Text style={styles.eventTitle}>{item.title}</Text>
-                  <View style={styles.eventMeta}>
-                    <Text style={styles.eventTime}>{item.time}</Text>
-                    <Text style={styles.separator}>•</Text>
-                    <Text style={styles.childName}>{item.childName}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
+            renderItem={renderEventItem}
           />
         )}
       </View>

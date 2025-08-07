@@ -62,6 +62,51 @@ const repeatOptions: RepeatOption[] = [
   { id: "5", label: "Yearly", value: "yearly" },
 ];
 
+const createChildItemRenderer = (
+  setSelectedChild: (child: Child) => void,
+  setShowChildDropdown: (show: boolean) => void
+) => ({ item }: { item: Child }) => (
+  <TouchableOpacity
+    style={styles.dropdownItem}
+    onPress={() => {
+      setSelectedChild(item);
+      setShowChildDropdown(false);
+    }}
+  >
+    <Text style={styles.dropdownItemText}>{item.name}</Text>
+  </TouchableOpacity>
+);
+
+const createNotificationItemRenderer = (
+  setSelectedNotification: (notification: NotificationOption) => void,
+  setShowNotificationDropdown: (show: boolean) => void
+) => ({ item }: { item: NotificationOption }) => (
+  <TouchableOpacity
+    style={styles.dropdownItem}
+    onPress={() => {
+      setSelectedNotification(item);
+      setShowNotificationDropdown(false);
+    }}
+  >
+    <Text style={styles.dropdownItemText}>{item.label}</Text>
+  </TouchableOpacity>
+);
+
+const createRepeatItemRenderer = (
+  setSelectedRepeat: (repeat: RepeatOption) => void,
+  setShowRepeatDropdown: (show: boolean) => void
+) => ({ item }: { item: RepeatOption }) => (
+  <TouchableOpacity
+    style={styles.dropdownItem}
+    onPress={() => {
+      setSelectedRepeat(item);
+      setShowRepeatDropdown(false);
+    }}
+  >
+    <Text style={styles.dropdownItemText}>{item.label}</Text>
+  </TouchableOpacity>
+);
+
 export default function AddCalendarScreen() {
   const router = useRouter();
   const [eventTitle, setEventTitle] = useState("");
@@ -81,6 +126,11 @@ export default function AddCalendarScreen() {
   const [showNotificationDropdown, setShowNotificationDropdown] =
     useState(false);
   const [showRepeatDropdown, setShowRepeatDropdown] = useState(false);
+
+  // Create render functions with state setters
+  const renderChildItem = createChildItemRenderer(setSelectedChild, setShowChildDropdown);
+  const renderNotificationItem = createNotificationItemRenderer(setSelectedNotification, setShowNotificationDropdown);
+  const renderRepeatItem = createRepeatItemRenderer(setSelectedRepeat, setShowRepeatDropdown);
 
   // DateTimePicker states
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
@@ -211,41 +261,6 @@ export default function AddCalendarScreen() {
     }
   };
 
-  const renderChildItem = ({ item }: { item: Child }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedChild(item);
-        setShowChildDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderNotificationItem = ({ item }: { item: NotificationOption }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedNotification(item);
-        setShowNotificationDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderRepeatItem = ({ item }: { item: RepeatOption }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedRepeat(item);
-        setShowRepeatDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
 
   return (
     <SafeAreaView style={styles.container}>

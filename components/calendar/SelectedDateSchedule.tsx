@@ -58,6 +58,27 @@ const mockScheduleData: { [key: string]: ScheduleEvent[] } = {
   ],
 };
 
+// Optimized render function
+const createScheduleRenderItem = (router: any) => 
+  ({ item }: { item: ScheduleEvent }) => (
+    <TouchableOpacity
+      style={styles.scheduleItem}
+      onPress={() => router.push(`/calendar/modify?eventId=${item.id}`)}
+      activeOpacity={0.7}
+    >
+      <View style={styles.scheduleHeader}>
+        <Text style={styles.scheduleTitle}>{item.title}</Text>
+        {item.isAllDay ? (
+          <Text style={styles.scheduleAllDay}>All Day</Text>
+        ) : (
+          <Text style={styles.scheduleTime}>{item.time}</Text>
+        )}
+        <Text style={styles.scheduleChild}>{item.childName}</Text>
+      </View>
+      <Text style={styles.scheduleMemo}>{item.memo}</Text>
+    </TouchableOpacity>
+  );
+
 
 const EmptySchedule = () => (
   <View style={styles.emptyContainer}>
@@ -77,6 +98,9 @@ export default function SelectedDateSchedule({
   const router = useRouter();
   const scheduleEvents = mockScheduleData[selectedDate] || [];
 
+  // Create render function with current router
+  const renderScheduleItem = createScheduleRenderItem(router);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -87,24 +111,6 @@ export default function SelectedDateSchedule({
     });
   };
 
-  const renderScheduleItem = ({ item }: { item: ScheduleEvent }) => (
-    <TouchableOpacity
-      style={styles.scheduleItem}
-      onPress={() => router.push(`/calendar/modify?eventId=${item.id}`)}
-      activeOpacity={0.7}
-    >
-      <View style={styles.scheduleHeader}>
-        <Text style={styles.scheduleTitle}>{item.title}</Text>
-        {item.isAllDay ? (
-          <Text style={styles.scheduleAllDay}>All Day</Text>
-        ) : (
-          <Text style={styles.scheduleTime}>{item.time}</Text>
-        )}
-        <Text style={styles.scheduleChild}>{item.childName}</Text>
-      </View>
-      <Text style={styles.scheduleMemo}>{item.memo}</Text>
-    </TouchableOpacity>
-  );
 
   return (
     <View style={styles.container}>

@@ -10,20 +10,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TranslationEvent } from "./types";
 import SkeletonLoader from "./SkeletonLoader";
 
-const primaryColor = "#00B493";
-
-interface TranslationEventsProps {
-  events: TranslationEvent[];
-  onAddEvent?: (event: TranslationEvent) => void;
-  isLoading?: boolean;
-}
-
-export default function TranslationEvents({
-  events,
-  onAddEvent,
-  isLoading = false,
-}: TranslationEventsProps) {
-  const renderEvent = ({ item: event }: { item: TranslationEvent }) => (
+const createEventRenderer = (onAddEvent?: (event: TranslationEvent) => void) => 
+  ({ item: event }: { item: TranslationEvent }) => (
     <View style={styles.eventItem}>
       <View style={styles.eventHeader}>
         <Text style={styles.eventTitle}>{event.title}</Text>
@@ -46,6 +34,21 @@ export default function TranslationEvents({
       <Text style={styles.eventDescription}>{event.description}</Text>
     </View>
   );
+
+const primaryColor = "#00B493";
+
+interface TranslationEventsProps {
+  events: TranslationEvent[];
+  onAddEvent?: (event: TranslationEvent) => void;
+  isLoading?: boolean;
+}
+
+export default function TranslationEvents({
+  events,
+  onAddEvent,
+  isLoading = false,
+}: TranslationEventsProps) {
+  const renderEvent = createEventRenderer(onAddEvent);
 
   const renderSkeletonEvent = ({ index }: { index: number }) => (
     <View key={index} style={styles.eventItem}>

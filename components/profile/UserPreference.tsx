@@ -23,6 +23,20 @@ const languages = [
   "Korean",
 ];
 
+// Optimized render function
+const createLanguageRenderItem = (language: string, handleLanguageSelect: (lang: string) => void, primaryColor: string) => 
+  ({ item }: { item: string }) => (
+    <TouchableOpacity
+      style={styles.languageOption}
+      onPress={() => handleLanguageSelect(item)}
+    >
+      <Text style={styles.languageOptionText}>{item}</Text>
+      {language === item && (
+        <MaterialCommunityIcons name="check" size={20} color={primaryColor} />
+      )}
+    </TouchableOpacity>
+  );
+
 export default function PreferencesSection() {
   const [pushNotifications, setPushNotifications] = useState(true);
   const [historySave, setHistorySave] = useState(true);
@@ -45,17 +59,9 @@ export default function PreferencesSection() {
     setShowLanguageModal(false);
   };
 
-  const renderLanguageItem = ({ item }: { item: string }) => (
-    <TouchableOpacity
-      style={styles.languageOption}
-      onPress={() => handleLanguageSelect(item)}
-    >
-      <Text style={styles.languageOptionText}>{item}</Text>
-      {language === item && (
-        <MaterialCommunityIcons name="check" size={20} color={primaryColor} />
-      )}
-    </TouchableOpacity>
-  );
+  // Create render function with current state
+  const renderLanguageItem = createLanguageRenderItem(language, handleLanguageSelect, primaryColor);
+
   return (
     <View style={styles.section}>
       <Text style={styles.sectionTitle}>Preferences</Text>

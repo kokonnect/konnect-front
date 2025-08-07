@@ -37,6 +37,48 @@ const years = Array.from(
   (_, i) => new Date().getFullYear() - 5 + i,
 );
 
+// Optimized render functions
+const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => void) => 
+  ({ item }: { item: number }) => (
+    <TouchableOpacity
+      style={[
+        styles.pickerItem,
+        tempYear === item && styles.selectedPickerItem,
+      ]}
+      onPress={() => setTempYear(item)}
+    >
+      <Text
+        style={[
+          styles.pickerItemText,
+          tempYear === item && styles.selectedPickerItemText,
+        ]}
+      >
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
+
+const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) => void) => 
+  ({ item }: { item: { id: number; name: string } }) => (
+    <TouchableOpacity
+      style={[
+        styles.pickerItem,
+        tempMonth === item.id && styles.selectedPickerItem,
+      ]}
+      onPress={() => setTempMonth(item.id)}
+    >
+      <Text
+        style={[
+          styles.pickerItemText,
+          tempMonth === item.id &&
+            styles.selectedPickerItemText,
+        ]}
+      >
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  );
+
 // Mock data for events on specific dates
 const eventsData = {
   "2025-08-20": {
@@ -72,6 +114,10 @@ export default function CalendarScreen() {
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [tempYear, setTempYear] = useState(new Date().getFullYear());
   const [tempMonth, setTempMonth] = useState(new Date().getMonth() + 1);
+
+  // Create render functions with current state
+  const renderYearItem = createYearRenderItem(tempYear, setTempYear);
+  const renderMonthItem = createMonthRenderItem(tempMonth, setTempMonth);
 
   // Combine events data with selected date
   const getMarkedDates = () => {
@@ -211,24 +257,7 @@ export default function CalendarScreen() {
                   data={years}
                   keyExtractor={(item) => item.toString()}
                   showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={[
-                        styles.pickerItem,
-                        tempYear === item && styles.selectedPickerItem,
-                      ]}
-                      onPress={() => setTempYear(item)}
-                    >
-                      <Text
-                        style={[
-                          styles.pickerItemText,
-                          tempYear === item && styles.selectedPickerItemText,
-                        ]}
-                      >
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
+                  renderItem={renderYearItem}
                 />
               </View>
 
@@ -238,25 +267,7 @@ export default function CalendarScreen() {
                   data={months}
                   keyExtractor={(item) => item.id.toString()}
                   showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      style={[
-                        styles.pickerItem,
-                        tempMonth === item.id && styles.selectedPickerItem,
-                      ]}
-                      onPress={() => setTempMonth(item.id)}
-                    >
-                      <Text
-                        style={[
-                          styles.pickerItemText,
-                          tempMonth === item.id &&
-                            styles.selectedPickerItemText,
-                        ]}
-                      >
-                        {item.name}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
+                  renderItem={renderMonthItem}
                 />
               </View>
             </View>

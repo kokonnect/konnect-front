@@ -63,36 +63,36 @@ const mockChildren: Child[] = [
   },
 ];
 
+const renderChildCard = ({ item }: { item: Child }) => (
+  <View style={styles.childCard}>
+    <View style={styles.childHeader}>
+      <Text style={styles.childName}>{item.name}</Text>
+      <Text style={styles.childGrade}>{item.grade}</Text>
+    </View>
+    <View style={styles.childInfo}>
+      <View style={styles.childInfoRow}>
+        <MaterialCommunityIcons name="account" size={16} color="#666" />
+        <Text style={styles.childInfoText}>Age: {item.age}</Text>
+      </View>
+      <View style={styles.childInfoRow}>
+        <MaterialCommunityIcons name="door" size={16} color="#666" />
+        <Text style={styles.childInfoText}>Class: {item.className}</Text>
+      </View>
+      <View style={styles.childInfoRow}>
+        <MaterialCommunityIcons name="account-tie" size={16} color="#666" />
+        <Text style={styles.childInfoText}>Teacher: {item.teacher}</Text>
+      </View>
+      <View style={styles.childInfoRow}>
+        <MaterialCommunityIcons name="school" size={16} color="#666" />
+        <Text style={styles.childInfoText}>{item.school}</Text>
+      </View>
+    </View>
+  </View>
+);
+
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
-
-  const renderChildCard = ({ item }: { item: Child }) => (
-    <View style={styles.childCard}>
-      <View style={styles.childHeader}>
-        <Text style={styles.childName}>{item.name}</Text>
-        <Text style={styles.childGrade}>{item.grade}</Text>
-      </View>
-      <View style={styles.childInfo}>
-        <View style={styles.childInfoRow}>
-          <MaterialCommunityIcons name="account" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Age: {item.age}</Text>
-        </View>
-        <View style={styles.childInfoRow}>
-          <MaterialCommunityIcons name="door" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Class: {item.className}</Text>
-        </View>
-        <View style={styles.childInfoRow}>
-          <MaterialCommunityIcons name="account-tie" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Teacher: {item.teacher}</Text>
-        </View>
-        <View style={styles.childInfoRow}>
-          <MaterialCommunityIcons name="school" size={16} color="#666" />
-          <Text style={styles.childInfoText}>{item.school}</Text>
-        </View>
-      </View>
-    </View>
-  );
 
   const UserProfileComponent = () => (
     <View style={styles.section}>

@@ -31,6 +31,47 @@ const years = Array.from(
   (_, i) => new Date().getFullYear() - 5 + i,
 );
 
+// Optimized render functions
+const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => void) => 
+  ({ item }: { item: number }) => (
+    <TouchableOpacity
+      style={[
+        styles.pickerItem,
+        tempYear === item && styles.selectedPickerItem,
+      ]}
+      onPress={() => setTempYear(item)}
+    >
+      <Text
+        style={[
+          styles.pickerItemText,
+          tempYear === item && styles.selectedPickerItemText,
+        ]}
+      >
+        {item}
+      </Text>
+    </TouchableOpacity>
+  );
+
+const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) => void) => 
+  ({ item }: { item: { id: number; name: string } }) => (
+    <TouchableOpacity
+      style={[
+        styles.pickerItem,
+        tempMonth === item.id && styles.selectedPickerItem,
+      ]}
+      onPress={() => setTempMonth(item.id)}
+    >
+      <Text
+        style={[
+          styles.pickerItemText,
+          tempMonth === item.id && styles.selectedPickerItemText,
+        ]}
+      >
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  );
+
 interface MonthYearPickerProps {
   visible: boolean;
   currentMonth: string; // Format: "YYYY-MM"
@@ -47,6 +88,10 @@ export default function MonthYearPicker({
   const [year, month] = currentMonth.split("-");
   const [tempYear, setTempYear] = useState(parseInt(year));
   const [tempMonth, setTempMonth] = useState(parseInt(month));
+
+  // Create render functions with current state
+  const renderYearItem = createYearRenderItem(tempYear, setTempYear);
+  const renderMonthItem = createMonthRenderItem(tempMonth, setTempMonth);
 
   const handleConfirm = () => {
     const newMonth = `${tempYear}-${String(tempMonth).padStart(2, "0")}`;
@@ -80,24 +125,7 @@ export default function MonthYearPicker({
                 data={years}
                 keyExtractor={(item) => item.toString()}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.pickerItem,
-                      tempYear === item && styles.selectedPickerItem,
-                    ]}
-                    onPress={() => setTempYear(item)}
-                  >
-                    <Text
-                      style={[
-                        styles.pickerItemText,
-                        tempYear === item && styles.selectedPickerItemText,
-                      ]}
-                    >
-                      {item}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                renderItem={renderYearItem}
               />
             </View>
 
@@ -107,24 +135,7 @@ export default function MonthYearPicker({
                 data={months}
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={[
-                      styles.pickerItem,
-                      tempMonth === item.id && styles.selectedPickerItem,
-                    ]}
-                    onPress={() => setTempMonth(item.id)}
-                  >
-                    <Text
-                      style={[
-                        styles.pickerItemText,
-                        tempMonth === item.id && styles.selectedPickerItemText,
-                      ]}
-                    >
-                      {item.name}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                renderItem={renderMonthItem}
               />
             </View>
           </View>

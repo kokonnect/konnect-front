@@ -61,6 +61,46 @@ const repeatOptions: RepeatOption[] = [
   { id: "5", label: "Yearly", value: "yearly" },
 ];
 
+// Optimized render functions
+const createChildRenderItem = (setSelectedChild: (child: Child) => void, setShowChildDropdown: (show: boolean) => void) => 
+  ({ item }: { item: Child }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedChild(item);
+        setShowChildDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
+const createNotificationRenderItem = (setSelectedNotification: (notification: NotificationOption) => void, setShowNotificationDropdown: (show: boolean) => void) => 
+  ({ item }: { item: NotificationOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedNotification(item);
+        setShowNotificationDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
+
+const createRepeatRenderItem = (setSelectedRepeat: (repeat: RepeatOption) => void, setShowRepeatDropdown: (show: boolean) => void) => 
+  ({ item }: { item: RepeatOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedRepeat(item);
+        setShowRepeatDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
+
 interface CalendarModalProps {
   visible: boolean;
   onClose: () => void;
@@ -235,41 +275,11 @@ export default function CalendarModal({
     }
   };
 
-  const renderChildItem = ({ item }: { item: Child }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedChild(item);
-        setShowChildDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.name}</Text>
-    </TouchableOpacity>
-  );
+  // Create render functions with current state
+  const renderChildItem = createChildRenderItem(setSelectedChild, setShowChildDropdown);
+  const renderNotificationItem = createNotificationRenderItem(setSelectedNotification, setShowNotificationDropdown);
+  const renderRepeatItem = createRepeatRenderItem(setSelectedRepeat, setShowRepeatDropdown);
 
-  const renderNotificationItem = ({ item }: { item: NotificationOption }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedNotification(item);
-        setShowNotificationDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderRepeatItem = ({ item }: { item: RepeatOption }) => (
-    <TouchableOpacity
-      style={styles.dropdownItem}
-      onPress={() => {
-        setSelectedRepeat(item);
-        setShowRepeatDropdown(false);
-      }}
-    >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
 
   return (
     <Modal

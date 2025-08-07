@@ -39,6 +39,17 @@ const mockData: TranslationCard[] = [
   },
 ];
 
+const createRecentTranslationRenderer = (truncateDescription: (text: string, lines?: number) => string, formatDate: (date: Date) => string) => 
+  ({ item }: { item: { id: string; title: string; description: string; lastViewed: Date } }) => (
+    <TouchableOpacity style={styles.card}>
+      <Text style={styles.cardTitle}>{item.title}</Text>
+      <Text style={styles.cardDescription}>
+        {truncateDescription(item.description)}
+      </Text>
+      <Text style={styles.cardDate}>{formatDate(item.lastViewed)}</Text>
+    </TouchableOpacity>
+  );
+
 export default function RecentTranslation() {
   const router = useRouter();
 
@@ -58,6 +69,8 @@ export default function RecentTranslation() {
     if (text.length <= maxLength) return text;
     return text.substring(0, maxLength).trim() + "...";
   };
+
+  const renderRecentTranslationItem = createRecentTranslationRenderer(truncateDescription, formatDate);
 
   return (
     <View style={styles.container}>
@@ -82,15 +95,7 @@ export default function RecentTranslation() {
         data={mockData}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.carousel}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardDescription}>
-              {truncateDescription(item.description)}
-            </Text>
-            <Text style={styles.cardDate}>{formatDate(item.lastViewed)}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderRecentTranslationItem}
       />
     </View>
   );
