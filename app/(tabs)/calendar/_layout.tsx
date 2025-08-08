@@ -1,0 +1,38 @@
+import { Stack } from "expo-router";
+import Header from "@/components/shared/Header";
+
+const primaryColor = "#00B493";
+
+export default function CalendarLayout() {
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: primaryColor,
+        },
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="index"
+        options={{
+          header: () => <Header title="Calendar" icon="calendar" />,
+        }}
+      />
+      <Stack.Screen
+        name="add"
+        options={{
+          presentation: "modal",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="modify"
+        options={{
+          presentation: "modal",
+          headerShown: false,
+        }}
+      />
+    </Stack>
+  );
+}

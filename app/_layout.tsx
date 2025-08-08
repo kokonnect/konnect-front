@@ -1,5 +1,26 @@
 import { Stack } from "expo-router";
+import { AuthProvider } from "@/components/auth/AuthContext";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <AuthProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="splash" />
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen
+          name="login"
+          options={{
+            headerShown: true,
+            headerBackButtonDisplayMode: "minimal",
+            headerTintColor: "#00B493",
+          }}
+        />
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </AuthProvider>
+  );
 }
