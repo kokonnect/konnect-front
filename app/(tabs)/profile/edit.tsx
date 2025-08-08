@@ -63,7 +63,7 @@ const mockUser: UserProfile = {
 
 export default function EditProfileScreen() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, hasChildren, addChild: addChildToAuth } = useAuth();
   
   // Redirect if not authenticated
   useEffect(() => {
@@ -73,10 +73,17 @@ export default function EditProfileScreen() {
   }, [isAuthenticated, router]);
 
   const [name, setName] = useState(user?.name || "");
-  const [children, setChildren] = useState(mockUser.children);
+  const [children, setChildren] = useState(user?.children || []);
   const [showChildModal, setShowChildModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  
+  // Show add child modal automatically for new users without children
+  useEffect(() => {
+    if (isAuthenticated && !hasChildren) {
+      setShowChildModal(true);
+    }
+  }, [isAuthenticated, hasChildren]);
 
   // Child form states
   const [childName, setChildName] = useState("");
@@ -149,10 +156,27 @@ export default function EditProfileScreen() {
       );
     } else {
       setChildren([...children, childData]);
+      // Also add to AuthContext for new children
+      addChildToAuth({
+        id: childData.id,
+        name: childData.name,
+        birthDate: childData.birthdate.toISOString(),
+        school: childData.school,
+        grade: childData.grade,
+      });
     }
 
     setShowChildModal(false);
     resetChildForm();
+    
+    // Show success message for first child
+    if (!hasChildren) {
+      Alert.alert(
+        "Welcome to Konnect!",
+        "Your child has been added successfully. You can now use all features of the app.",
+        [{ text: "OK", onPress: () => router.replace("/(tabs)") }]
+      );
+    }
   };
 
   const handleDeleteChild = () => {
@@ -302,18 +326,33 @@ export default function EditProfileScreen() {
         visible={showChildModal}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setShowChildModal(false)}
+        onRequestClose={() => {
+          // Don't allow closing modal if user has no children (must add at least one)
+          if (hasChildren) {
+            setShowChildModal(false);
+          }
+        }}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.childModal}>
             <View style={styles.childModalHeader}>
               <Text style={styles.childModalTitle}>
-                {editingChild ? "Edit Child" : "Add Child"}
+                {!hasChildren ? "Complete Your Profile" : editingChild ? "Edit Child" : "Add Child"}
               </Text>
-              <TouchableOpacity onPress={() => setShowChildModal(false)}>
-                <MaterialCommunityIcons name="close" size={24} color="#333" />
-              </TouchableOpacity>
+              {hasChildren && (
+                <TouchableOpacity onPress={() => setShowChildModal(false)}>
+                  <MaterialCommunityIcons name="close" size={24} color="#333" />
+                </TouchableOpacity>
+              )}
             </View>
+            
+            {!hasChildren && (
+              <View style={styles.welcomeMessage}>
+                <Text style={styles.welcomeText}>
+                  Welcome! Please add your child's information to get started with Konnect.
+                </Text>
+              </View>
+            )}
 
             <ScrollView
               style={styles.childForm}
@@ -733,5 +772,15 @@ const styles = StyleSheet.create({
     color: "#999",
     marginTop: 4,
     fontStyle: "italic",
+  },
+  welcomeMessage: {
+    paddingHorizontal: 20,
+    paddingBottom: 12,
+  },
+  welcomeText: {
+    fontSize: 14,
+    color: "#666",
+    lineHeight: 20,
+    textAlign: "center",
   },
 });

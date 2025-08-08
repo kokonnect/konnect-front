@@ -19,6 +19,12 @@ export default function RootLayout() {
             headerTintColor: "#00B493",
           }}
         />
+        <Stack.Screen
+          name="add-child"
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="(tabs)" />
       </Stack>
     </AuthProvider>
