@@ -3,9 +3,9 @@ const mockStorage = new Map<string, string>();
 
 // Storage keys
 const STORAGE_KEYS = {
-  FIRST_LAUNCH: 'first_launch',
-  USER_LANGUAGE: 'user_language',
-  ONBOARDING_COMPLETED: 'onboarding_completed',
+  FIRST_LAUNCH: "first_launch",
+  USER_LANGUAGE: "user_language",
+  ONBOARDING_COMPLETED: "onboarding_completed",
 } as const;
 
 // Mock AsyncStorage implementation
@@ -22,7 +22,7 @@ const storage = {
     return Promise.resolve();
   },
   multiRemove: async (keys: string[]): Promise<void> => {
-    keys.forEach(key => mockStorage.delete(key));
+    keys.forEach((key) => mockStorage.delete(key));
     return Promise.resolve();
   },
 };
@@ -33,16 +33,16 @@ export const isFirstLaunch = async (): Promise<boolean> => {
     const hasLaunchedBefore = await storage.getItem(STORAGE_KEYS.FIRST_LAUNCH);
     return hasLaunchedBefore === null;
   } catch (error) {
-    console.error('Error checking first launch:', error);
+    console.error("Error checking first launch:", error);
     return true; // Default to first launch if error
   }
 };
 
 export const setFirstLaunchComplete = async (): Promise<void> => {
   try {
-    await storage.setItem(STORAGE_KEYS.FIRST_LAUNCH, 'false');
+    await storage.setItem(STORAGE_KEYS.FIRST_LAUNCH, "false");
   } catch (error) {
-    console.error('Error setting first launch complete:', error);
+    console.error("Error setting first launch complete:", error);
   }
 };
 
@@ -50,18 +50,18 @@ export const setFirstLaunchComplete = async (): Promise<void> => {
 export const isOnboardingCompleted = async (): Promise<boolean> => {
   try {
     const completed = await storage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETED);
-    return completed === 'true';
+    return completed === "true";
   } catch (error) {
-    console.error('Error checking onboarding status:', error);
+    console.error("Error checking onboarding status:", error);
     return false;
   }
 };
 
 export const setOnboardingComplete = async (): Promise<void> => {
   try {
-    await storage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETED, 'true');
+    await storage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETED, "true");
   } catch (error) {
-    console.error('Error setting onboarding complete:', error);
+    console.error("Error setting onboarding complete:", error);
   }
 };
 
@@ -70,7 +70,7 @@ export const getUserLanguage = async (): Promise<string | null> => {
   try {
     return await storage.getItem(STORAGE_KEYS.USER_LANGUAGE);
   } catch (error) {
-    console.error('Error getting user language:', error);
+    console.error("Error getting user language:", error);
     return null;
   }
 };
@@ -79,7 +79,7 @@ export const setUserLanguage = async (language: string): Promise<void> => {
   try {
     await storage.setItem(STORAGE_KEYS.USER_LANGUAGE, language);
   } catch (error) {
-    console.error('Error setting user language:', error);
+    console.error("Error setting user language:", error);
   }
 };
 
@@ -88,6 +88,6 @@ export const clearAllData = async (): Promise<void> => {
   try {
     await storage.multiRemove(Object.values(STORAGE_KEYS));
   } catch (error) {
-    console.error('Error clearing all data:', error);
+    console.error("Error clearing all data:", error);
   }
 };

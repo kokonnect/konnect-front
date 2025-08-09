@@ -63,8 +63,13 @@ const mockUser: UserProfile = {
 
 export default function EditProfileScreen() {
   const router = useRouter();
-  const { user, isAuthenticated, hasChildren, addChild: addChildToAuth } = useAuth();
-  
+  const {
+    user,
+    isAuthenticated,
+    hasChildren,
+    addChild: addChildToAuth,
+  } = useAuth();
+
   // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
@@ -77,7 +82,7 @@ export default function EditProfileScreen() {
   const [showChildModal, setShowChildModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  
+
   // Show add child modal automatically for new users without children
   useEffect(() => {
     if (isAuthenticated && !hasChildren) {
@@ -168,13 +173,13 @@ export default function EditProfileScreen() {
 
     setShowChildModal(false);
     resetChildForm();
-    
+
     // Show success message for first child
     if (!hasChildren) {
       Alert.alert(
         "Welcome to Konnect!",
         "Your child has been added successfully. You can now use all features of the app.",
-        [{ text: "OK", onPress: () => router.replace("/(tabs)") }]
+        [{ text: "OK", onPress: () => router.replace("/(tabs)") }],
       );
     }
   };
@@ -254,22 +259,26 @@ export default function EditProfileScreen() {
               placeholder="Enter your full name"
             />
           </View>
-          
+
           <View style={styles.inputGroup}>
             <Text style={styles.inputLabel}>Email</Text>
             <View style={styles.providerInfo}>
               <Text style={styles.emailText}>{user?.email}</Text>
               <View style={styles.providerBadge}>
                 <MaterialCommunityIcons
-                  name={user?.provider === 'kakao' ? 'chat' : 'google'}
+                  name={user?.provider === "kakao" ? "chat" : "google"}
                   size={14}
-                  color={user?.provider === 'kakao' ? '#3C1E1E' : '#4285F4'}
+                  color={user?.provider === "kakao" ? "#3C1E1E" : "#4285F4"}
                 />
-                <Text style={[
-                  styles.providerText,
-                  user?.provider === 'kakao' ? styles.kakaoText : styles.googleText
-                ]}>
-                  {user?.provider === 'kakao' ? 'Kakao' : 'Google'}
+                <Text
+                  style={[
+                    styles.providerText,
+                    user?.provider === "kakao"
+                      ? styles.kakaoText
+                      : styles.googleText,
+                  ]}
+                >
+                  {user?.provider === "kakao" ? "Kakao" : "Google"}
                 </Text>
               </View>
             </View>
@@ -337,7 +346,11 @@ export default function EditProfileScreen() {
           <View style={styles.childModal}>
             <View style={styles.childModalHeader}>
               <Text style={styles.childModalTitle}>
-                {!hasChildren ? "Complete Your Profile" : editingChild ? "Edit Child" : "Add Child"}
+                {!hasChildren
+                  ? "Complete Your Profile"
+                  : editingChild
+                    ? "Edit Child"
+                    : "Add Child"}
               </Text>
               {hasChildren && (
                 <TouchableOpacity onPress={() => setShowChildModal(false)}>
@@ -345,11 +358,12 @@ export default function EditProfileScreen() {
                 </TouchableOpacity>
               )}
             </View>
-            
+
             {!hasChildren && (
               <View style={styles.welcomeMessage}>
                 <Text style={styles.welcomeText}>
-                  Welcome! Please add your child's information to get started with Konnect.
+                  Welcome! Please add your child's information to get started
+                  with Konnect.
                 </Text>
               </View>
             )}

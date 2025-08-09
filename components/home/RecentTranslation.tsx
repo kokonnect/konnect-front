@@ -39,8 +39,16 @@ const mockData: TranslationCard[] = [
   },
 ];
 
-const createRecentTranslationRenderer = (truncateDescription: (text: string, lines?: number) => string, formatDate: (date: Date) => string) => 
-  ({ item }: { item: { id: string; title: string; description: string; lastViewed: Date } }) => (
+const createRecentTranslationRenderer =
+  (
+    truncateDescription: (text: string, lines?: number) => string,
+    formatDate: (date: Date) => string,
+  ) =>
+  ({
+    item,
+  }: {
+    item: { id: string; title: string; description: string; lastViewed: Date };
+  }) => (
     <TouchableOpacity style={styles.card}>
       <Text style={styles.cardTitle}>{item.title}</Text>
       <Text style={styles.cardDescription}>
@@ -70,7 +78,10 @@ export default function RecentTranslation() {
     return text.substring(0, maxLength).trim() + "...";
   };
 
-  const renderRecentTranslationItem = createRecentTranslationRenderer(truncateDescription, formatDate);
+  const renderRecentTranslationItem = createRecentTranslationRenderer(
+    truncateDescription,
+    formatDate,
+  );
 
   return (
     <View style={styles.container}>

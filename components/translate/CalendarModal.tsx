@@ -62,7 +62,11 @@ const repeatOptions: RepeatOption[] = [
 ];
 
 // Optimized render functions
-const createChildRenderItem = (setSelectedChild: (child: Child) => void, setShowChildDropdown: (show: boolean) => void) => 
+const createChildRenderItem =
+  (
+    setSelectedChild: (child: Child) => void,
+    setShowChildDropdown: (show: boolean) => void,
+  ) =>
   ({ item }: { item: Child }) => (
     <TouchableOpacity
       style={styles.dropdownItem}
@@ -75,7 +79,11 @@ const createChildRenderItem = (setSelectedChild: (child: Child) => void, setShow
     </TouchableOpacity>
   );
 
-const createNotificationRenderItem = (setSelectedNotification: (notification: NotificationOption) => void, setShowNotificationDropdown: (show: boolean) => void) => 
+const createNotificationRenderItem =
+  (
+    setSelectedNotification: (notification: NotificationOption) => void,
+    setShowNotificationDropdown: (show: boolean) => void,
+  ) =>
   ({ item }: { item: NotificationOption }) => (
     <TouchableOpacity
       style={styles.dropdownItem}
@@ -88,7 +96,11 @@ const createNotificationRenderItem = (setSelectedNotification: (notification: No
     </TouchableOpacity>
   );
 
-const createRepeatRenderItem = (setSelectedRepeat: (repeat: RepeatOption) => void, setShowRepeatDropdown: (show: boolean) => void) => 
+const createRepeatRenderItem =
+  (
+    setSelectedRepeat: (repeat: RepeatOption) => void,
+    setShowRepeatDropdown: (show: boolean) => void,
+  ) =>
   ({ item }: { item: RepeatOption }) => (
     <TouchableOpacity
       style={styles.dropdownItem}
@@ -119,13 +131,17 @@ export default function CalendarModal({
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
-  const [selectedNotification, setSelectedNotification] = useState<NotificationOption>(notificationOptions[3]);
-  const [selectedRepeat, setSelectedRepeat] = useState<RepeatOption>(repeatOptions[0]);
+  const [selectedNotification, setSelectedNotification] =
+    useState<NotificationOption>(notificationOptions[3]);
+  const [selectedRepeat, setSelectedRepeat] = useState<RepeatOption>(
+    repeatOptions[0],
+  );
   const [repeatEndDate, setRepeatEndDate] = useState(new Date());
 
   // Dropdown states
   const [showChildDropdown, setShowChildDropdown] = useState(false);
-  const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+  const [showNotificationDropdown, setShowNotificationDropdown] =
+    useState(false);
   const [showRepeatDropdown, setShowRepeatDropdown] = useState(false);
 
   // DateTimePicker states
@@ -276,10 +292,18 @@ export default function CalendarModal({
   };
 
   // Create render functions with current state
-  const renderChildItem = createChildRenderItem(setSelectedChild, setShowChildDropdown);
-  const renderNotificationItem = createNotificationRenderItem(setSelectedNotification, setShowNotificationDropdown);
-  const renderRepeatItem = createRepeatRenderItem(setSelectedRepeat, setShowRepeatDropdown);
-
+  const renderChildItem = createChildRenderItem(
+    setSelectedChild,
+    setShowChildDropdown,
+  );
+  const renderNotificationItem = createNotificationRenderItem(
+    setSelectedNotification,
+    setShowNotificationDropdown,
+  );
+  const renderRepeatItem = createRepeatRenderItem(
+    setSelectedRepeat,
+    setShowRepeatDropdown,
+  );
 
   return (
     <Modal
@@ -304,7 +328,10 @@ export default function CalendarModal({
             />
           </View>
 
-          <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={styles.modalBody}
+            showsVerticalScrollIndicator={false}
+          >
             {/* Event Title */}
             <View style={styles.formGroup}>
               <Text style={styles.label}>Event Title *</Text>
@@ -338,16 +365,28 @@ export default function CalendarModal({
                   style={[styles.dateTimeButton, { flex: 2 }]}
                   onPress={() => setShowStartDatePicker(!showStartDatePicker)}
                 >
-                  <Text style={styles.dateTimeText}>{formatDate(startDate)}</Text>
-                  <MaterialCommunityIcons name="calendar" size={20} color="#666" />
+                  <Text style={styles.dateTimeText}>
+                    {formatDate(startDate)}
+                  </Text>
+                  <MaterialCommunityIcons
+                    name="calendar"
+                    size={20}
+                    color="#666"
+                  />
                 </TouchableOpacity>
                 {!isAllDay && (
                   <TouchableOpacity
                     style={[styles.dateTimeButton, { flex: 1, marginLeft: 12 }]}
                     onPress={() => setShowStartTimePicker(!showStartTimePicker)}
                   >
-                    <Text style={styles.dateTimeText}>{formatTime(startDate)}</Text>
-                    <MaterialCommunityIcons name="clock-outline" size={20} color="#666" />
+                    <Text style={styles.dateTimeText}>
+                      {formatTime(startDate)}
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="clock-outline"
+                      size={20}
+                      color="#666"
+                    />
                   </TouchableOpacity>
                 )}
               </View>
@@ -382,15 +421,25 @@ export default function CalendarModal({
                   onPress={() => setShowEndDatePicker(!showEndDatePicker)}
                 >
                   <Text style={styles.dateTimeText}>{formatDate(endDate)}</Text>
-                  <MaterialCommunityIcons name="calendar" size={20} color="#666" />
+                  <MaterialCommunityIcons
+                    name="calendar"
+                    size={20}
+                    color="#666"
+                  />
                 </TouchableOpacity>
                 {!isAllDay && (
                   <TouchableOpacity
                     style={[styles.dateTimeButton, { flex: 1, marginLeft: 12 }]}
                     onPress={() => setShowEndTimePicker(!showEndTimePicker)}
                   >
-                    <Text style={styles.dateTimeText}>{formatTime(endDate)}</Text>
-                    <MaterialCommunityIcons name="clock-outline" size={20} color="#666" />
+                    <Text style={styles.dateTimeText}>
+                      {formatTime(endDate)}
+                    </Text>
+                    <MaterialCommunityIcons
+                      name="clock-outline"
+                      size={20}
+                      color="#666"
+                    />
                   </TouchableOpacity>
                 )}
               </View>
@@ -431,7 +480,11 @@ export default function CalendarModal({
                 >
                   {selectedChild ? selectedChild.name : "Select a child"}
                 </Text>
-                <MaterialCommunityIcons name="chevron-down" size={20} color="#666" />
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={20}
+                  color="#666"
+                />
               </TouchableOpacity>
             </View>
 
@@ -445,7 +498,11 @@ export default function CalendarModal({
                 <Text style={styles.dropdownText}>
                   {selectedNotification.label}
                 </Text>
-                <MaterialCommunityIcons name="chevron-down" size={20} color="#666" />
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={20}
+                  color="#666"
+                />
               </TouchableOpacity>
             </View>
 
@@ -457,7 +514,11 @@ export default function CalendarModal({
                 onPress={() => setShowRepeatDropdown(true)}
               >
                 <Text style={styles.dropdownText}>{selectedRepeat.label}</Text>
-                <MaterialCommunityIcons name="chevron-down" size={20} color="#666" />
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={20}
+                  color="#666"
+                />
               </TouchableOpacity>
             </View>
 
@@ -467,12 +528,18 @@ export default function CalendarModal({
                 <Text style={styles.label}>End Repeat</Text>
                 <TouchableOpacity
                   style={styles.dateTimeButton}
-                  onPress={() => setShowRepeatEndDatePicker(!showRepeatEndDatePicker)}
+                  onPress={() =>
+                    setShowRepeatEndDatePicker(!showRepeatEndDatePicker)
+                  }
                 >
                   <Text style={styles.dateTimeText}>
                     {formatDate(repeatEndDate)}
                   </Text>
-                  <MaterialCommunityIcons name="calendar" size={20} color="#666" />
+                  <MaterialCommunityIcons
+                    name="calendar"
+                    size={20}
+                    color="#666"
+                  />
                 </TouchableOpacity>
                 {showRepeatEndDatePicker && Platform.OS === "ios" && (
                   <View style={styles.inlinePicker}>

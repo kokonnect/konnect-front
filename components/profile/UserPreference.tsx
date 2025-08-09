@@ -24,7 +24,12 @@ const languages = [
 ];
 
 // Optimized render function
-const createLanguageRenderItem = (language: string, handleLanguageSelect: (lang: string) => void, primaryColor: string) => 
+const createLanguageRenderItem =
+  (
+    language: string,
+    handleLanguageSelect: (lang: string) => void,
+    primaryColor: string,
+  ) =>
   ({ item }: { item: string }) => (
     <TouchableOpacity
       style={styles.languageOption}
@@ -60,7 +65,11 @@ export default function PreferencesSection() {
   };
 
   // Create render function with current state
-  const renderLanguageItem = createLanguageRenderItem(language, handleLanguageSelect, primaryColor);
+  const renderLanguageItem = createLanguageRenderItem(
+    language,
+    handleLanguageSelect,
+    primaryColor,
+  );
 
   return (
     <View style={styles.section}>

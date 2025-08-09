@@ -26,22 +26,27 @@ export default function TranslationFullText({
 
   const formatText = (text: string) => {
     return text
-      .replace(/\\n/g, '\n')    // Convert \n to actual line breaks
-      .replace(/\\t/g, '\t')    // Convert \t to actual tabs
-      .replace(/\\r/g, '\r')    // Convert \r to carriage returns
-      .replace(/\\\\/g, '\\')   // Convert \\ to single backslash
-      .replace(/\\"/g, '"')     // Convert \" to quotes
-      .replace(/\\'/g, "'")     // Convert \' to single quotes
-      .replace(/\\b/g, '\b')    // Convert \b to backspace
-      .replace(/\\f/g, '\f')    // Convert \f to form feed
-      .replace(/\\v/g, '\v');   // Convert \v to vertical tab
+      .replace(/\\n/g, "\n") // Convert \n to actual line breaks
+      .replace(/\\t/g, "\t") // Convert \t to actual tabs
+      .replace(/\\r/g, "\r") // Convert \r to carriage returns
+      .replace(/\\\\/g, "\\") // Convert \\ to single backslash
+      .replace(/\\"/g, '"') // Convert \" to quotes
+      .replace(/\\'/g, "'") // Convert \' to single quotes
+      .replace(/\\b/g, "\b") // Convert \b to backspace
+      .replace(/\\f/g, "\f") // Convert \f to form feed
+      .replace(/\\v/g, "\v"); // Convert \v to vertical tab
   };
 
   if (isLoading) {
     return (
       <View style={styles.tabContent}>
         <View style={styles.skeletonToggle}>
-          <SkeletonLoader height={12} width={80} borderRadius={6} marginBottom={0} />
+          <SkeletonLoader
+            height={12}
+            width={80}
+            borderRadius={6}
+            marginBottom={0}
+          />
         </View>
         <View style={styles.skeletonTextContainer}>
           <SkeletonLoader height={14} width="100%" marginBottom={8} />

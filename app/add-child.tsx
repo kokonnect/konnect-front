@@ -23,14 +23,16 @@ export default function AddChildScreen() {
   const { user, addChild } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [addedChildren, setAddedChildren] = useState<{
-    id: string;
-    name: string;
-    birthDate: string;
-    school: string;
-    grade: string;
-  }[]>([]);
-  
+  const [addedChildren, setAddedChildren] = useState<
+    {
+      id: string;
+      name: string;
+      birthDate: string;
+      school: string;
+      grade: string;
+    }[]
+  >([]);
+
   // Child form states - matching profile edit structure
   const [childName, setChildName] = useState("");
   const [childBirthdate, setChildBirthdate] = useState(new Date());
@@ -68,7 +70,7 @@ export default function AddChildScreen() {
 
       // Add child to user profile and local state
       addChild(newChild);
-      setAddedChildren(prev => [...prev, newChild]);
+      setAddedChildren((prev) => [...prev, newChild]);
 
       // Reset form for next child
       resetForm();
@@ -91,10 +93,13 @@ export default function AddChildScreen() {
               router.replace("/(tabs)");
             },
           },
-        ]
+        ],
       );
     } catch (err) {
-      Alert.alert("Error", "Failed to add child information. Please try again.");
+      Alert.alert(
+        "Error",
+        "Failed to add child information. Please try again.",
+      );
       setIsLoading(false);
     }
   };
@@ -122,7 +127,6 @@ export default function AddChildScreen() {
     });
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -149,20 +153,25 @@ export default function AddChildScreen() {
               </View>
               <Text style={styles.title}>Add Your Child</Text>
               <Text style={styles.subtitle}>
-                Welcome {user?.name}! Please add your child&apos;s information to get started with Konnect.
+                Welcome {user?.name}! Please add your child&apos;s information
+                to get started with Konnect.
               </Text>
             </View>
 
             {/* Added Children List */}
             {addedChildren.length > 0 && (
               <View style={styles.addedChildrenSection}>
-                <Text style={styles.addedChildrenTitle}>Children Added ({addedChildren.length})</Text>
+                <Text style={styles.addedChildrenTitle}>
+                  Children Added ({addedChildren.length})
+                </Text>
                 {addedChildren.map((child) => (
                   <View key={child.id} style={styles.addedChildCard}>
                     <View style={styles.childInfo}>
                       <Text style={styles.childName}>{child.name}</Text>
                       <Text style={styles.childSchool}>{child.school}</Text>
-                      {child.grade && <Text style={styles.childGrade}>{child.grade}</Text>}
+                      {child.grade && (
+                        <Text style={styles.childGrade}>{child.grade}</Text>
+                      )}
                     </View>
                     <MaterialCommunityIcons
                       name="check-circle"
@@ -264,7 +273,11 @@ export default function AddChildScreen() {
                 disabled={isLoading}
               >
                 <Text style={styles.saveButtonText}>
-                  {isLoading ? "Adding..." : addedChildren.length === 0 ? "Add Child" : "Add Another Child"}
+                  {isLoading
+                    ? "Adding..."
+                    : addedChildren.length === 0
+                      ? "Add Child"
+                      : "Add Another Child"}
                 </Text>
               </TouchableOpacity>
 
@@ -275,9 +288,7 @@ export default function AddChildScreen() {
                   onPress={handleContinueToApp}
                   disabled={isLoading}
                 >
-                  <Text style={styles.continueButtonText}>
-                    Continue to App
-                  </Text>
+                  <Text style={styles.continueButtonText}>Continue to App</Text>
                 </TouchableOpacity>
               )}
             </View>

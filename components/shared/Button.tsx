@@ -1,5 +1,11 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const primaryColor = "#00B493";
@@ -23,11 +29,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        disabled && styles.buttonDisabled,
-        style,
-      ]}
+      style={[styles.button, disabled && styles.buttonDisabled, style]}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={disabled ? 1 : 0.7}

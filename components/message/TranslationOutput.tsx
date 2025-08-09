@@ -47,12 +47,20 @@ export default function TranslationOutput({
 
           <View style={styles.translationActions}>
             <TouchableOpacity style={styles.ttsButton} onPress={onTTS}>
-              <MaterialCommunityIcons name="volume-high" size={20} color="#666" />
+              <MaterialCommunityIcons
+                name="volume-high"
+                size={20}
+                color="#666"
+              />
               <Text style={styles.ttsButtonText}>TTS</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.copyButton} onPress={onCopy}>
-              <MaterialCommunityIcons name="content-copy" size={20} color="#fff" />
+              <MaterialCommunityIcons
+                name="content-copy"
+                size={20}
+                color="#fff"
+              />
               <Text style={styles.copyButtonText}>Copy</Text>
             </TouchableOpacity>
           </View>

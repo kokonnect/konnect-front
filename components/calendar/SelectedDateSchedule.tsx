@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { useRouter } from "expo-router";
 
 interface ScheduleEvent {
@@ -59,7 +65,8 @@ const mockScheduleData: { [key: string]: ScheduleEvent[] } = {
 };
 
 // Optimized render function
-const createScheduleRenderItem = (router: any) => 
+const createScheduleRenderItem =
+  (router: any) =>
   ({ item }: { item: ScheduleEvent }) => (
     <TouchableOpacity
       style={styles.scheduleItem}
@@ -78,7 +85,6 @@ const createScheduleRenderItem = (router: any) =>
       <Text style={styles.scheduleMemo}>{item.memo}</Text>
     </TouchableOpacity>
   );
-
 
 const EmptySchedule = () => (
   <View style={styles.emptyContainer}>
@@ -110,7 +116,6 @@ export default function SelectedDateSchedule({
       year: "numeric",
     });
   };
-
 
   return (
     <View style={styles.container}>

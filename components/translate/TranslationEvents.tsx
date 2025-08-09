@@ -10,7 +10,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TranslationEvent } from "./types";
 import SkeletonLoader from "./SkeletonLoader";
 
-const createEventRenderer = (onAddEvent?: (event: TranslationEvent) => void) => 
+const createEventRenderer =
+  (onAddEvent?: (event: TranslationEvent) => void) =>
   ({ item: event }: { item: TranslationEvent }) => (
     <View style={styles.eventItem}>
       <View style={styles.eventHeader}>

@@ -31,10 +31,10 @@ export default function LoginScreen() {
     try {
       // Step 1: Get OAuth authorization token (mock - replace with actual OAuth flow)
       const authToken = await mockGetOAuthToken(provider);
-      
+
       // Step 2: Exchange auth token with backend for access token
       await login(authToken, provider);
-      
+
       setIsLoading(false);
       setLoadingProvider(null);
 
@@ -50,7 +50,7 @@ export default function LoginScreen() {
   // Mock OAuth token retrieval - replace with actual OAuth implementation
   const mockGetOAuthToken = async (provider: "kakao" | "google") => {
     // Simulate OAuth flow delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return `${provider}_auth_token_${Date.now()}`;
   };
 

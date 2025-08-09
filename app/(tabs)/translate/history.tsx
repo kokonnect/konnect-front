@@ -24,12 +24,12 @@ interface DocumentHistoryItem {
   originalText: string;
   translatedText: string;
   summary: string;
-  events: Array<{
+  events: {
     id: string;
     title: string;
     date: Date;
     description: string;
-  }>;
+  }[];
   date: Date;
   fileSize?: string;
 }
@@ -262,21 +262,56 @@ export default function DocumentHistoryScreen() {
       <View style={styles.cardHeader}>
         <View style={styles.titleContainer}>
           <View style={styles.skeletonIconContainer}>
-            <SkeletonLoader height={20} width={20} borderRadius={4} marginBottom={0} />
+            <SkeletonLoader
+              height={20}
+              width={20}
+              borderRadius={4}
+              marginBottom={0}
+            />
           </View>
-          <SkeletonLoader height={16} width="70%" borderRadius={4} marginBottom={0} />
+          <SkeletonLoader
+            height={16}
+            width="70%"
+            borderRadius={4}
+            marginBottom={0}
+          />
         </View>
         <View style={styles.metaInfo}>
-          <SkeletonLoader height={12} width={50} borderRadius={6} marginBottom={4} />
-          <SkeletonLoader height={12} width={60} borderRadius={6} marginBottom={0} />
+          <SkeletonLoader
+            height={12}
+            width={50}
+            borderRadius={6}
+            marginBottom={4}
+          />
+          <SkeletonLoader
+            height={12}
+            width={60}
+            borderRadius={6}
+            marginBottom={0}
+          />
         </View>
       </View>
 
-      <SkeletonLoader height={14} width="100%" borderRadius={4} marginBottom={4} />
-      <SkeletonLoader height={14} width="85%" borderRadius={4} marginBottom={8} />
+      <SkeletonLoader
+        height={14}
+        width="100%"
+        borderRadius={4}
+        marginBottom={4}
+      />
+      <SkeletonLoader
+        height={14}
+        width="85%"
+        borderRadius={4}
+        marginBottom={8}
+      />
 
       <View style={styles.skeletonEventContainer}>
-        <SkeletonLoader height={16} width={100} borderRadius={8} marginBottom={0} />
+        <SkeletonLoader
+          height={16}
+          width={100}
+          borderRadius={8}
+          marginBottom={0}
+        />
       </View>
     </View>
   );
