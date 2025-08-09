@@ -35,6 +35,7 @@
   "preferences": {
     "title": "Preferences",
     "language": "Language",
+    "languageDescription": "Language for app interface",
     "selectLanguage": "Select Language",
     "notifications": {
       "title": "Notifications",
