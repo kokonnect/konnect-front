@@ -3,8 +3,6 @@ name: Deploy Web to GCP
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   deploy:
@@ -38,7 +36,3 @@ jobs:
       run: |
         gsutil -m rsync -r -d ./dist/ gs://${{ secrets.GCP_BUCKET_NAME }}/
         gsutil -m setmeta -h "Cache-Control:public, max-age=3600" gs://${{ secrets.GCP_BUCKET_NAME }}/**
-        
-    - name: Set bucket permissions for public access
-      run: |
-        gsutil iam ch allUsers:objectViewer gs://${{ secrets.GCP_BUCKET_NAME }}
