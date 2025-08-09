@@ -13,26 +13,10 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import PreferencesSection from "@/components/profile/UserPreference";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuthAndUser } from "@/hooks";
+import { Child, UserProfile } from "@/types";
 
 const primaryColor = "#00B493";
-
-interface Child {
-  id: string;
-  name: string;
-  grade: string;
-  age: number;
-  className: string;
-  teacher: string;
-  school: string;
-}
-
-interface UserProfile {
-  name: string;
-  email: string;
-  language: string;
-  avatar?: string;
-}
 
 // Mock data
 const mockUser: UserProfile = {
@@ -46,20 +30,22 @@ const mockChildren: Child[] = [
   {
     id: "1",
     name: "Emma Johnson",
+    birthDate: "2015-05-15",
     grade: "3rd Grade",
+    school: "Riverside Elementary",
     age: 8,
     className: "3A",
     teacher: "Ms. Rodriguez",
-    school: "Riverside Elementary",
   },
   {
     id: "2",
     name: "Lucas Johnson",
+    birthDate: "2013-08-22",
     grade: "5th Grade",
+    school: "Riverside Elementary",
     age: 10,
     className: "5B",
     teacher: "Mr. Thompson",
-    school: "Riverside Elementary",
   },
 ];
 
@@ -92,7 +78,7 @@ const renderChildCard = ({ item }: { item: Child }) => (
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuthAndUser();
 
   const UserProfileComponent = () => (
     <View style={styles.section}>

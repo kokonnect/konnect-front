@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuth } from "@/hooks";
 
 const primaryColor = "#00B493";
 const { width } = Dimensions.get("window");

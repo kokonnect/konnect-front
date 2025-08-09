@@ -13,14 +13,14 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuthAndUser } from "@/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const primaryColor = "#00B493";
 
 export default function AddChildScreen() {
   const router = useRouter();
-  const { user, addChild } = useAuth();
+  const { user, addChild } = useAuthAndUser();
   const [isLoading, setIsLoading] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [addedChildren, setAddedChildren] = useState<

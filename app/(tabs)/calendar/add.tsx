@@ -17,25 +17,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "@/components/shared/Button";
+import { Child, NotificationOption, RepeatOption } from "@/types";
 
 const primaryColor = "#00B493";
-
-interface Child {
-  id: string;
-  name: string;
-}
-
-interface NotificationOption {
-  id: string;
-  label: string;
-  value: number; // minutes before event
-}
-
-interface RepeatOption {
-  id: string;
-  label: string;
-  value: string;
-}
 
 const mockChildren: Child[] = [
   { id: "1", name: "Emma" },

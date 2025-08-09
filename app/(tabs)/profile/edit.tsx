@@ -15,16 +15,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import UserPreference from "@/components/profile/UserPreference";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuthAndUser } from "@/hooks";
+import { Child as BaseChild, UserProfile as BaseUserProfile } from "@/types";
 
 const primaryColor = "#00B493";
 
-interface Child {
-  id: string;
-  name: string;
+// Extended Child interface for edit form
+interface Child extends BaseChild {
   birthdate: Date;
-  school: string;
-  grade: string;
   class: string;
   teacherName: string;
 }

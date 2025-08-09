@@ -2,12 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuthAndUser } from "@/hooks";
 
 const primaryColor = "#00B493";
 
 export default function WelcomeBanner() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuthAndUser();
   const router = useRouter();
 
   const handleLogin = () => {

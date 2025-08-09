@@ -16,16 +16,10 @@ import {
   setUserLanguage,
   setFirstLaunchComplete,
 } from "@/utils/storage";
+import { Language } from "@/types";
 
 const primaryColor = "#00B493";
 const { width } = Dimensions.get("window");
-
-interface Language {
-  code: string;
-  name: string;
-  nativeName: string;
-  flag: string;
-}
 
 const languages: Language[] = [
   { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
