@@ -1,0 +1,92 @@
+{
+  "title": "Messages",
+  "compose": {
+    "title": "Compose Message",
+    "to": "To",
+    "toPlaceholder": "Select recipient",
+    "subject": "Subject",
+    "subjectPlaceholder": "Enter subject",
+    "message": "Message",
+    "messagePlaceholder": "Type your message here...",
+    "attachments": "Attachments",
+    "addAttachment": "Add Attachment",
+    "send": "Send",
+    "saveDraft": "Save Draft",
+    "cancel": "Cancel",
+    "recipients": {
+      "teacher": "Teacher",
+      "school": "School Office",
+      "principal": "Principal",
+      "nurse": "School Nurse",
+      "counselor": "Counselor"
+    }
+  },
+  "templates": {
+    "title": "Message Templates",
+    "categories": {
+      "absence": "Absence",
+      "lateness": "Late Arrival",
+      "earlyDismissal": "Early Dismissal",
+      "homework": "Homework",
+      "meeting": "Meeting Request",
+      "concern": "Concern/Question",
+      "appreciation": "Thank You",
+      "other": "Other"
+    },
+    "searchTemplates": "Search templates...",
+    "useTemplate": "Use Template",
+    "editTemplate": "Edit Template",
+    "noTemplates": "No templates available",
+    "commonTemplates": {
+      "sickAbsence": {
+        "title": "Sick Leave Notification",
+        "content": "Hello Teacher, {{childName}} will be absent today due to illness. We will provide a medical certificate upon return. Thank you for your understanding."
+      },
+      "lateArrival": {
+        "title": "Late Arrival Notice",
+        "content": "Hello Teacher, {{childName}} will arrive late today due to {{reason}}. Expected arrival time is {{time}}. Thank you."
+      },
+      "meetingRequest": {
+        "title": "Parent-Teacher Meeting Request",
+        "content": "Hello Teacher, I would like to schedule a meeting to discuss {{childName}}'s progress. Please let me know your available times. Thank you."
+      }
+    }
+  },
+  "history": {
+    "title": "Message History",
+    "sent": "Sent",
+    "received": "Received",
+    "draft": "Draft",
+    "all": "All Messages",
+    "noMessages": "No messages",
+    "searchMessages": "Search messages...",
+    "markAsRead": "Mark as Read",
+    "markAsUnread": "Mark as Unread",
+    "delete": "Delete",
+    "reply": "Reply",
+    "forward": "Forward"
+  },
+  "translation": {
+    "translateToKorean": "Translate to Korean",
+    "translateToEnglish": "Translate to English",
+    "originalMessage": "Original Message",
+    "translatedMessage": "Translated Message",
+    "translating": "Translating...",
+    "translationFailed": "Translation failed. Please try again.",
+    "copyTranslation": "Copy Translation",
+    "translationCopied": "Translation copied to clipboard"
+  },
+  "validation": {
+    "recipientRequired": "Please select a recipient",
+    "subjectRequired": "Please enter a subject",
+    "messageRequired": "Please enter a message",
+    "messageTooLong": "Message is too long (max {{max}} characters)"
+  },
+  "status": {
+    "sending": "Sending...",
+    "sent": "Message sent successfully",
+    "failed": "Failed to send message",
+    "saving": "Saving draft...",
+    "saved": "Draft saved"
+  }
+}

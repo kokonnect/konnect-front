@@ -1,0 +1,122 @@
+{
+  "title": "Profile",
+  "userProfile": {
+    "editProfile": "Edit Profile",
+    "accountSettings": "Account Settings",
+    "connectedWith": "Connected with {{provider}}",
+    "memberSince": "Member since {{date}}",
+    "lastLogin": "Last login: {{date}}"
+  },
+  "loginPrompt": {
+    "title": "Sign in to access your profile",
+    "description": "Create an account to save your translations, manage children's information, and sync across devices",
+    "benefits": {
+      "sync": "Sync data across devices",
+      "save": "Save translations and preferences",
+      "manage": "Manage multiple children",
+      "notifications": "Receive important notifications"
+    }
+  },
+  "children": {
+    "title": "My Children",
+    "addChild": "Add Child",
+    "editChild": "Edit Child",
+    "removeChild": "Remove Child",
+    "confirmRemove": "Remove Child",
+    "confirmRemoveMessage": "Are you sure you want to remove {{name}} from your profile?",
+    "noChildren": "No children added yet",
+    "childInfo": {
+      "school": "School: {{school}}",
+      "grade": "Grade: {{grade}}",
+      "class": "Class: {{class}}",
+      "teacher": "Teacher: {{teacher}}"
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "notifications": {
+      "title": "Notifications",
+      "schoolNotices": "School Notices",
+      "events": "Calendar Events",
+      "messages": "Messages",
+      "translations": "Translation Updates"
+    },
+    "display": {
+      "title": "Display",
+      "theme": "Theme",
+      "lightTheme": "Light",
+      "darkTheme": "Dark",
+      "systemTheme": "System",
+      "fontSize": "Font Size",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "translation": {
+      "title": "Translation Settings",
+      "autoTranslate": "Auto-translate new content",
+      "saveHistory": "Save translation history",
+      "simplifiedLanguage": "Use simplified language"
+    }
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "preferredLanguage": "Preferred Language",
+      "timezone": "Timezone",
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "emailInvalid": "Please enter a valid email",
+      "phoneInvalid": "Please enter a valid phone number"
+    },
+    "success": "Profile updated successfully"
+  },
+  "settings": {
+    "account": {
+      "title": "Account",
+      "changePassword": "Change Password",
+      "twoFactorAuth": "Two-Factor Authentication",
+      "connectedAccounts": "Connected Accounts",
+      "deleteAccount": "Delete Account",
+      "confirmDelete": "Delete Account",
+      "confirmDeleteMessage": "Are you sure you want to delete your account? This action cannot be undone."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "dataSharing": "Data Sharing",
+      "analytics": "Usage Analytics",
+      "marketingEmails": "Marketing Emails",
+      "exportData": "Export My Data",
+      "requestDeletion": "Request Data Deletion"
+    },
+    "about": {
+      "title": "About",
+      "version": "Version {{version}}",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "licenses": "Open Source Licenses",
+      "contact": "Contact Support",
+      "rateApp": "Rate Our App",
+      "shareApp": "Share Konnect"
+    }
+  },
+  "statistics": {
+    "title": "My Statistics",
+    "translationsCount": "Translations: {{count}}",
+    "messagesCount": "Messages Sent: {{count}}",
+    "eventsCount": "Events Created: {{count}}",
+    "thisMonth": "This Month",
+    "allTime": "All Time"
+  }
+}

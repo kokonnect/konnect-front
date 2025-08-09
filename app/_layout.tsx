@@ -2,8 +2,14 @@ import { Stack } from "expo-router";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import { AuthContainer } from "@/components/auth/AuthContainer";
+import { useEffect } from "react";
+import { initI18n } from "@/locales/i18n";
 
 export default function RootLayout() {
+  useEffect(() => {
+    initI18n();
+  }, []);
+
   return (
     <Provider store={store}>
       <AuthContainer>

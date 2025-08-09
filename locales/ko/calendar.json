@@ -1,0 +1,92 @@
+{
+  "title": "캘린더",
+  "monthYearPicker": {
+    "selectMonth": "월 선택",
+    "cancel": "취소",
+    "select": "선택"
+  },
+  "selectedDateSchedule": {
+    "noEventsToday": "오늘 예정된 일정이 없습니다",
+    "addEvent": "일정 추가",
+    "eventDetails": "일정 상세정보",
+    "allDay": "종일"
+  },
+  "addEvent": {
+    "title": "일정 추가",
+    "form": {
+      "eventTitle": "일정 제목",
+      "eventTitlePlaceholder": "일정 제목을 입력하세요",
+      "eventDescription": "설명",
+      "eventDescriptionPlaceholder": "일정 설명을 입력하세요 (선택사항)",
+      "eventDate": "날짜",
+      "eventTime": "시간",
+      "allDayEvent": "종일 일정",
+      "reminder": "알림",
+      "reminderOptions": {
+        "none": "없음",
+        "5min": "5분 전",
+        "10min": "10분 전",
+        "15min": "15분 전",
+        "30min": "30분 전",
+        "1hour": "1시간 전",
+        "2hours": "2시간 전",
+        "1day": "하루 전"
+      },
+      "eventType": "일정 종류",
+      "eventTypes": {
+        "schoolEvent": "학교 행사",
+        "homework": "숙제",
+        "exam": "시험",
+        "meeting": "학부모 상담",
+        "holiday": "휴일",
+        "other": "기타"
+      },
+      "selectChild": "자녀 선택",
+      "save": "일정 저장",
+      "cancel": "취소"
+    },
+    "validation": {
+      "titleRequired": "일정 제목은 필수입니다",
+      "dateRequired": "일정 날짜는 필수입니다",
+      "invalidDate": "유효한 날짜를 선택해주세요"
+    }
+  },
+  "modifyEvent": {
+    "title": "일정 편집",
+    "deleteEvent": "일정 삭제",
+    "confirmDelete": "일정 삭제",
+    "confirmDeleteMessage": "이 일정을 삭제하시겠습니까?",
+    "updateSuccess": "일정이 성공적으로 업데이트되었습니다",
+    "deleteSuccess": "일정이 성공적으로 삭제되었습니다"
+  },
+  "eventList": {
+    "today": "오늘",
+    "upcoming": "예정된 일정",
+    "past": "지난 일정",
+    "noEvents": "일정 없음",
+    "loadMore": "더 보기"
+  },
+  "weekDays": {
+    "monday": "월요일",
+    "tuesday": "화요일",
+    "wednesday": "수요일",
+    "thursday": "목요일",
+    "friday": "금요일",
+    "saturday": "토요일",
+    "sunday": "일요일"
+  },
+  "months": {
+    "january": "1월",
+    "february": "2월",
+    "march": "3월",
+    "april": "4월",
+    "may": "5월",
+    "june": "6월",
+    "july": "7월",
+    "august": "8월",
+    "september": "9월",
+    "october": "10월",
+    "november": "11월",
+    "december": "12월"
+  }
+}
