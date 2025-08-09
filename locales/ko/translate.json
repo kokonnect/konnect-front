@@ -1,0 +1,115 @@
+{
+  "title": "번역",
+  "upload": {
+    "title": "문서 업로드",
+    "selectFile": "파일 선택",
+    "takePhoto": "사진 촬영",
+    "fromGallery": "갤러리에서 선택",
+    "dragDrop": "여기에 파일을 끌어다 놓으세요",
+    "supportedFormats": "지원 형식: 이미지(JPG, PNG), PDF, 텍스트 파일",
+    "maxFileSize": "최대 파일 크기: 10MB",
+    "uploading": "업로드 중...",
+    "uploadSuccess": "파일이 성공적으로 업로드되었습니다",
+    "uploadError": "파일 업로드에 실패했습니다"
+  },
+  "translation": {
+    "translating": "문서를 번역하고 있습니다...",
+    "almostReady": "거의 완료되었습니다...",
+    "preparingTranslation": "번역을 준비하고 있습니다...",
+    "pleaseWait": "잠시만 기다려주세요",
+    "summary": "요약",
+    "fullText": "전체 텍스트",
+    "events": "일정",
+    "viewOriginal": "원본 보기",
+    "viewTranslated": "번역 보기",
+    "copyToClipboard": "클립보드에 복사",
+    "textCopied": "텍스트가 클립보드에 복사되었습니다",
+    "saveTranslation": "번역 저장",
+    "shareTranslation": "번역 공유",
+    "translationSaved": "번역이 성공적으로 저장되었습니다"
+  },
+  "summary": {
+    "keyPoints": "주요 내용",
+    "overview": "개요",
+    "noSummaryAvailable": "이 문서에 대한 요약이 없습니다"
+  },
+  "events": {
+    "extractedEvents": "추출된 일정",
+    "addToCalendar": "캘린더에 추가",
+    "addAllToCalendar": "모든 일정 추가",
+    "eventAdded": "일정이 캘린더에 추가되었습니다",
+    "allEventsAdded": "모든 일정이 캘린더에 추가되었습니다",
+    "noEventsFound": "이 문서에서 일정을 찾을 수 없습니다",
+    "eventTypes": {
+      "meeting": "회의",
+      "deadline": "마감일",
+      "exam": "시험",
+      "holiday": "휴일",
+      "activity": "활동",
+      "other": "기타"
+    }
+  },
+  "actions": {
+    "newTranslation": "새 번역",
+    "retryTranslation": "번역 다시 시도",
+    "reportIssue": "문제 신고",
+    "improveTranslation": "번역 개선",
+    "downloadPDF": "PDF로 다운로드",
+    "emailTranslation": "번역 이메일 전송",
+    "print": "인쇄"
+  },
+  "history": {
+    "title": "번역 내역",
+    "recent": "최근 번역",
+    "thisWeek": "이번 주",
+    "thisMonth": "이번 달",
+    "older": "이전",
+    "noHistory": "번역 내역이 없습니다",
+    "clearHistory": "내역 지우기",
+    "confirmClear": "내역 지우기",
+    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?",
+    "searchHistory": "내역 검색...",
+    "filterByType": "종류별 필터",
+    "filterByChild": "자녀별 필터",
+    "sortBy": "정렬 기준",
+    "sortOptions": {
+      "newest": "최신순",
+      "oldest": "오래된 순",
+      "alphabetical": "알파벳 순",
+      "type": "종류별"
+    }
+  },
+  "warnings": {
+    "title": "중요 공지",
+    "aiTranslation": "이것은 AI 기반 번역입니다. 정확성을 위해 노력하고 있으나, 중요한 정보는 확인해 주세요.",
+    "medicalContent": "의료 내용이 감지되었습니다. 의료 상담은 전문가와 상담해 주세요.",
+    "legalContent": "법적 내용이 감지되었습니다. 공식적인 사안은 법률 전문가와 상담해 주세요.",
+    "financialContent": "금융 정보가 감지되었습니다. 숫자와 금액을 신중히 확인해 주세요."
+  },
+  "fileStatus": {
+    "processing": "처리 중",
+    "ready": "준비 완료",
+    "error": "오류",
+    "analyzing": "문서 분석 중...",
+    "extractingText": "텍스트 추출 중...",
+    "translatingContent": "내용 번역 중...",
+    "generatingSummary": "요약 생성 중...",
+    "extractingEvents": "일정 추출 중...",
+    "complete": "완료"
+  },
+  "errors": {
+    "fileNotSupported": "지원되지 않는 파일 형식입니다",
+    "fileTooLarge": "파일 크기가 10MB 한계를 초과합니다",
+    "translationFailed": "번역에 실패했습니다. 다시 시도해 주세요.",
+    "networkError": "네트워크 오류입니다. 연결을 확인해 주세요.",
+    "serverError": "서버 오류입니다. 나중에 다시 시도해 주세요.",
+    "quotaExceeded": "번역 할당량을 초과했습니다. 내일 다시 시도해 주세요."
+  },
+  "tips": {
+    "title": "팁",
+    "clearPhoto": "더 나은 번역을 위해 선명한 사진을 촬영하세요",
+    "goodLighting": "사진을 촬영할 때 충분한 조명을 확보하세요",
+    "fullPage": "전체 페이지가 화면에 들어오도록 촬영하세요",
+    "multiplePages": "여러 페이지의 경우 PDF로 업로드하세요"
+  }
+}

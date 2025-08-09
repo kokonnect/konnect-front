@@ -12,6 +12,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/components/auth/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 const { width } = Dimensions.get("window");
@@ -19,6 +20,7 @@ const { width } = Dimensions.get("window");
 export default function LoginScreen() {
   const router = useRouter();
   const { login } = useAuth();
+  const { t } = useTranslation('auth');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingProvider, setLoadingProvider] = useState<
     "kakao" | "google" | null
@@ -41,7 +43,7 @@ export default function LoginScreen() {
       // Step 3: Navigate to add-child screen for new users
       router.replace("/add-child");
     } catch (error) {
-      Alert.alert("Login Error", `Failed to login with ${provider}`);
+      Alert.alert(t('login.loginError'), t('login.loginFailedWith', { provider }));
       setIsLoading(false);
       setLoadingProvider(null);
     }
@@ -69,15 +71,15 @@ export default function LoginScreen() {
               color={primaryColor}
             />
           </View>
-          <Text style={styles.brandTitle}>Konnect</Text>
+          <Text style={styles.brandTitle}>{t('common:appName')}</Text>
           <Text style={styles.brandSubtitle}>
-            Connect with your child's school through seamless translation
+            {t('login.subtitle')}
           </Text>
         </View>
 
         {/* Login Buttons Section */}
         <View style={styles.loginContainer}>
-          <Text style={styles.loginTitle}>Sign in to get started</Text>
+          <Text style={styles.loginTitle}>{t('login.signInToGetStarted')}</Text>
 
           {/* Kakao Login Button */}
           <TouchableOpacity
@@ -94,7 +96,7 @@ export default function LoginScreen() {
             ) : (
               <>
                 <MaterialCommunityIcons name="chat" size={24} color="#3C1E1E" />
-                <Text style={styles.kakaoButtonText}>Continue with Kakao</Text>
+                <Text style={styles.kakaoButtonText}>{t('login.continueWithKakao')}</Text>
               </>
             )}
           </TouchableOpacity>
@@ -121,14 +123,14 @@ export default function LoginScreen() {
                   color="#4285F4"
                 />
                 <Text style={styles.googleButtonText}>
-                  Continue with Google
+                  {t('login.continueWithGoogle')}
                 </Text>
               </>
             )}
           </TouchableOpacity>
 
           <Text style={styles.termsText}>
-            By continuing, you agree to our Terms of Service and Privacy Policy
+            {t('login.termsText')}
           </Text>
         </View>
       </View>
@@ -136,7 +138,7 @@ export default function LoginScreen() {
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Secure authentication powered by Kakao and Google
+          {t('login.secureAuth')}
         </Text>
       </View>
     </SafeAreaView>

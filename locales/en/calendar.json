@@ -1,0 +1,92 @@
+{
+  "title": "Calendar",
+  "monthYearPicker": {
+    "selectMonth": "Select Month",
+    "cancel": "Cancel",
+    "select": "Select"
+  },
+  "selectedDateSchedule": {
+    "noEventsToday": "No events scheduled for today",
+    "addEvent": "Add Event",
+    "eventDetails": "Event Details",
+    "allDay": "All Day"
+  },
+  "addEvent": {
+    "title": "Add Event",
+    "form": {
+      "eventTitle": "Event Title",
+      "eventTitlePlaceholder": "Enter event title",
+      "eventDescription": "Description",
+      "eventDescriptionPlaceholder": "Enter event description (optional)",
+      "eventDate": "Date",
+      "eventTime": "Time",
+      "allDayEvent": "All Day Event",
+      "reminder": "Reminder",
+      "reminderOptions": {
+        "none": "None",
+        "5min": "5 minutes before",
+        "10min": "10 minutes before",
+        "15min": "15 minutes before",
+        "30min": "30 minutes before",
+        "1hour": "1 hour before",
+        "2hours": "2 hours before",
+        "1day": "1 day before"
+      },
+      "eventType": "Event Type",
+      "eventTypes": {
+        "schoolEvent": "School Event",
+        "homework": "Homework",
+        "exam": "Exam/Test",
+        "meeting": "Parent-Teacher Meeting",
+        "holiday": "Holiday",
+        "other": "Other"
+      },
+      "selectChild": "Select Child",
+      "save": "Save Event",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "titleRequired": "Event title is required",
+      "dateRequired": "Event date is required",
+      "invalidDate": "Please select a valid date"
+    }
+  },
+  "modifyEvent": {
+    "title": "Edit Event",
+    "deleteEvent": "Delete Event",
+    "confirmDelete": "Delete Event",
+    "confirmDeleteMessage": "Are you sure you want to delete this event?",
+    "updateSuccess": "Event updated successfully",
+    "deleteSuccess": "Event deleted successfully"
+  },
+  "eventList": {
+    "today": "Today",
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "noEvents": "No events",
+    "loadMore": "Load More"
+  },
+  "weekDays": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  }
+}

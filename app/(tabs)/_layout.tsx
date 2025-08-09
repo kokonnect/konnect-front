@@ -1,9 +1,12 @@
 import { Tabs } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
 export default function RootLayout() {
+  const { t } = useTranslation('common');
+  
   return (
     <Tabs
       screenOptions={{
@@ -17,7 +20,7 @@ export default function RootLayout() {
         headerStyle: {
           backgroundColor: primaryColor,
         },
-        headerTitle: "Konnect",
+        headerTitle: t('appName'),
         headerTitleStyle: {
           color: "#fff",
           fontSize: 24,
@@ -27,7 +30,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Main",
+          title: t('navigation.home'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
@@ -36,7 +39,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="translate"
         options={{
-          title: "Translate",
+          title: t('navigation.translate'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="translate" size={size} color={color} />
           ),
@@ -45,7 +48,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: "Calendar",
+          title: t('navigation.calendar'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="calendar" size={size} color={color} />
           ),
@@ -54,7 +57,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="message"
         options={{
-          title: "Message",
+          title: t('navigation.message'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="message" size={size} color={color} />
           ),
@@ -63,7 +66,7 @@ export default function RootLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: t('navigation.profile'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" size={size} color={color} />
           ),

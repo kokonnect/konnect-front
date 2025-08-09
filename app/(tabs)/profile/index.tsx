@@ -14,6 +14,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import PreferencesSection from "@/components/profile/UserPreference";
 import { useAuth } from "@/components/auth/AuthContext";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
 
 const primaryColor = "#00B493";
 
@@ -204,6 +206,11 @@ export default function ProfileScreen() {
 
         {/* Children Information - Only show for signed in users */}
         {isAuthenticated && <ChildrenSection />}
+
+        {/* Language Switcher */}
+        <View style={styles.section}>
+          <LanguageSwitcher />
+        </View>
 
         {/* User Preferences */}
         <PreferencesSection />

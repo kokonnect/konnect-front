@@ -1,7 +1,13 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from "@/components/auth/AuthContext";
+import { useEffect } from "react";
+import { initI18n } from "@/locales/i18n";
 
 export default function RootLayout() {
+  useEffect(() => {
+    initI18n();
+  }, []);
+
   return (
     <AuthProvider>
       <Stack
