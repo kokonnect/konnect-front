@@ -12,7 +12,12 @@ export default function Header({ title, icon }: HeaderProps) {
     <View style={styles.header}>
       <View style={styles.headerContent}>
         {icon && (
-          <MaterialCommunityIcons name={icon} size={24} color="#fff" style={styles.icon} />
+          <MaterialCommunityIcons
+            name={icon}
+            size={24}
+            color="#fff"
+            style={styles.icon}
+          />
         )}
         <Text style={styles.headerTitle}>{title}</Text>
       </View>

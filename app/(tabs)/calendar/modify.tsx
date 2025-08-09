@@ -62,72 +62,82 @@ const repeatOptions: RepeatOption[] = [
   { id: "5", label: "Yearly", value: "yearly" },
 ];
 
-const createChildItemRenderer = (
-  setSelectedChild: (child: Child) => void,
-  setShowChildDropdown: (show: boolean) => void
-) => ({ item }: { item: Child }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedChild(item);
-      setShowChildDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.name}</Text>
-  </TouchableOpacity>
-);
+const createChildItemRenderer =
+  (
+    setSelectedChild: (child: Child) => void,
+    setShowChildDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: Child }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedChild(item);
+        setShowChildDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
-const createNotificationItemRenderer = (
-  setSelectedNotification: (notification: NotificationOption) => void,
-  setShowNotificationDropdown: (show: boolean) => void
-) => ({ item }: { item: NotificationOption }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedNotification(item);
-      setShowNotificationDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.label}</Text>
-  </TouchableOpacity>
-);
+const createNotificationItemRenderer =
+  (
+    setSelectedNotification: (notification: NotificationOption) => void,
+    setShowNotificationDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: NotificationOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedNotification(item);
+        setShowNotificationDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
 
-const createRepeatItemRenderer = (
-  setSelectedRepeat: (repeat: RepeatOption) => void,
-  setShowRepeatDropdown: (show: boolean) => void
-) => ({ item }: { item: RepeatOption }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedRepeat(item);
-      setShowRepeatDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.label}</Text>
-  </TouchableOpacity>
-);
+const createRepeatItemRenderer =
+  (
+    setSelectedRepeat: (repeat: RepeatOption) => void,
+    setShowRepeatDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: RepeatOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedRepeat(item);
+        setShowRepeatDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
 
 export default function ModifyCalendarScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
-  
+
   // Get event ID from params (in real app, use this to fetch event data)
   // const eventId = params.eventId;
-  
+
   const [eventTitle, setEventTitle] = useState("");
   const [isAllDay, setIsAllDay] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
-  const [selectedNotification, setSelectedNotification] = useState<NotificationOption>(notificationOptions[0]);
-  const [selectedRepeat, setSelectedRepeat] = useState<RepeatOption>(repeatOptions[0]);
+  const [selectedNotification, setSelectedNotification] =
+    useState<NotificationOption>(notificationOptions[0]);
+  const [selectedRepeat, setSelectedRepeat] = useState<RepeatOption>(
+    repeatOptions[0],
+  );
   const [repeatEndDate, setRepeatEndDate] = useState(new Date());
-  
+
   // Modal states
   const [showChildDropdown, setShowChildDropdown] = useState(false);
-  const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
+  const [showNotificationDropdown, setShowNotificationDropdown] =
+    useState(false);
   const [showRepeatDropdown, setShowRepeatDropdown] = useState(false);
-  
+
   // DateTimePicker states
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
@@ -152,9 +162,18 @@ export default function ModifyCalendarScreen() {
     setIsAllDay(mockEventData.isAllDay);
     setStartDate(mockEventData.startDate);
     setEndDate(mockEventData.endDate);
-    setSelectedChild(mockChildren.find(child => child.id === mockEventData.childId) || null);
-    setSelectedNotification(notificationOptions.find(opt => opt.value === mockEventData.notificationValue) || notificationOptions[0]);
-    setSelectedRepeat(repeatOptions.find(opt => opt.value === mockEventData.repeatValue) || repeatOptions[0]);
+    setSelectedChild(
+      mockChildren.find((child) => child.id === mockEventData.childId) || null,
+    );
+    setSelectedNotification(
+      notificationOptions.find(
+        (opt) => opt.value === mockEventData.notificationValue,
+      ) || notificationOptions[0],
+    );
+    setSelectedRepeat(
+      repeatOptions.find((opt) => opt.value === mockEventData.repeatValue) ||
+        repeatOptions[0],
+    );
   }, []);
 
   const handleSave = () => {
@@ -192,7 +211,7 @@ export default function ModifyCalendarScreen() {
             ]);
           },
         },
-      ]
+      ],
     );
   };
 
@@ -213,14 +232,14 @@ export default function ModifyCalendarScreen() {
       setShowStartDatePicker(false);
       return;
     }
-    
+
     if (selectedDate) {
       setStartDate(selectedDate);
       if (selectedDate > endDate) {
         setEndDate(selectedDate);
       }
     }
-    
+
     if (Platform.OS === "android") {
       setShowStartDatePicker(false);
     }
@@ -231,14 +250,14 @@ export default function ModifyCalendarScreen() {
       setShowStartTimePicker(false);
       return;
     }
-    
+
     if (selectedTime) {
       const newStartDate = new Date(startDate);
       newStartDate.setHours(selectedTime.getHours());
       newStartDate.setMinutes(selectedTime.getMinutes());
       setStartDate(newStartDate);
     }
-    
+
     if (Platform.OS === "android") {
       setShowStartTimePicker(false);
     }
@@ -249,11 +268,11 @@ export default function ModifyCalendarScreen() {
       setShowEndDatePicker(false);
       return;
     }
-    
+
     if (selectedDate) {
       setEndDate(selectedDate);
     }
-    
+
     if (Platform.OS === "android") {
       setShowEndDatePicker(false);
     }
@@ -264,14 +283,14 @@ export default function ModifyCalendarScreen() {
       setShowEndTimePicker(false);
       return;
     }
-    
+
     if (selectedTime) {
       const newEndDate = new Date(endDate);
       newEndDate.setHours(selectedTime.getHours());
       newEndDate.setMinutes(selectedTime.getMinutes());
       setEndDate(newEndDate);
     }
-    
+
     if (Platform.OS === "android") {
       setShowEndTimePicker(false);
     }
@@ -282,20 +301,29 @@ export default function ModifyCalendarScreen() {
       setShowRepeatEndDatePicker(false);
       return;
     }
-    
+
     if (selectedDate) {
       setRepeatEndDate(selectedDate);
     }
-    
+
     if (Platform.OS === "android") {
       setShowRepeatEndDatePicker(false);
     }
   };
 
   // Create render functions with state setters
-  const renderChildItem = createChildItemRenderer(setSelectedChild, setShowChildDropdown);
-  const renderNotificationItem = createNotificationItemRenderer(setSelectedNotification, setShowNotificationDropdown);
-  const renderRepeatItem = createRepeatItemRenderer(setSelectedRepeat, setShowRepeatDropdown);
+  const renderChildItem = createChildItemRenderer(
+    setSelectedChild,
+    setShowChildDropdown,
+  );
+  const renderNotificationItem = createNotificationItemRenderer(
+    setSelectedNotification,
+    setShowNotificationDropdown,
+  );
+  const renderRepeatItem = createRepeatItemRenderer(
+    setSelectedRepeat,
+    setShowRepeatDropdown,
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -680,7 +708,6 @@ export default function ModifyCalendarScreen() {
           onChange={handleRepeatEndDateChange}
         />
       )}
-
     </SafeAreaView>
   );
 }

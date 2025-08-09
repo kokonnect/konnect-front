@@ -107,15 +107,19 @@ export default function ProfileScreen() {
           <Text style={styles.userEmail}>{user?.email}</Text>
           <View style={styles.providerContainer}>
             <MaterialCommunityIcons
-              name={user?.provider === 'kakao' ? 'chat' : 'google'}
+              name={user?.provider === "kakao" ? "chat" : "google"}
               size={16}
-              color={user?.provider === 'kakao' ? '#3C1E1E' : '#4285F4'}
+              color={user?.provider === "kakao" ? "#3C1E1E" : "#4285F4"}
             />
-            <Text style={[
-              styles.providerText,
-              user?.provider === 'kakao' ? styles.kakaoText : styles.googleText
-            ]}>
-              {user?.provider === 'kakao' ? 'Kakao' : 'Google'}
+            <Text
+              style={[
+                styles.providerText,
+                user?.provider === "kakao"
+                  ? styles.kakaoText
+                  : styles.googleText,
+              ]}
+            >
+              {user?.provider === "kakao" ? "Kakao" : "Google"}
             </Text>
           </View>
         </View>
@@ -139,7 +143,7 @@ export default function ProfileScreen() {
         </Text>
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => router.push('/login')}
+          onPress={() => router.push("/login")}
         >
           <Text style={styles.loginButtonText}>Sign In</Text>
         </TouchableOpacity>
@@ -163,29 +167,22 @@ export default function ProfileScreen() {
 
   const LogoutSection = () => {
     const handleLogout = () => {
-      Alert.alert(
-        "Logout",
-        "Are you sure you want to logout?",
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-          },
-          {
-            text: "Logout",
-            onPress: logout,
-            style: "destructive",
-          },
-        ]
-      );
+      Alert.alert("Logout", "Are you sure you want to logout?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Logout",
+          onPress: logout,
+          style: "destructive",
+        },
+      ]);
     };
 
     return (
       <View style={styles.logoutSection}>
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={handleLogout}
-        >
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <MaterialCommunityIcons name="logout" size={20} color="#ff4757" />
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>

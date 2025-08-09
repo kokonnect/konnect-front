@@ -24,75 +24,38 @@ export default function LoginScreen() {
     "kakao" | "google" | null
   >(null);
 
-  const handleKakaoLogin = async () => {
+  const handleOAuthLogin = async (provider: "kakao" | "google") => {
     setIsLoading(true);
-    setLoadingProvider("kakao");
+    setLoadingProvider(provider);
 
     try {
-      // Simulate Kakao login process
-      setTimeout(() => {
-        // Simulate successful login with mock user data
-        const mockUser = {
-          id: "kakao_123",
-          name: "김민수",
-          email: "minsu.kim@kakao.com",
-          provider: "kakao" as const,
-        };
+      // Step 1: Get OAuth authorization token (mock - replace with actual OAuth flow)
+      const authToken = await mockGetOAuthToken(provider);
 
-        login(mockUser);
-        setIsLoading(false);
-        setLoadingProvider(null);
+      // Step 2: Exchange auth token with backend for access token
+      await login(authToken, provider);
 
-        Alert.alert("Login Successful", `Welcome ${mockUser.name}!`, [
-          {
-            text: "OK",
-            onPress: () => {
-              router.replace("/(tabs)");
-            },
-          },
-        ]);
-      }, 2000);
+      setIsLoading(false);
+      setLoadingProvider(null);
+
+      // Step 3: Navigate to add-child screen for new users
+      router.replace("/add-child");
     } catch (error) {
-      Alert.alert("Login Error", "Failed to login with Kakao");
+      Alert.alert("Login Error", `Failed to login with ${provider}`);
       setIsLoading(false);
       setLoadingProvider(null);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
-    setLoadingProvider("google");
-
-    try {
-      // Simulate Google login process
-      setTimeout(() => {
-        // Simulate successful login with mock user data
-        const mockUser = {
-          id: "google_456",
-          name: "John Smith",
-          email: "john.smith@gmail.com",
-          provider: "google" as const,
-        };
-
-        login(mockUser);
-        setIsLoading(false);
-        setLoadingProvider(null);
-
-        Alert.alert("Login Successful", `Welcome ${mockUser.name}!`, [
-          {
-            text: "OK",
-            onPress: () => {
-              router.replace("/(tabs)");
-            },
-          },
-        ]);
-      }, 2000);
-    } catch (error) {
-      Alert.alert("Login Error", "Failed to login with Google");
-      setIsLoading(false);
-      setLoadingProvider(null);
-    }
+  // Mock OAuth token retrieval - replace with actual OAuth implementation
+  const mockGetOAuthToken = async (provider: "kakao" | "google") => {
+    // Simulate OAuth flow delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return `${provider}_auth_token_${Date.now()}`;
   };
+
+  const handleKakaoLogin = () => handleOAuthLogin("kakao");
+  const handleGoogleLogin = () => handleOAuthLogin("google");
 
   return (
     <SafeAreaView style={styles.container}>

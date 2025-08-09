@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 const primaryColor = "#00B493";
 const MAX_CHAR_LIMIT = 500;

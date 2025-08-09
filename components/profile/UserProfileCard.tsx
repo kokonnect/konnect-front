@@ -10,7 +10,10 @@ interface UserProfileCardProps {
   onEditPress: () => void;
 }
 
-export default function UserProfileCard({ user, onEditPress }: UserProfileCardProps) {
+export default function UserProfileCard({
+  user,
+  onEditPress,
+}: UserProfileCardProps) {
   return (
     <View style={styles.section}>
       <View style={styles.userProfile}>

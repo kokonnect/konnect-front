@@ -68,7 +68,8 @@ const mockEvents: Event[] = [
   },
 ];
 
-const createEventItemRenderer = (filteredEvents: Event[], formatDate: (date: Date) => string) => 
+const createEventItemRenderer =
+  (filteredEvents: Event[], formatDate: (date: Date) => string) =>
   ({ item, index }: { item: Event; index: number }) => (
     <TouchableOpacity
       style={[
@@ -145,7 +146,9 @@ export default function UpcomingEvents({
       <View style={styles.eventsList}>
         {filteredEvents.length === 0 ? (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>There are no events in this month</Text>
+            <Text style={styles.emptyText}>
+              There are no events in this month
+            </Text>
           </View>
         ) : (
           <FlatList
