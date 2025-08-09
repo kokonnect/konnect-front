@@ -32,7 +32,8 @@ const years = Array.from(
 );
 
 // Optimized render functions
-const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => void) => 
+const createYearRenderItem =
+  (tempYear: number, setTempYear: (year: number) => void) =>
   ({ item }: { item: number }) => (
     <TouchableOpacity
       style={[
@@ -52,7 +53,8 @@ const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => v
     </TouchableOpacity>
   );
 
-const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) => void) => 
+const createMonthRenderItem =
+  (tempMonth: number, setTempMonth: (month: number) => void) =>
   ({ item }: { item: { id: number; name: string } }) => (
     <TouchableOpacity
       style={[
@@ -140,7 +142,10 @@ export default function MonthYearPicker({
             </View>
           </View>
 
-          <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={handleConfirm}
+          >
             <Text style={styles.confirmButtonText}>Confirm</Text>
           </TouchableOpacity>
         </View>
