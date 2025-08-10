@@ -1,4 +1,3 @@
-import { t } from "i18next";
 import React from "react";
 import {
   View,
@@ -7,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 const MAX_CHAR_LIMIT = 500;
@@ -30,6 +30,8 @@ export default function MessageInput({
   isTranslating,
   showTranslation,
 }: MessageInputProps) {
+  const { t } = useTranslation();
+
   return (
     <View
       style={[

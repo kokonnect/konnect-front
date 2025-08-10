@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import { UploadedFile } from "./types";
-import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -17,6 +18,7 @@ export default function FileStatus({
   isTranslating,
   onRemoveFile,
 }: FileStatusProps) {
+  const { t } = useTranslation();
   if (!uploadedFile && !isTranslating) return null;
 
   return (

@@ -38,9 +38,13 @@
     "recent": "최근 번역",
     "eventsFound": "{{count}}개 일정",
     "noHistory": "번역 내역이 없습니다",
+    "translation": "번역본",
+    "original": "원본",
+    "events": "일정",
     "clearHistory": "내역 지우기",
     "confirmClear": "내역 지우기",
-    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?"
+    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?",
+    "copyKorean": "한국어 복사"
   },
   "warnings": {
     "title": "중요 공지",

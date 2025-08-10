@@ -98,6 +98,75 @@ const mockTemplates: MessageTemplate[] = [
   },
 ];
 
+// Factory functions for render items (defined outside component)
+const createRenderFilterTag =
+  (
+    selectedFilter: string,
+    setSelectedFilter: (filter: string) => void,
+    t: any,
+  ) =>
+  (category: string) => {
+    const isActive = selectedFilter === category;
+    return (
+      <TouchableOpacity
+        key={category}
+        style={[styles.filterTag, isActive && styles.activeFilterTag]}
+        onPress={() => setSelectedFilter(category)}
+      >
+        <Text
+          style={[styles.filterTagText, isActive && styles.activeFilterTagText]}
+        >
+          {t(`message:templates.categories.${category.toLowerCase()}`)}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+const createRenderTemplate =
+  (
+    toggleFavorite: (id: string) => void,
+    handleUseTemplate: (template: MessageTemplate) => void,
+    t: any,
+  ) =>
+  ({ item }: { item: MessageTemplate }) => (
+    <View style={styles.templateCard}>
+      <View style={styles.templateHeader}>
+        <View style={styles.templateTitleContainer}>
+          <TouchableOpacity
+            style={styles.favButton}
+            onPress={() => toggleFavorite(item.id)}
+          >
+            <MaterialCommunityIcons
+              name={item.isFavorite ? "star" : "star-outline"}
+              size={24}
+              color={item.isFavorite ? "#FFD700" : "#e9e9e9"}
+            />
+          </TouchableOpacity>
+          <View style={styles.templateHeaderText}>
+            <Text style={styles.templateTitle}>{item.title}</Text>
+            <Text style={styles.categoryText}>
+              {t(`message:templates.categories.${item.category.toLowerCase()}`)}
+            </Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.useButton}
+          onPress={() => handleUseTemplate(item)}
+        >
+          <Text style={styles.useButtonText}>
+            {t("message:templates.useTemplate")}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.messagesContainer}>
+        <Text style={styles.koreanMessage}>{item.messageKr}</Text>
+        <View style={styles.separator} />
+        <Text style={styles.englishMessage}>{item.messageEn}</Text>
+      </View>
+    </View>
+  );
+
 export default function TemplateScreen() {
   const [templates, setTemplates] = useState(mockTemplates);
   const [selectedTemplate, setSelectedTemplate] =
@@ -158,59 +227,16 @@ export default function TemplateScreen() {
     }
   };
 
-  const renderFilterTag = (category: string) => {
-    const isActive = selectedFilter === category;
-    return (
-      <TouchableOpacity
-        key={category}
-        style={[styles.filterTag, isActive && styles.activeFilterTag]}
-        onPress={() => setSelectedFilter(category)}
-      >
-        <Text
-          style={[styles.filterTagText, isActive && styles.activeFilterTagText]}
-        >
-          {t(`message:templates.categories.${category.toLowerCase()}`)}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-  const renderTemplate = ({ item }: { item: MessageTemplate }) => (
-    <View style={styles.templateCard}>
-      <View style={styles.templateHeader}>
-        <View style={styles.templateTitleContainer}>
-          <TouchableOpacity
-            style={styles.favButton}
-            onPress={() => toggleFavorite(item.id)}
-          >
-            <MaterialCommunityIcons
-              name={item.isFavorite ? "star" : "star-outline"}
-              size={24}
-              color={item.isFavorite ? "#FFD700" : "#e9e9e9"}
-            />
-          </TouchableOpacity>
-          <View style={styles.templateHeaderText}>
-            <Text style={styles.templateTitle}>{item.title}</Text>
-            <Text style={styles.categoryText}>
-              {t(`message:templates.categories.${item.category.toLowerCase()}`)}
-            </Text>
-          </View>
-        </View>
-        <TouchableOpacity
-          style={styles.useButton}
-          onPress={() => handleUseTemplate(item)}
-        >
-          <Text style={styles.useButtonText}>
-            {t("message:templates.useTemplate")}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.messagesContainer}>
-        <Text style={styles.koreanMessage}>{item.messageKr}</Text>
-        <View style={styles.separator} />
-        <Text style={styles.englishMessage}>{item.messageEn}</Text>
-      </View>
-    </View>
+  // Create render functions using factory functions
+  const renderFilterTag = createRenderFilterTag(
+    selectedFilter,
+    setSelectedFilter,
+    t,
+  );
+  const renderTemplate = createRenderTemplate(
+    toggleFavorite,
+    handleUseTemplate,
+    t,
   );
 
   return (

@@ -7,8 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import SkeletonLoader from "./SkeletonLoader";
-import { t } from "i18next";
+import { formatDateHistory } from "@/utils/formatDate";
 
 const primaryColor = "#00B493";
 
@@ -30,21 +32,7 @@ export default function RecentTranslations({
   isLoading = false,
   onItemPress,
 }: RecentTranslationsProps) {
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffInDays = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diffInDays === 0) return t("common:today");
-    if (diffInDays === 1) return t("common:yesterday");
-    if (diffInDays < 7) return t("common:daysAgo", { count: diffInDays });
-
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
+  const { t, i18n } = useTranslation();
 
   const truncateText = (text: string, maxLines: number = 2) => {
     const words = text.split(" ");
@@ -78,7 +66,9 @@ export default function RecentTranslations({
         <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode="tail">
           {item.title}
         </Text>
-        <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
+        <Text style={styles.itemDate}>
+          {formatDateHistory(item.date, i18n.language, t)}
+        </Text>
         <Text style={styles.itemSummary} numberOfLines={2} ellipsizeMode="tail">
           {truncateText(item.summary)}
         </Text>

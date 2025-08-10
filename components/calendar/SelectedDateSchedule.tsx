@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
+
+import { formatSelectedDate } from "@/utils/formatDate";
 
 interface ScheduleEvent {
   id: string;
@@ -67,7 +69,7 @@ const mockScheduleData: { [key: string]: ScheduleEvent[] } = {
 
 // Optimized render function
 const createScheduleRenderItem =
-  (router: any) =>
+  (router: any, t: any) =>
   ({ item }: { item: ScheduleEvent }) => (
     <TouchableOpacity
       style={styles.scheduleItem}
@@ -89,7 +91,7 @@ const createScheduleRenderItem =
     </TouchableOpacity>
   );
 
-const EmptySchedule = () => (
+const EmptySchedule = ({ t }: { t: any }) => (
   <View style={styles.emptyContainer}>
     <Text style={styles.emptyTitle}>
       {t("calendar:selectedDateSchedule.noEventsDate")}
@@ -109,25 +111,18 @@ export default function SelectedDateSchedule({
   selectedDate,
 }: SelectedDateScheduleProps) {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
   const scheduleEvents = mockScheduleData[selectedDate] || [];
 
-  // Create render function with current router
-  const renderScheduleItem = createScheduleRenderItem(router);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
+  // Create render function with current router and t function
+  const renderScheduleItem = createScheduleRenderItem(router, t);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{formatDate(selectedDate)}</Text>
+        <Text style={styles.title}>
+          {formatSelectedDate(selectedDate, i18n.language)}
+        </Text>
       </View>
 
       {scheduleEvents.length > 0 ? (
@@ -139,7 +134,7 @@ export default function SelectedDateSchedule({
           scrollEnabled={false}
         />
       ) : (
-        <EmptySchedule />
+        <EmptySchedule t={t} />
       )}
     </View>
   );

@@ -18,6 +18,7 @@ import {
   setFirstLaunchComplete,
 } from "@/utils/storage";
 import { getAvailableLanguages, changeLanguage } from "@/locales/i18n";
+
 import { Language } from "@/types";
 
 const primaryColor = "#00B493";

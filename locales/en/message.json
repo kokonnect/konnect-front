@@ -2,6 +2,7 @@
   "title": "Messages",
   "compose": {
     "title": "Compose Message",
+    "nav": "Compose",
     "description": "Draft messages for teacher communication in your language",
     "to": "To",
     "toPlaceholder": "Select recipient",
@@ -15,6 +16,7 @@
   },
   "templates": {
     "title": "Message Templates",
+    "nav": "Template",
     "description": "Quick templates for common messages",
     "categories": {
       "all": "All",

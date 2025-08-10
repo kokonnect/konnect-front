@@ -12,56 +12,58 @@
     "noEventsDescription": "Try adding an event",
     "allDay": "All Day"
   },
-  "addEvent": {
-    "title": "Add Event",
-    "form": {
-      "eventTitle": "Event Title",
-      "eventTitlePlaceholder": "Enter event title",
-      "eventDescription": "Description",
-      "eventDescriptionPlaceholder": "Enter event description (optional)",
-      "eventDate": "Date",
-      "eventTime": "Time",
-      "allDayEvent": "All Day Event",
-      "reminder": "Reminder",
-      "reminderOptions": {
-        "none": "None",
-        "at": "At time of event",
-        "5min": "5 minutes before",
-        "10min": "10 minutes before",
-        "15min": "15 minutes before",
-        "30min": "30 minutes before",
-        "1hour": "1 hour before",
-        "2hours": "2 hours before",
-        "1day": "1 day before"
-      },
-      "repeat": "repeat",
-      "endRepeat": "endRepeat",
-      "repeatOptions": {
-        "never": "never",
-        "daily": "daily",
-        "weekly": "weekly",
-        "monthly": "monthly",
-        "yearly": "yearly"
-      },
-      "selectChild": "Select Child",
-      "selectChildPlaceholder": "Select a child",
-      "save": "Save Event",
-      "cancel": "Cancel"
+  "form": {
+    "eventTitle": "Event Title",
+    "eventTitlePlaceholder": "Enter event title",
+    "eventDescription": "Description",
+    "eventDescriptionPlaceholder": "Enter event description (optional)",
+    "eventDate": "Date",
+    "eventTime": "Time",
+    "allDay": "All Day Event",
+    "start": "Start",
+    "end": "End",
+    "reminder": "Reminder",
+    "reminderOptions": {
+      "none": "None",
+      "at": "At time of event",
+      "5min": "5 minutes before",
+      "10min": "10 minutes before",
+      "15min": "15 minutes before",
+      "30min": "30 minutes before",
+      "1hour": "1 hour before",
+      "2hours": "2 hours before",
+      "1day": "1 day before"
     },
-    "validation": {
-      "titleRequired": "Event title is required",
-      "dateRequired": "Event date is required",
-      "invalidDate": "Please select a valid date"
-    }
+    "repeat": "repeat",
+    "endRepeat": "endRepeat",
+    "repeatOptions": {
+      "never": "never",
+      "daily": "daily",
+      "weekly": "weekly",
+      "monthly": "monthly",
+      "yearly": "yearly"
+    },
+    "selectChild": "Select Child",
+    "selectChildPlaceholder": "Select a child",
+    "save": "Save Event",
+    "cancel": "Cancel"
   },
-
+  "addEvent": {
+    "title": "Add Event"
+  },
   "modifyEvent": {
     "title": "Edit Event",
     "deleteEvent": "Delete Event",
     "confirmDelete": "Delete Event",
     "confirmDeleteMessage": "Are you sure you want to delete this event?",
     "updateSuccess": "Event updated successfully",
-    "deleteSuccess": "Event deleted successfully"
+    "deleteSuccess": "Event deleted successfully",
+    "update": "update"
+  },
+  "validation": {
+    "titleRequired": "Event title is required",
+    "dateRequired": "Event date is required",
+    "invalidDate": "Please select a valid date"
   },
   "eventList": {
     "upcoming": "Upcoming Events",
@@ -77,6 +79,15 @@
     "saturday": "Saturday",
     "sunday": "Sunday"
   },
+  "weekDaysShort": {
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat",
+    "sunday": "Sun"
+  },
   "months": {
     "january": "January",
     "february": "February",
@@ -90,5 +101,20 @@
     "october": "October",
     "november": "November",
     "december": "December"
-  }
+  },
+  "monthShort": {
+    "january": "Jan",
+    "february": "Feb",
+    "march": "Mar",
+    "april": "Apr",
+    "may": "May",
+    "june": "Jun",
+    "july": "Jul",
+    "august": "Aug",
+    "september": "Sep",
+    "october": "Oct",
+    "november": "Nov",
+    "december": "Dec"
+  },
+  "today": "Today"
 }

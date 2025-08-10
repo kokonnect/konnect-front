@@ -6,17 +6,23 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
-  Modal,
-  Alert,
-  ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import * as Clipboard from "expo-clipboard";
+import { useTranslation } from "react-i18next";
+
 import SkeletonLoader from "@/components/translate/SkeletonLoader";
-import { t } from "i18next";
+import TranslationHistoryModal from "@/components/translate/TranslationHistoryModal";
+import { formatDateHistory } from "@/utils/formatDate";
 
 const primaryColor = "#00B493";
+
+// Helper function
+const getDocumentIcon = (type: "pdf" | "image") => {
+  return type === "pdf" ? "file-pdf-box" : "image";
+};
+
+// Render functions
 
 interface DocumentHistoryItem {
   id: string;
@@ -161,142 +167,69 @@ const mockDocumentHistory: DocumentHistoryItem[] = [
     fileSize: "156 KB",
   },
 ];
-
-export default function DocumentHistoryScreen() {
-  const router = useRouter();
-  const [history, setHistory] = useState<DocumentHistoryItem[]>([]);
-  const [selectedItem, setSelectedItem] = useState<DocumentHistoryItem | null>(
-    null,
-  );
-  const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    loadHistory();
-  }, []);
-
-  const loadHistory = async () => {
-    setIsLoading(true);
-    // Mock loading delay
-    setTimeout(() => {
-      setHistory(mockDocumentHistory);
-      setIsLoading(false);
-    }, 2000);
-  };
-
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffInDays = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diffInDays === 0) return t("common:today");
-    if (diffInDays === 1) return t("common:yesterday");
-    if (diffInDays < 7) return t("common:daysAgo", { count: diffInDays });
-
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
-
-  const formatEventDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  };
-
-  const handleItemPress = (item: DocumentHistoryItem) => {
-    setSelectedItem(item);
-    setShowModal(true);
-  };
-
-  const handleCopyTranslation = async () => {
-    if (!selectedItem) return;
-    try {
-      await Clipboard.setStringAsync(selectedItem.translatedText);
-      Alert.alert("Copied", "Translation copied to clipboard");
-    } catch {
-      Alert.alert("Error", "Failed to copy text");
-    }
-  };
-
-  const handleCopyOriginal = async () => {
-    if (!selectedItem) return;
-    try {
-      await Clipboard.setStringAsync(selectedItem.originalText);
-      Alert.alert("Copied", "Original text copied to clipboard");
-    } catch {
-      Alert.alert("Error", "Failed to copy text");
-    }
-  };
-
-  const getDocumentIcon = (type: "pdf" | "image") => {
-    return type === "pdf" ? "file-pdf-box" : "image";
-  };
-
-  const renderSkeletonItem = ({ index }: { index: number }) => (
-    <View key={index} style={styles.historyCard}>
-      <View style={styles.cardHeader}>
-        <View style={styles.titleContainer}>
-          <View style={styles.skeletonIconContainer}>
-            <SkeletonLoader
-              height={20}
-              width={20}
-              borderRadius={4}
-              marginBottom={0}
-            />
-          </View>
+const renderSkeletonItem = ({ index }: { index: number }) => (
+  <View key={index} style={styles.historyCard}>
+    <View style={styles.cardHeader}>
+      <View style={styles.titleContainer}>
+        <View style={styles.skeletonIconContainer}>
           <SkeletonLoader
-            height={16}
-            width="70%"
+            height={20}
+            width={20}
             borderRadius={4}
             marginBottom={0}
           />
         </View>
-        <View style={styles.metaInfo}>
-          <SkeletonLoader
-            height={12}
-            width={50}
-            borderRadius={6}
-            marginBottom={4}
-          />
-          <SkeletonLoader
-            height={12}
-            width={60}
-            borderRadius={6}
-            marginBottom={0}
-          />
-        </View>
-      </View>
-
-      <SkeletonLoader
-        height={14}
-        width="100%"
-        borderRadius={4}
-        marginBottom={4}
-      />
-      <SkeletonLoader
-        height={14}
-        width="85%"
-        borderRadius={4}
-        marginBottom={8}
-      />
-
-      <View style={styles.skeletonEventContainer}>
         <SkeletonLoader
           height={16}
-          width={100}
-          borderRadius={8}
+          width="70%"
+          borderRadius={4}
+          marginBottom={0}
+        />
+      </View>
+      <View style={styles.metaInfo}>
+        <SkeletonLoader
+          height={12}
+          width={50}
+          borderRadius={6}
+          marginBottom={4}
+        />
+        <SkeletonLoader
+          height={12}
+          width={60}
+          borderRadius={6}
           marginBottom={0}
         />
       </View>
     </View>
-  );
 
-  const renderHistoryItem = ({ item }: { item: DocumentHistoryItem }) => (
+    <SkeletonLoader
+      height={14}
+      width="100%"
+      borderRadius={4}
+      marginBottom={4}
+    />
+    <SkeletonLoader height={14} width="85%" borderRadius={4} marginBottom={8} />
+
+    <View style={styles.skeletonEventContainer}>
+      <SkeletonLoader
+        height={16}
+        width={100}
+        borderRadius={8}
+        marginBottom={0}
+      />
+    </View>
+  </View>
+);
+
+const createRenderHistoryItem =
+  (
+    getDocumentIcon: (type: "pdf" | "image") => string,
+    handleItemPress: (item: DocumentHistoryItem) => void,
+    formatDateHistory: (date: Date, language: string, t: any) => string,
+    i18n: any,
+    t: any,
+  ) =>
+  ({ item }: { item: DocumentHistoryItem }) => (
     <TouchableOpacity
       style={styles.historyCard}
       onPress={() => handleItemPress(item)}
@@ -313,7 +246,9 @@ export default function DocumentHistoryScreen() {
         </View>
         <View style={styles.metaInfo}>
           <Text style={styles.fileSize}>{item.fileSize}</Text>
-          <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+          <Text style={styles.dateText}>
+            {formatDateHistory(new Date(item.date), i18n.language, t)}
+          </Text>
         </View>
       </View>
 
@@ -337,14 +272,41 @@ export default function DocumentHistoryScreen() {
     </TouchableOpacity>
   );
 
-  const renderEventItem = (event: any) => (
-    <View key={event.id} style={styles.eventItem}>
-      <View style={styles.eventHeader}>
-        <Text style={styles.eventTitle}>{event.title}</Text>
-        <Text style={styles.eventDate}>{formatEventDate(event.date)}</Text>
-      </View>
-      <Text style={styles.eventDescription}>{event.description}</Text>
-    </View>
+export default function DocumentHistoryScreen() {
+  const router = useRouter();
+  const [history, setHistory] = useState<DocumentHistoryItem[]>([]);
+  const [selectedItem, setSelectedItem] = useState<DocumentHistoryItem | null>(
+    null,
+  );
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    loadHistory();
+  }, []);
+
+  const loadHistory = async () => {
+    setIsLoading(true);
+    // Mock loading delay
+    setTimeout(() => {
+      setHistory(mockDocumentHistory);
+      setIsLoading(false);
+    }, 2000);
+  };
+
+  const handleItemPress = (item: DocumentHistoryItem) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
+
+  // Create render function with current context
+  const renderHistoryItem = createRenderHistoryItem(
+    getDocumentIcon,
+    handleItemPress,
+    formatDateHistory,
+    i18n,
+    t,
   );
 
   return (
@@ -386,111 +348,11 @@ export default function DocumentHistoryScreen() {
         />
       )}
 
-      <Modal
+      <TranslationHistoryModal
         visible={showModal}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowModal(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowModal(false)}
-        >
-          <View
-            style={styles.modalContent}
-            onStartShouldSetResponder={() => true}
-          >
-            <View style={styles.modalHeader}>
-              <View style={styles.modalHeaderText}>
-                <View style={styles.modalTitleContainer}>
-                  <MaterialCommunityIcons
-                    name={
-                      selectedItem
-                        ? getDocumentIcon(selectedItem.documentType)
-                        : "file"
-                    }
-                    size={20}
-                    color={primaryColor}
-                    style={styles.modalIcon}
-                  />
-                  <Text style={styles.modalTitle}>{selectedItem?.title}</Text>
-                </View>
-                <Text style={styles.modalDate}>
-                  {selectedItem && formatDate(selectedItem.date)} •{" "}
-                  {selectedItem?.fileSize}
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowModal(false)}
-                style={styles.closeButton}
-              >
-                <MaterialCommunityIcons name="close" size={24} color="#333" />
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView
-              style={styles.modalScrollView}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.modalBody}>
-                <Text style={styles.fieldLabel}>Translation</Text>
-                <View style={styles.textContainer}>
-                  <Text style={styles.translatedText}>
-                    {selectedItem?.translatedText}
-                  </Text>
-                </View>
-
-                <Text style={styles.fieldLabel}>Original Text</Text>
-                <View style={styles.textContainer}>
-                  <Text style={styles.originalText}>
-                    {selectedItem?.originalText}
-                  </Text>
-                </View>
-
-                {selectedItem?.events && selectedItem.events.length > 0 && (
-                  <>
-                    <Text style={styles.fieldLabel}>
-                      Events Found ({selectedItem.events.length})
-                    </Text>
-                    <View style={styles.eventsContainer}>
-                      {selectedItem.events.map(renderEventItem)}
-                    </View>
-                  </>
-                )}
-              </View>
-            </ScrollView>
-
-            <View style={styles.modalActions}>
-              <TouchableOpacity
-                style={styles.copyButton}
-                onPress={handleCopyOriginal}
-              >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  size={20}
-                  color="#666"
-                />
-                <Text style={styles.copyButtonText}>Copy Original</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.copyTranslationButton}
-                onPress={handleCopyTranslation}
-              >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  size={20}
-                  color="#fff"
-                />
-                <Text style={styles.copyTranslationButtonText}>
-                  Copy Translation
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        selectedItem={selectedItem}
+        onClose={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -606,150 +468,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     textAlign: "center",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    width: "90%",
-    maxWidth: 400,
-    maxHeight: "80%",
-    padding: 20,
-  },
-  modalScrollView: {},
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 16,
-  },
-  modalHeaderText: {
-    flex: 1,
-  },
-  modalTitleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  modalIcon: {
-    marginRight: 8,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    flex: 1,
-  },
-  modalDate: {
-    fontSize: 14,
-    color: "#666",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  modalBody: {
-    marginBottom: 20,
-  },
-  fieldLabel: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  textContainer: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  translatedText: {
-    fontSize: 14,
-    color: "#333",
-    lineHeight: 20,
-  },
-  originalText: {
-    fontSize: 14,
-    color: "#666",
-    lineHeight: 20,
-  },
-  eventsContainer: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  eventItem: {
-    marginBottom: 12,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-  },
-  eventHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  eventTitle: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
-    flex: 1,
-  },
-  eventDate: {
-    fontSize: 12,
-    color: primaryColor,
-    fontWeight: "500",
-  },
-  eventDescription: {
-    fontSize: 13,
-    color: "#666",
-  },
-  modalActions: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  copyButton: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#f5f5f5",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  copyButtonText: {
-    fontSize: 14,
-    fontWeight: "500",
-    color: "#666",
-  },
-  copyTranslationButton: {
-    flex: 2,
-    flexDirection: "row",
-    backgroundColor: primaryColor,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  copyTranslationButtonText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#fff",
   },
   skeletonIconContainer: {
     marginRight: 8,

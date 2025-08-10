@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
@@ -16,6 +16,8 @@ export default function TranslationButtons({
   onRetranslate,
   isRetranslating = false,
 }: TranslationButtonsProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity

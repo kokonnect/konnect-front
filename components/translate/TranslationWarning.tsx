@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface TranslationWarningProps {
   showWarning?: boolean;
@@ -12,6 +12,8 @@ export default function TranslationWarning({
   showWarning = true,
   onDismissWarning,
 }: TranslationWarningProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       {/* Warning Text */}

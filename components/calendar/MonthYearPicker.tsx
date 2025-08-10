@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
@@ -91,6 +91,7 @@ export default function MonthYearPicker({
   const [year, month] = currentMonth.split("-");
   const [tempYear, setTempYear] = useState(parseInt(year));
   const [tempMonth, setTempMonth] = useState(parseInt(month));
+  const { t } = useTranslation();
 
   // Create render functions with current state
   const renderYearItem = createYearRenderItem(tempYear, setTempYear);

@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import SkeletonLoader from "./SkeletonLoader";
-import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -35,6 +36,7 @@ export default function TranslationFullText({
   originalText,
   isLoading = false,
 }: TranslationFullTextProps) {
+  const { t } = useTranslation();
   const [showOriginal, setShowOriginal] = useState(false);
 
   const formatText = (text: string) => {

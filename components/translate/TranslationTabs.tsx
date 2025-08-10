@@ -1,8 +1,9 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import { TabType } from "./types";
-import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -21,6 +22,8 @@ export default function TranslationTabs({
   activeTab,
   onTabChange,
 }: TranslationTabsProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.tabContainer}>
       {tabs.map((tab) => (

@@ -2,6 +2,7 @@
   "title": "메시지",
   "compose": {
     "title": "메시지 작성",
+    "nav": "작성",
     "description": "교사와의 소통을 위한 메시지를 작성하세요.",
     "to": "받는 사람",
     "message": "메시지",
@@ -14,6 +15,7 @@
   },
   "templates": {
     "title": "메시지 템플릿",
+    "nav": "템플릿",
     "description": "일반적인 메시지를 위한 빠른 템플릿",
     "categories": {
       "all": "전체",

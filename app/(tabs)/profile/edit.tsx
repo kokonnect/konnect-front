@@ -9,14 +9,14 @@ import {
   TextInput,
   Image,
   Alert,
-  Modal,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { useTranslation } from "react-i18next";
+
 import { useAuthAndUser } from "@/hooks";
 import { Child as BaseChild, UserProfile as BaseUserProfile } from "@/types";
-import { t } from "i18next";
+import AddChildrenModal from "@/components/profile/AddChildrenModal";
 
 const primaryColor = "#00B493";
 
@@ -89,11 +89,13 @@ export default function EditProfileScreen() {
   const [childClass, setChildClass] = useState("");
   const [childTeacherName, setChildTeacherName] = useState("");
 
+  const { t } = useTranslation();
+
   const handleSave = () => {
     // In real app, save to backend/state management
     Alert.alert(
-      "Profile Updated",
-      "Your profile has been updated successfully",
+      t("profile:editProfile.successTitle"),
+      t("profile:editProfile.successMessage"),
     );
     router.back();
   };
@@ -130,7 +132,10 @@ export default function EditProfileScreen() {
 
   const handleSaveChild = () => {
     if (!childName.trim() || !childSchool.trim()) {
-      Alert.alert("Error", "Please fill in all required fields");
+      Alert.alert(
+        t("error"),
+        t("profile:editProfile.validation.requiredWarning"),
+      );
       return;
     }
 
@@ -170,12 +175,12 @@ export default function EditProfileScreen() {
   const handleDeleteChild = () => {
     if (editingChild) {
       Alert.alert(
-        "Delete Child",
-        `Are you sure you want to remove ${editingChild.name} from your profile?`,
+        t("profile:children.removeChild"),
+        t("profile:children.confirmRemoveMessage", { name: editingChild.name }),
         [
-          { text: "Cancel", style: "cancel" },
+          { text: t("cancel"), style: "cancel" },
           {
-            text: "Delete",
+            text: t("delete"),
             style: "destructive",
             onPress: () => {
               setChildren(
@@ -189,30 +194,8 @@ export default function EditProfileScreen() {
     }
   };
 
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setChildBirthdate(selectedDate);
-    }
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={handleCancel}>
-          <MaterialCommunityIcons name="close" size={24} color="#333" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Edit Profile</Text>
-      </View> */}
-
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Avatar Section */}
         <View style={styles.avatarSection}>
@@ -317,135 +300,25 @@ export default function EditProfileScreen() {
         </View>
       </ScrollView>
 
-      {/* Child Form Modal */}
-      <Modal
-        visible={showChildModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => {
-          setShowChildModal(false);
-        }}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.childModal}>
-            <View style={styles.childModalHeader}>
-              <Text style={styles.childModalTitle}>
-                {editingChild
-                  ? t("profile:children.editChild")
-                  : t("profile:children.addChild")}
-              </Text>
-              {hasChildren && (
-                <TouchableOpacity onPress={() => setShowChildModal(false)}>
-                  <MaterialCommunityIcons name="close" size={24} color="#333" />
-                </TouchableOpacity>
-              )}
-            </View>
-
-            <ScrollView
-              style={styles.childForm}
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.name")}
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={childName}
-                  onChangeText={setChildName}
-                  placeholder={t("profile:children.form.namePlaceholder")}
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.birthdate")}
-                </Text>
-                <TouchableOpacity
-                  style={styles.dateInput}
-                  onPress={() => setShowDatePicker(true)}
-                >
-                  <DateTimePicker
-                    value={childBirthdate}
-                    mode="date"
-                    display="default"
-                    maximumDate={new Date()}
-                    onChange={handleDateChange}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.school")}
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={childSchool}
-                  onChangeText={setChildSchool}
-                  placeholder={t("profile:children.form.schoolPlaceholder")}
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.grade")}
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={childGrade}
-                  onChangeText={setChildGrade}
-                  placeholder={t("profile:children.form.gradePlaceholder")}
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.class")}
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={childClass}
-                  onChangeText={setChildClass}
-                  placeholder={t("profile:children.form.classPlaceholder")}
-                />
-              </View>
-
-              <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>
-                  {t("profile:children.form.teacher")}
-                </Text>
-                <TextInput
-                  style={styles.textInput}
-                  value={childTeacherName}
-                  onChangeText={setChildTeacherName}
-                  placeholder={t("profile:children.form.teacherPlaceholder")}
-                />
-              </View>
-
-              <View style={styles.modalButtons}>
-                <View style={styles.actionButtons}>
-                  {editingChild && (
-                    <TouchableOpacity
-                      style={styles.deleteButton}
-                      onPress={handleDeleteChild}
-                    >
-                      <Text style={styles.deleteButtonText}>{t("delete")}</Text>
-                    </TouchableOpacity>
-                  )}
-
-                  <TouchableOpacity
-                    style={styles.saveChildButton}
-                    onPress={handleSaveChild}
-                  >
-                    <Text style={styles.saveChildButtonText}>{t("save")}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
+      <AddChildrenModal
+        showChildModal={showChildModal}
+        editingChild={editingChild}
+        childName={childName}
+        childBirthdate={childBirthdate}
+        childSchool={childSchool}
+        childGrade={childGrade}
+        childClass={childClass}
+        childTeacherName={childTeacherName}
+        setChildName={setChildName}
+        setChildBirthdate={setChildBirthdate}
+        setChildSchool={setChildSchool}
+        setChildGrade={setChildGrade}
+        setChildClass={setChildClass}
+        setChildTeacherName={setChildTeacherName}
+        handleModalClose={() => setShowChildModal(false)}
+        handleSaveChild={handleSaveChild}
+        handleDeleteChild={handleDeleteChild}
+      />
     </SafeAreaView>
   );
 }
@@ -620,99 +493,6 @@ const styles = StyleSheet.create({
   doneButtonText: {
     color: "#fff",
     fontSize: 18,
-    fontWeight: "600",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  childModal: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    width: "100%",
-    maxHeight: "90%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 10,
-  },
-  childModalHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
-  },
-  childModalTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#333",
-  },
-  childForm: {
-    padding: 20,
-  },
-  dateInput: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  dateText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  modalButtons: {
-    marginTop: 24,
-    gap: 16,
-  },
-  deleteButton: {
-    flex: 1,
-    backgroundColor: "#ff4757",
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  deleteButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  actionButtons: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-    borderRadius: 12,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
-  cancelButtonText: {
-    color: "#666",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  saveChildButton: {
-    flex: 1,
-    backgroundColor: primaryColor,
-    borderRadius: 12,
-    paddingVertical: 14,
-    alignItems: "center",
-  },
-  saveChildButtonText: {
-    color: "#fff",
-    fontSize: 16,
     fontWeight: "600",
   },
   providerInfo: {

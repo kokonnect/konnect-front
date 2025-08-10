@@ -1,12 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Stack, usePathname, useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
 export default function MessageLayout() {
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = useTranslation();
 
   const isTemplate =
     pathname === "/message" || pathname === "/message/template";
@@ -32,7 +34,7 @@ export default function MessageLayout() {
             onPress={() => handleTabPress("/message/template")}
           >
             <Text style={[styles.tabText, isTemplate && styles.activeTabText]}>
-              Template
+              {t("message:templates.nav")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -40,7 +42,7 @@ export default function MessageLayout() {
             onPress={() => handleTabPress("/message/compose")}
           >
             <Text style={[styles.tabText, isCompose && styles.activeTabText]}>
-              Compose
+              {t("message:compose.nav")}
             </Text>
           </TouchableOpacity>
         </View>
@@ -93,7 +95,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     borderRadius: 24,
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
   },
   activeTab: {
     backgroundColor: `${primaryColor}1A`, // primaryColor/10 (10% opacity)

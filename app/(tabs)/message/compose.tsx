@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 import MessageHeader from "@/components/message/MessageHeader";
 import MessageInput from "@/components/message/MessageInput";
@@ -77,6 +77,7 @@ export default function ComposeScreen() {
   const [translatedText, setTranslatedText] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
+  const { t } = useTranslation();
 
   // Handle prefilled data from history
   useEffect(() => {

@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+
 import UploadButtons from "@/components/translate/UploadButtons";
 import FileStatus from "@/components/translate/FileStatus";
 import TranslationTabs from "@/components/translate/TranslationTabs";
@@ -26,8 +28,6 @@ import {
   TabType,
   UploadedFile,
 } from "@/components/translate/types";
-import { t } from "i18next";
-// import { SafeAreaView } from "react-native-safe-area-context";
 
 const primaryColor = "#00B493";
 
@@ -49,6 +49,8 @@ export default function TranslateScreen() {
   // Recent translations states
   const [recentTranslations, setRecentTranslations] = useState([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+
+  const { t } = useTranslation();
 
   // Load recent translations on component mount
   useEffect(() => {

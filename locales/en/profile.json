@@ -69,8 +69,10 @@
     },
     "emailProviderCantChange": "Email and login provider cannot be changed.",
     "validation": {
-      "nameRequired": "Name is required"
+      "nameRequired": "Name is required",
+      "requiredWarning": "Please fill in all required fields"
     },
-    "success": "Profile updated successfully"
+    "successTitle": "Profile updated successfully",
+    "successMessage": "Changes have been saved."
   }
 }

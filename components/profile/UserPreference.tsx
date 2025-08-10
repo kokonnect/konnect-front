@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { getCurrentLanguage, getAvailableLanguages } from "@/locales/i18n";
-import LanguageSelectionModal from "@/components/shared/LanguageSelectionModal";
+import LanguageSelectionModal from "@/components/profile/LanguageSelectionModal";
 
 const primaryColor = "#00B493";
 

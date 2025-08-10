@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { 
-  changeLanguage, 
-  getCurrentLanguage, 
-  getAvailableLanguages 
+import {
+  changeLanguage,
+  getCurrentLanguage,
+  getAvailableLanguages,
 } from "@/locales/i18n";
 
 const primaryColor = "#00B493";
@@ -34,7 +34,7 @@ export default function LanguageSelectionModal({
   onClose,
   onLanguageChanged,
 }: LanguageSelectionModalProps) {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation("profile");
   const currentLanguage = getCurrentLanguage();
   const availableLanguages = getAvailableLanguages();
 
@@ -56,11 +56,7 @@ export default function LanguageSelectionModal({
         <Text style={styles.languageSubtext}>{item.name}</Text>
       </View>
       {currentLanguage === item.code && (
-        <MaterialCommunityIcons
-          name="check"
-          size={24}
-          color={primaryColor}
-        />
+        <MaterialCommunityIcons name="check" size={24} color={primaryColor} />
       )}
     </TouchableOpacity>
   );
@@ -75,14 +71,12 @@ export default function LanguageSelectionModal({
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>
-              {t('preferences.language')}
-            </Text>
+            <Text style={styles.modalTitle}>{t("preferences.language")}</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <MaterialCommunityIcons name="close" size={24} color="#333" />
             </TouchableOpacity>
           </View>
-          
+
           <FlatList
             data={availableLanguages}
             renderItem={renderLanguageItem}

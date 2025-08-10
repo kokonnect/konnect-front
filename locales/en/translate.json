@@ -38,14 +38,18 @@
     "recent": "Recent Translations",
     "eventsFound": "{{count}} event(s) found",
     "noHistory": "No translation history",
+    "translation": "Translation",
+    "Original": "Original",
+    "events": "Events",
     "clearHistory": "Clear History",
     "confirmClear": "Clear History",
-    "confirmClearMessage": "Are you sure you want to clear all translation history?"
+    "confirmClearMessage": "Are you sure you want to clear all translation history?",
+    "copyKorean": "Copy Korean"
   },
   "warnings": {
     "title": "Important Notice",
     "aiTranslation": "This is an AI-powered translation. While we strive for accuracy, please verify important information.",
-    "medicalContent": "Medical content detected. Please consult with professionals for medical advice."
+    "explanation": "Our translation is optimized for easy reading by reducing complex jargonand using simpler, more accessible language."
   },
   "fileStatus": {
     "processing": "Processing",
