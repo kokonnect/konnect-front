@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import SkeletonLoader from "./SkeletonLoader";
 
 const primaryColor = "#00B493";
@@ -17,24 +19,31 @@ interface TranslationFullTextProps {
   isLoading?: boolean;
 }
 
+const escapeMap: { [key: string]: string } = {
+  n: "\n",
+  t: "\t",
+  r: "\r",
+  "\\": "\\",
+  '"': '"',
+  "'": "'",
+  b: "\b",
+  f: "\f",
+  v: "\v",
+};
+
 export default function TranslationFullText({
   fullText,
   originalText,
   isLoading = false,
 }: TranslationFullTextProps) {
+  const { t } = useTranslation();
   const [showOriginal, setShowOriginal] = useState(false);
 
   const formatText = (text: string) => {
-    return text
-      .replace(/\\n/g, "\n") // Convert \n to actual line breaks
-      .replace(/\\t/g, "\t") // Convert \t to actual tabs
-      .replace(/\\r/g, "\r") // Convert \r to carriage returns
-      .replace(/\\\\/g, "\\") // Convert \\ to single backslash
-      .replace(/\\"/g, '"') // Convert \" to quotes
-      .replace(/\\'/g, "'") // Convert \' to single quotes
-      .replace(/\\b/g, "\b") // Convert \b to backspace
-      .replace(/\\f/g, "\f") // Convert \f to form feed
-      .replace(/\\v/g, "\v"); // Convert \v to vertical tab
+    return text.replace(
+      /\\(n|t|r|\\|"|'|b|f|v)/g,
+      (match, char) => escapeMap[char] ?? match,
+    );
   };
 
   if (isLoading) {
@@ -74,7 +83,9 @@ export default function TranslationFullText({
           color={primaryColor}
         />
         <Text style={styles.toggleButtonText}>
-          {showOriginal ? "Show Translation" : "Show Original"}
+          {showOriginal
+            ? t("translate:translation.showTranslation")
+            : t("translate:translation.showOriginal")}
         </Text>
       </TouchableOpacity>
       <ScrollView

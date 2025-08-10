@@ -1,9 +1,17 @@
 import { Stack } from "expo-router";
-import { AuthProvider } from "@/components/auth/AuthContext";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
+import { AuthContainer } from "@/components/auth/AuthContainer";
+import { useEffect } from "react";
+import { initI18n } from "@/locales/i18n";
 
 export default function RootLayout() {
+  useEffect(() => {
+    initI18n();
+  }, []);
+
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -27,6 +35,6 @@ export default function RootLayout() {
         />
         <Stack.Screen name="(tabs)" />
       </Stack>
-    </AuthProvider>
+    </Provider>
   );
 }

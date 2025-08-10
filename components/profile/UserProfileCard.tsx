@@ -1,12 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { UserProfile } from "./types";
+
+import { User } from "./types";
 
 const primaryColor = "#00B493";
 
 interface UserProfileCardProps {
-  user: UserProfile;
+  user: User;
   onEditPress: () => void;
 }
 
@@ -18,20 +19,29 @@ export default function UserProfileCard({
     <View style={styles.section}>
       <View style={styles.userProfile}>
         <View style={styles.avatarContainer}>
-          {user.avatar ? (
-            <Image source={{ uri: user.avatar }} style={styles.avatar} />
-          ) : (
-            <View style={styles.defaultAvatar}>
-              <MaterialCommunityIcons name="account" size={40} color="#fff" />
-            </View>
-          )}
+          <View style={styles.defaultAvatar}>
+            <MaterialCommunityIcons name="account" size={40} color="#fff" />
+          </View>
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{user.name}</Text>
-          <Text style={styles.userEmail}>{user.email}</Text>
-          <View style={styles.languageContainer}>
-            <MaterialCommunityIcons name="translate" size={16} color="#666" />
-            <Text style={styles.userLanguage}>{user.language}</Text>
+          <Text style={styles.userName}>{user?.name}</Text>
+          <Text style={styles.userEmail}>{user?.email}</Text>
+          <View style={styles.providerContainer}>
+            <MaterialCommunityIcons
+              name={user?.provider === "kakao" ? "chat" : "google"}
+              size={16}
+              color={user?.provider === "kakao" ? "#3C1E1E" : "#4285F4"}
+            />
+            <Text
+              style={[
+                styles.providerText,
+                user?.provider === "kakao"
+                  ? styles.kakaoText
+                  : styles.googleText,
+              ]}
+            >
+              {user?.provider === "kakao" ? "Kakao" : "Google"}
+            </Text>
           </View>
         </View>
         <TouchableOpacity style={styles.editButton} onPress={onEditPress}>
@@ -46,6 +56,7 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 24,
   },
+  // User Profile Styles
   userProfile: {
     flexDirection: "row",
     alignItems: "center",
@@ -90,14 +101,25 @@ const styles = StyleSheet.create({
     color: "#666",
     marginBottom: 8,
   },
-  languageContainer: {
+  providerContainer: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    alignSelf: "flex-start",
   },
-  userLanguage: {
-    fontSize: 14,
-    color: "#666",
+  providerText: {
+    fontSize: 12,
+    fontWeight: "500",
     marginLeft: 4,
+  },
+  kakaoText: {
+    color: "#3C1E1E",
+  },
+  googleText: {
+    color: "#4285F4",
   },
   editButton: {
     padding: 8,

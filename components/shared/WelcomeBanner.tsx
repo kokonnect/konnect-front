@@ -1,39 +1,42 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useAuthAndUser } from "@/hooks";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
 export default function WelcomeBanner() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuthAndUser();
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   const handleLogin = () => {
     router.push("/login");
   };
 
-  const handleLogout = () => {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Logout",
-        onPress: logout,
-        style: "destructive",
-      },
-    ]);
-  };
+  // Note: handleLogout is available if needed for future logout functionality
+  // const handleLogout = () => {
+  //   Alert.alert(t('logoutConfirmTitle'), t('logoutConfirmMessage'), [
+  //     {
+  //       text: t('cancel'),
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: t('logout'),
+  //       onPress: logout,
+  //       style: "destructive",
+  //     },
+  //   ]);
+  // };
 
   if (isAuthenticated && user) {
     return (
       <View style={styles.banner}>
         <View style={styles.welcomeContainer}>
           <View style={styles.welcomeText}>
-            <Text style={styles.greeting}>Welcome back!</Text>
+            <Text style={styles.greeting}>{t("welcomeBack")}</Text>
             <Text style={styles.userName}>{user.name}</Text>
           </View>
           <View style={styles.providerBadge}>
@@ -62,14 +65,14 @@ export default function WelcomeBanner() {
     <View style={styles.banner}>
       <View style={styles.guestContainer}>
         <View style={styles.guestText}>
-          <Text style={styles.guestGreeting}>Welcome to Konnect!</Text>
+          <Text style={styles.guestGreeting}>{t("welcomeToApp")}</Text>
           <Text style={styles.guestSubtext}>
-            Sign in to sync your data across devices
+            {t("auth:login.syncDataAcrossDevices")}
           </Text>
         </View>
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <MaterialCommunityIcons name="login" size={20} color={primaryColor} />
-          <Text style={styles.loginButtonText}>Sign In</Text>
+          <Text style={styles.loginButtonText}>{t("signIn")}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,79 +6,71 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
-  Modal,
-  FlatList,
 } from "react-native";
-import { Calendar } from "react-native-calendars";
+import { Calendar, LocaleConfig } from "react-native-calendars";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+
 import UpcomingEvents from "@/components/shared/UpcomingEvents";
 import SelectedDateSchedule from "@/components/calendar/SelectedDateSchedule";
+import MonthYearPicker from "@/components/calendar/MonthYearPicker";
+import { formatMonthYear } from "@/utils/formatDate";
 
 const primaryColor = "#00B493";
 
-const months = [
-  { id: 1, name: "January" },
-  { id: 2, name: "February" },
-  { id: 3, name: "March" },
-  { id: 4, name: "April" },
-  { id: 5, name: "May" },
-  { id: 6, name: "June" },
-  { id: 7, name: "July" },
-  { id: 8, name: "August" },
-  { id: 9, name: "September" },
-  { id: 10, name: "October" },
-  { id: 11, name: "November" },
-  { id: 12, name: "December" },
-];
-
-const years = Array.from(
-  { length: 10 },
-  (_, i) => new Date().getFullYear() - 5 + i,
-);
-
-// Optimized render functions
-const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => void) => 
-  ({ item }: { item: number }) => (
-    <TouchableOpacity
-      style={[
-        styles.pickerItem,
-        tempYear === item && styles.selectedPickerItem,
-      ]}
-      onPress={() => setTempYear(item)}
-    >
-      <Text
-        style={[
-          styles.pickerItemText,
-          tempYear === item && styles.selectedPickerItemText,
-        ]}
-      >
-        {item}
-      </Text>
-    </TouchableOpacity>
-  );
-
-const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) => void) => 
-  ({ item }: { item: { id: number; name: string } }) => (
-    <TouchableOpacity
-      style={[
-        styles.pickerItem,
-        tempMonth === item.id && styles.selectedPickerItem,
-      ]}
-      onPress={() => setTempMonth(item.id)}
-    >
-      <Text
-        style={[
-          styles.pickerItemText,
-          tempMonth === item.id &&
-            styles.selectedPickerItemText,
-        ]}
-      >
-        {item.name}
-      </Text>
-    </TouchableOpacity>
-  );
-
+const setLocaleConfig = (currLanguage: string, t: any) => {
+  LocaleConfig.locales[currLanguage] = {
+    monthNames: [
+      t("calendar:months.january"),
+      t("calendar:months.february"),
+      t("calendar:months.march"),
+      t("calendar:months.april"),
+      t("calendar:months.may"),
+      t("calendar:months.june"),
+      t("calendar:months.july"),
+      t("calendar:months.august"),
+      t("calendar:months.september"),
+      t("calendar:months.october"),
+      t("calendar:months.november"),
+      t("calendar:months.december"),
+    ],
+    monthNamesShort: [
+      t("calendar:monthShort.january"),
+      t("calendar:monthShort.february"),
+      t("calendar:monthShort.march"),
+      t("calendar:monthShort.april"),
+      t("calendar:monthShort.may"),
+      t("calendar:monthShort.june"),
+      t("calendar:monthShort.july"),
+      t("calendar:monthShort.august"),
+      t("calendar:monthShort.september"),
+      t("calendar:monthShort.october"),
+      t("calendar:monthShort.november"),
+      t("calendar:monthShort.december"),
+    ],
+    dayNames: [
+      t("calendar:weekDays.sunday"),
+      t("calendar:weekDays.monday"),
+      t("calendar:weekDays.tuesday"),
+      t("calendar:weekDays.wednesday"),
+      t("calendar:weekDays.thursday"),
+      t("calendar:weekDays.friday"),
+      t("calendar:weekDays.saturday"),
+    ],
+    dayNamesShort: [
+      t("calendar:weekDaysShort.sunday"),
+      t("calendar:weekDaysShort.monday"),
+      t("calendar:weekDaysShort.tuesday"),
+      t("calendar:weekDaysShort.wednesday"),
+      t("calendar:weekDaysShort.thursday"),
+      t("calendar:weekDaysShort.friday"),
+      t("calendar:weekDaysShort.saturday"),
+    ],
+    today: t("calendar:today"),
+  };
+  LocaleConfig.defaultLocale = currLanguage;
+};
 // Mock data for events on specific dates
 const eventsData = {
   "2025-08-20": {
@@ -107,17 +99,23 @@ const eventsData = {
 
 export default function CalendarScreen() {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
   const [selected, setSelected] = useState("");
   const [currentMonth, setCurrentMonth] = useState(
     new Date().toISOString().split("T")[0].substring(0, 7),
   );
   const [showMonthPicker, setShowMonthPicker] = useState(false);
-  const [tempYear, setTempYear] = useState(new Date().getFullYear());
-  const [tempMonth, setTempMonth] = useState(new Date().getMonth() + 1);
+  const [tempMonth, setTempMonth] = useState(0);
+  const [tempYear, setTempYear] = useState(0);
+  const [calendarKey, setCalendarKey] = useState(0);
 
-  // Create render functions with current state
-  const renderYearItem = createYearRenderItem(tempYear, setTempYear);
-  const renderMonthItem = createMonthRenderItem(tempMonth, setTempMonth);
+  const currentLanguageCode = i18n.language;
+
+  useEffect(() => {
+    setLocaleConfig(currentLanguageCode, t);
+    // Force calendar to re-render with new locale
+    setCalendarKey((prev) => prev + 1);
+  }, [currentLanguageCode, t]);
 
   // Combine events data with selected date
   const getMarkedDates = () => {
@@ -145,14 +143,6 @@ export default function CalendarScreen() {
     return marked;
   };
 
-  const formatMonthYear = (dateString: string) => {
-    const date = new Date(dateString + "-01");
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -160,7 +150,7 @@ export default function CalendarScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Calendar
-          key={currentMonth}
+          key={`${currentMonth}-${calendarKey}`}
           current={`${currentMonth}-01`}
           style={styles.calendar}
           onDayPress={(day) => {
@@ -185,7 +175,7 @@ export default function CalendarScreen() {
                 }}
               >
                 <Text style={styles.monthText}>
-                  {formatMonthYear(currentMonth)}
+                  {formatMonthYear(currentMonth, currentLanguageCode)}
                 </Text>
                 <MaterialCommunityIcons
                   name="chevron-down"
@@ -227,65 +217,15 @@ export default function CalendarScreen() {
           <UpcomingEvents showViewAll={false} currentMonth={currentMonth} />
         )}
       </ScrollView>
-
-      <Modal
+      <MonthYearPicker
         visible={showMonthPicker}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowMonthPicker(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowMonthPicker(false)}
-        >
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Month & Year</Text>
-              <TouchableOpacity
-                onPress={() => setShowMonthPicker(false)}
-                style={styles.closeButton}
-              >
-                <MaterialCommunityIcons name="close" size={24} color="#333" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.pickerContainer}>
-              <View style={styles.yearPicker}>
-                <Text style={styles.pickerLabel}>Year</Text>
-                <FlatList
-                  data={years}
-                  keyExtractor={(item) => item.toString()}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={renderYearItem}
-                />
-              </View>
-
-              <View style={styles.monthPicker}>
-                <Text style={styles.pickerLabel}>Month</Text>
-                <FlatList
-                  data={months}
-                  keyExtractor={(item) => item.id.toString()}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={renderMonthItem}
-                />
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={styles.confirmButton}
-              onPress={() => {
-                const newMonth = `${tempYear}-${String(tempMonth).padStart(2, "0")}`;
-                setCurrentMonth(newMonth);
-                setSelected(""); // Clear selected date
-                setShowMonthPicker(false);
-              }}
-            >
-              <Text style={styles.confirmButtonText}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        currentMonth={currentMonth}
+        onClose={() => setShowMonthPicker(false)}
+        onConfirm={(year, month) => {
+          setCurrentMonth(`${year}-${String(month).padStart(2, "0")}`);
+          setSelected("");
+        }}
+      />
     </SafeAreaView>
   );
 }

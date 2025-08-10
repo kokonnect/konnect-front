@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+
+import { formatDateHistory } from "@/utils/formatDate";
 
 interface TranslationCard {
   id: string;
@@ -39,38 +42,9 @@ const mockData: TranslationCard[] = [
   },
 ];
 
-const createRecentTranslationRenderer =
-  (
-    truncateDescription: (text: string, lines?: number) => string,
-    formatDate: (date: Date) => string,
-  ) =>
-  ({
-    item,
-  }: {
-    item: { id: string; title: string; description: string; lastViewed: Date };
-  }) => (
-    <TouchableOpacity style={styles.card}>
-      <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardDescription}>
-        {truncateDescription(item.description)}
-      </Text>
-      <Text style={styles.cardDate}>{formatDate(item.lastViewed)}</Text>
-    </TouchableOpacity>
-  );
-
 export default function RecentTranslation() {
   const router = useRouter();
-
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
-    if (diffDays < 7) return `${diffDays} days ago`;
-    return date.toLocaleDateString();
-  };
+  const { t, i18n } = useTranslation();
 
   const truncateDescription = (text: string, lines: number = 3) => {
     const maxLength = lines * 40; // Approximate characters per line
@@ -78,9 +52,25 @@ export default function RecentTranslation() {
     return text.substring(0, maxLength).trim() + "...";
   };
 
-  const renderRecentTranslationItem = createRecentTranslationRenderer(
-    truncateDescription,
-    formatDate,
+  const renderRecentTranslationItem = ({
+    item,
+  }: {
+    item: {
+      id: string;
+      title: string;
+      description: string;
+      lastViewed: Date;
+    };
+  }) => (
+    <TouchableOpacity style={styles.card}>
+      <Text style={styles.cardTitle}>{item.title}</Text>
+      <Text style={styles.cardDescription}>
+        {truncateDescription(item.description)}
+      </Text>
+      <Text style={styles.cardDate}>
+        {formatDateHistory(item.lastViewed, i18n.language, t)}
+      </Text>
+    </TouchableOpacity>
   );
 
   return (
@@ -93,10 +83,10 @@ export default function RecentTranslation() {
             color="#333"
             style={styles.icon}
           />
-          <Text style={styles.title}>Recent Translation</Text>
+          <Text style={styles.title}>{t("translate:history.recent")}</Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/translate")}>
-          <Text style={styles.viewAll}>View all</Text>
+          <Text style={styles.viewAll}>{t("common:more")}</Text>
         </TouchableOpacity>
       </View>
 
@@ -142,6 +132,7 @@ const styles = StyleSheet.create({
   },
   carousel: {
     paddingHorizontal: 20,
+    paddingBottom: 10,
   },
   card: {
     backgroundColor: "#fff",

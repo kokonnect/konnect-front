@@ -1,37 +1,53 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import { Child } from "./types";
 
 const primaryColor = "#00B493";
 
 interface ChildrenSectionProps {
-  children: Child[];
+  childrenList: Child[];
 }
 
-export default function ChildrenSection({ children }: ChildrenSectionProps) {
+export default function ChildrenSection({
+  childrenList,
+}: ChildrenSectionProps) {
+  const { t } = useTranslation();
+
   const renderChildCard = ({ item }: { item: Child }) => (
     <View style={styles.childCard}>
       <View style={styles.childHeader}>
         <Text style={styles.childName}>{item.name}</Text>
-        <Text style={styles.childGrade}>{item.grade}</Text>
+        <Text style={styles.childGrade}>
+          {t("profile:children.childInfo.grade", { grade: item.grade })}
+        </Text>
       </View>
       <View style={styles.childInfo}>
         <View style={styles.childInfoRow}>
           <MaterialCommunityIcons name="account" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Age: {item.age}</Text>
+          <Text style={styles.childInfoText}>
+            {t("profile:children.childInfo.age", { age: item.age })}
+          </Text>
         </View>
         <View style={styles.childInfoRow}>
           <MaterialCommunityIcons name="door" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Class: {item.className}</Text>
+          <Text style={styles.childInfoText}>
+            {t("profile:children.childInfo.class", { class: item.className })}
+          </Text>
         </View>
         <View style={styles.childInfoRow}>
           <MaterialCommunityIcons name="account-tie" size={16} color="#666" />
-          <Text style={styles.childInfoText}>Teacher: {item.teacher}</Text>
+          <Text style={styles.childInfoText}>
+            {t("profile:children.childInfo.teacher", { teacher: item.teacher })}
+          </Text>
         </View>
         <View style={styles.childInfoRow}>
           <MaterialCommunityIcons name="school" size={16} color="#666" />
-          <Text style={styles.childInfoText}>{item.school}</Text>
+          <Text style={styles.childInfoText}>
+            {t("profile:children.childInfo.school", { school: item.school })}
+          </Text>
         </View>
       </View>
     </View>
@@ -39,9 +55,9 @@ export default function ChildrenSection({ children }: ChildrenSectionProps) {
 
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Children Information</Text>
+      <Text style={styles.sectionTitle}>{t("profile:children.title")}</Text>
       <FlatList
-        data={children}
+        data={childrenList}
         renderItem={renderChildCard}
         keyExtractor={(item) => item.id}
         horizontal

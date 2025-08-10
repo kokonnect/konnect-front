@@ -1,0 +1,55 @@
+{
+  "title": "메시지",
+  "compose": {
+    "title": "메시지 작성",
+    "nav": "작성",
+    "description": "교사와의 소통을 위한 메시지를 작성하세요.",
+    "to": "받는 사람",
+    "message": "메시지",
+    "messagePlaceholder": "여기에 메시지를 입력하세요...",
+    "generate": "생성",
+    "editDraft": "초안 편집",
+    "koreanTranslation": "한국어 번역",
+    "translating": "번역 중...",
+    "cancel": "취소"
+  },
+  "templates": {
+    "title": "메시지 템플릿",
+    "nav": "템플릿",
+    "description": "일반적인 메시지를 위한 빠른 템플릿",
+    "categories": {
+      "all": "전체",
+      "favorite": "즐겨찾기",
+      "absence": "결석",
+      "lateness": "지각",
+      "earlyDismissal": "조퇴",
+      "homework": "숙제",
+      "meeting": "상담 요청",
+      "concern": "문의/고민",
+      "appreciation": "감사 인사",
+      "other": "기타"
+    },
+    "useTemplate": "사용",
+    "editTemplate": "편집",
+    "koreanVersion": "한국어 버전",
+    "copyKorean": "한국어 복사",
+    "yourLanguageVersion": "설정 언어 버전",
+    "noTemplates": "사용 가능한 템플릿이 없습니다"
+  },
+  "history": {
+    "title": "메시지 번역 내역",
+    "noMessages": "메시지 번역 기록이 없습니다.",
+    "delete": "삭제"
+  },
+  "translation": {
+    "translateToKorean": "한국어로 번역",
+    "translateToYour": "설정 언어로 번역",
+    "originalMessage": "원본 메시지",
+    "translatedMessage": "번역된 메시지",
+    "translating": "번역 중...",
+    "translationFailed": "번역에 실패했습니다. 다시 시도해 주세요.",
+    "copyTranslation": "번역 복사",
+    "translationCopied": "번역이 클립보드에 복사되었습니다"
+  },
+  "validation": {}
+}

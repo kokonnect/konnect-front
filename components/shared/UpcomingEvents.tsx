@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { formatMonthShortDate } from "@/utils/formatDate";
 
 interface Event {
   id: string;
@@ -69,7 +71,7 @@ const mockEvents: Event[] = [
 ];
 
 const createEventItemRenderer =
-  (filteredEvents: Event[], formatDate: (date: Date) => string) =>
+  (filteredEvents: Event[], formatDate: (date: Date, lang: string) => string, language: string) =>
   ({ item, index }: { item: Event; index: number }) => (
     <TouchableOpacity
       style={[
@@ -78,7 +80,7 @@ const createEventItemRenderer =
       ]}
     >
       <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+        <Text style={styles.dateText}>{formatDate(item.date, language)}</Text>
       </View>
       <View style={styles.eventDetails}>
         <Text style={styles.eventTitle}>{item.title}</Text>
@@ -97,6 +99,7 @@ export default function UpcomingEvents({
   currentMonth,
 }: UpcomingEventsProps) {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
 
   // Filter events for the current month if provided
   const getFilteredEvents = () => {
@@ -113,16 +116,11 @@ export default function UpcomingEvents({
   };
 
   const filteredEvents = getFilteredEvents();
-
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      month: "short",
-      day: "numeric",
-    };
-    return date.toLocaleDateString("en-US", options);
-  };
-
-  const renderEventItem = createEventItemRenderer(filteredEvents, formatDate);
+  const renderEventItem = createEventItemRenderer(
+    filteredEvents,
+    formatMonthShortDate,
+    i18n.language,
+  );
 
   return (
     <View style={styles.container}>
@@ -134,11 +132,11 @@ export default function UpcomingEvents({
             color="#333"
             style={styles.icon}
           />
-          <Text style={styles.title}>Upcoming Events</Text>
+          <Text style={styles.title}>{t("calendar:eventList.upcoming")}</Text>
         </View>
         {showViewAll && (
           <TouchableOpacity onPress={() => router.push("/calendar")}>
-            <Text style={styles.viewAll}>View all</Text>
+            <Text style={styles.viewAll}>{t("common:more")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -147,7 +145,7 @@ export default function UpcomingEvents({
         {filteredEvents.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              There are no events in this month
+              {t("calendar:eventList.noEventsDescription")}
             </Text>
           </View>
         ) : (

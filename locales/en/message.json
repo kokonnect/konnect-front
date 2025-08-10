@@ -1,0 +1,56 @@
+{
+  "title": "Messages",
+  "compose": {
+    "title": "Compose Message",
+    "nav": "Compose",
+    "description": "Draft messages for teacher communication in your language",
+    "to": "To",
+    "toPlaceholder": "Select recipient",
+    "message": "Message",
+    "messagePlaceholder": "Type your message here...",
+    "generate": "Generate",
+    "editDraft": "Edit Draft",
+    "koreanTranslation": "Korean Translation",
+    "translating": "Translating...",
+    "cancel": "Cancel"
+  },
+  "templates": {
+    "title": "Message Templates",
+    "nav": "Template",
+    "description": "Quick templates for common messages",
+    "categories": {
+      "all": "All",
+      "favorite": "Favorite",
+      "absence": "Absence",
+      "lateness": "Late Arrival",
+      "earlyDismissal": "Early Dismissal",
+      "homework": "Homework",
+      "meeting": "Meeting Request",
+      "concern": "Concern/Question",
+      "appreciation": "Thank You",
+      "other": "Other"
+    },
+    "useTemplate": "Use",
+    "koreanVersion": "Korean Version",
+    "yourLanguageVersion": "Your Language Version",
+    "copyKorean": "Copy Korean",
+    "editTemplate": "Edit",
+    "noTemplates": "No templates available"
+  },
+  "history": {
+    "title": "Message Translation History",
+    "noMessages": "No Translation messages",
+    "delete": "Delete"
+  },
+  "translation": {
+    "translateToKorean": "translate to Korean",
+    "translateToYour": "translate to your language",
+    "originalMessage": "Original Message",
+    "translatedMessage": "Translated Message",
+    "translating": "Translating...",
+    "translationFailed": "Translation failed. Please try again.",
+    "copyTranslation": "Copy Translation",
+    "translationCopied": "Translation copied to clipboard"
+  },
+  "validation": {}
+}

@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
@@ -26,14 +27,20 @@ export default function TranslationOutput({
   onCopy,
   onTTS,
 }: TranslationOutputProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.translationSection}>
-      <Text style={styles.translationLabel}>Korean Translation</Text>
+      <Text style={styles.translationLabel}>
+        {t("message:compose.koreanTranslation")}
+      </Text>
 
       {isTranslating ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={primaryColor} />
-          <Text style={styles.loadingText}>Translating...</Text>
+          <Text style={styles.loadingText}>
+            {t("message:compose.translating")}
+          </Text>
         </View>
       ) : (
         <>
@@ -52,7 +59,7 @@ export default function TranslationOutput({
                 size={20}
                 color="#666"
               />
-              <Text style={styles.ttsButtonText}>TTS</Text>
+              <Text style={styles.ttsButtonText}>{t("tts")}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.copyButton} onPress={onCopy}>
@@ -61,7 +68,7 @@ export default function TranslationOutput({
                 size={20}
                 color="#fff"
               />
-              <Text style={styles.copyButtonText}>Copy</Text>
+              <Text style={styles.copyButtonText}>{t("copy")}</Text>
             </TouchableOpacity>
           </View>
         </>

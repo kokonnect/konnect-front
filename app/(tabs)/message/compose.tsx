@@ -3,19 +3,20 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import { useTranslation } from "react-i18next";
+
+import MessageHeader from "@/components/message/MessageHeader";
+import MessageInput from "@/components/message/MessageInput";
+import TranslationOutput from "@/components/message/TranslationOutput";
 
 const primaryColor = "#00B493";
-const MAX_CHAR_LIMIT = 500;
 
 // Mock translation function - replace with actual API call
 const mockTranslate = async (text: string): Promise<string> => {
@@ -76,6 +77,7 @@ export default function ComposeScreen() {
   const [translatedText, setTranslatedText] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);
+  const { t } = useTranslation();
 
   // Handle prefilled data from history
   useEffect(() => {
@@ -140,136 +142,48 @@ export default function ComposeScreen() {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.header}>
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.title}>Create a Custom Message</Text>
-          <Text style={styles.subtitle}>
-            Draft messages for teacher communication in your language
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={styles.historyButton}
-          onPress={() => router.push("/(tabs)/message/history")}
-        >
-          <MaterialCommunityIcons name="history" size={24} color="#333" />
-        </TouchableOpacity>
-      </View>
-
+      <MessageHeader
+        title={t("message:compose.title")}
+        subtitle={t("message:compose.description")}
+        showHistoryButton={true}
+        onHistoryPress={() => router.push("/(tabs)/message/history")}
+      />
       <View style={styles.content}>
         {/* User Input Section */}
-        <View
-          style={[
-            styles.inputSection,
-            showTranslation
-              ? styles.inputSectionShrinked
-              : styles.inputSectionFull,
-          ]}
-        >
-          <View style={styles.inputHeader}>
-            <Text style={styles.inputLabel}>Your Message</Text>
-            <Text style={styles.charCount}>
-              {userInput.length}/{MAX_CHAR_LIMIT}
-            </Text>
-          </View>
-
-          <TextInput
-            style={[
-              styles.textInput,
-              showTranslation && styles.textInputShrinked,
-            ]}
-            placeholder="Type your message here..."
-            value={userInput}
-            onChangeText={(text) => setUserInput(text.slice(0, MAX_CHAR_LIMIT))}
-            multiline
-            textAlignVertical="top"
-            scrollEnabled={true}
-            editable={!isTranslating && !showTranslation}
-          />
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.clearButton}
-              onPress={handleClear}
-              disabled={isTranslating || !userInput}
-            >
-              <Text
-                style={[
-                  styles.clearButtonText,
-                  (!userInput || isTranslating) && styles.disabledButtonText,
-                ]}
-              >
-                Clear
-              </Text>
-            </TouchableOpacity>
-
-            {!showTranslation ? (
-              <TouchableOpacity
-                style={[
-                  styles.generateButton,
-                  (!userInput.trim() || isTranslating) && styles.disabledButton,
-                ]}
-                onPress={handleGenerate}
-                disabled={!userInput.trim() || isTranslating}
-              >
-                <Text style={styles.generateButtonText}>Generate</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.editDraftButton}
-                onPress={handleEditDraft}
-                disabled={isTranslating}
-              >
-                <Text style={styles.editDraftButtonText}>Edit Draft</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
+        <MessageInput
+          userInput={userInput}
+          onInputChange={(text) => setUserInput(text)}
+          isTranslating={isTranslating}
+          onClear={handleClear}
+          onEditDraft={handleEditDraft}
+          onGenerate={handleGenerate}
+          showTranslation={showTranslation}
+        />
 
         {/* Translation Section */}
+
         {showTranslation && (
           <View style={styles.translationSection}>
-            <Text style={styles.translationLabel}>Korean Translation</Text>
+            <Text style={styles.translationLabel}>
+              {t("message:compose.koreanTranslation")}
+            </Text>
 
             {isTranslating ? (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color={primaryColor} />
-                <Text style={styles.loadingText}>Translating...</Text>
+                <Text style={styles.loadingText}>
+                  {t("message:compose.translating")}
+                </Text>
               </View>
             ) : (
               <>
-                <TextInput
-                  style={styles.translationInput}
-                  value={translatedText}
-                  onChangeText={setTranslatedText}
-                  multiline
-                  textAlignVertical="top"
+                <TranslationOutput
+                  isTranslating={isTranslating}
+                  translatedText={translatedText}
+                  onCopy={handleCopyTranslation}
+                  onTTS={handleTTS}
+                  onTextChange={setTranslatedText}
                 />
-
-                <View style={styles.translationActions}>
-                  <TouchableOpacity
-                    style={styles.ttsButton}
-                    onPress={handleTTS}
-                  >
-                    <MaterialCommunityIcons
-                      name="volume-high"
-                      size={20}
-                      color="#666"
-                    />
-                    <Text style={styles.ttsButtonText}>TTS</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={styles.copyButton}
-                    onPress={handleCopyTranslation}
-                  >
-                    <MaterialCommunityIcons
-                      name="content-copy"
-                      size={20}
-                      color="#fff"
-                    />
-                    <Text style={styles.copyButtonText}>Copy</Text>
-                  </TouchableOpacity>
-                </View>
               </>
             )}
           </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,14 +13,16 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/components/auth/AuthContext";
+import { useTranslation } from "react-i18next";
+import { useAuthAndUser } from "@/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const primaryColor = "#00B493";
 
 export default function AddChildScreen() {
   const router = useRouter();
-  const { user, addChild } = useAuth();
+  const { t } = useTranslation("auth");
+  const { user, addChild, isAuthenticated } = useAuthAndUser();
   const [isLoading, setIsLoading] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [addedChildren, setAddedChildren] = useState<
@@ -33,13 +35,19 @@ export default function AddChildScreen() {
     }[]
   >([]);
 
-  // Child form states - matching profile edit structure
   const [childName, setChildName] = useState("");
   const [childBirthdate, setChildBirthdate] = useState(new Date());
   const [childSchool, setChildSchool] = useState("");
   const [childGrade, setChildGrade] = useState("");
   const [childClass, setChildClass] = useState("");
   const [childTeacherName, setChildTeacherName] = useState("");
+
+  // Add navigation guard to prevent unwanted redirects
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isAuthenticated, router]);
 
   const resetForm = () => {
     setChildName("");
@@ -52,7 +60,7 @@ export default function AddChildScreen() {
 
   const handleAddChild = async () => {
     if (!childName.trim() || !childSchool.trim()) {
-      Alert.alert("Error", "Please fill in all required fields");
+      Alert.alert(t("common:error"), t("addChild.form.fillRequiredFields"));
       return;
     }
 
@@ -78,17 +86,19 @@ export default function AddChildScreen() {
 
       // Show success message with options
       Alert.alert(
-        addedChildren.length === 0 ? "Great!" : "Child Added!",
+        addedChildren.length === 0
+          ? t("addChild.successTitle")
+          : t("addChild.childAddedTitle"),
         `${childName} has been added successfully.`,
         [
           {
-            text: "Add Another Child",
+            text: t("addChild.form.addAnotherChild"),
             onPress: () => {
               // Form is already reset, user can add another
             },
           },
           {
-            text: "Continue to App",
+            text: t("addChild.continueToApp"),
             onPress: () => {
               router.replace("/(tabs)");
             },
@@ -96,17 +106,17 @@ export default function AddChildScreen() {
         ],
       );
     } catch (err) {
-      Alert.alert(
-        "Error",
-        "Failed to add child information. Please try again.",
-      );
+      Alert.alert(t("common:error"), t("addChild.failedToAdd"));
       setIsLoading(false);
     }
   };
 
   const handleContinueToApp = () => {
     if (addedChildren.length === 0) {
-      Alert.alert("Add a Child", "Please add at least one child to continue.");
+      Alert.alert(
+        t("addChild.addChildPrompt"),
+        t("addChild.atLeastOneChildRequired"),
+      );
       return;
     }
     router.replace("/(tabs)");
@@ -120,7 +130,8 @@ export default function AddChildScreen() {
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
+    const locale = t("common:language") === "Korean" ? "ko-KR" : "en-US";
+    return date.toLocaleDateString(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -132,13 +143,16 @@ export default function AddChildScreen() {
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardView}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
       >
         <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          bounces={false}
         >
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Complete Your Profile</Text>
+            <Text style={styles.headerTitle}>{t("addChild.title")}</Text>
           </View>
 
           <View style={styles.content}>
@@ -186,18 +200,22 @@ export default function AddChildScreen() {
             {/* Form Container - matching profile edit modal structure */}
             <View style={styles.formContainer}>
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Child Name *</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.childName")} *
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childName}
                   onChangeText={setChildName}
-                  placeholder="Enter child's name"
+                  placeholder={t("addChild.form.childNamePlaceholder")}
                   editable={!isLoading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Birthdate</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.birthDate")}
+                </Text>
                 <TouchableOpacity
                   style={styles.dateInput}
                   onPress={() => setShowDatePicker(true)}
@@ -223,45 +241,53 @@ export default function AddChildScreen() {
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>School Name *</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.schoolName")} *
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childSchool}
                   onChangeText={setChildSchool}
-                  placeholder="Enter school name"
+                  placeholder={t("addChild.form.schoolNamePlaceholder")}
                   editable={!isLoading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Grade</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.grade")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childGrade}
                   onChangeText={setChildGrade}
-                  placeholder="Enter grade (e.g., 3rd Grade)"
+                  placeholder={t("addChild.form.gradePlaceholder")}
                   editable={!isLoading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Class</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.className")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childClass}
                   onChangeText={setChildClass}
-                  placeholder="Enter class (e.g., 3A)"
+                  placeholder={t("addChild.form.classNamePlaceholder")}
                   editable={!isLoading}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Teacher Name</Text>
+                <Text style={styles.inputLabel}>
+                  {t("addChild.form.teacherName")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childTeacherName}
                   onChangeText={setChildTeacherName}
-                  placeholder="Enter teacher's name"
+                  placeholder={t("addChild.form.teacherNamePlaceholder")}
                   editable={!isLoading}
                 />
               </View>
@@ -274,10 +300,10 @@ export default function AddChildScreen() {
               >
                 <Text style={styles.saveButtonText}>
                   {isLoading
-                    ? "Adding..."
+                    ? t("addChild.addingChild")
                     : addedChildren.length === 0
-                      ? "Add Child"
-                      : "Add Another Child"}
+                      ? t("addChild.form.addChild")
+                      : t("addChild.form.addAnotherChild")}
                 </Text>
               </TouchableOpacity>
 

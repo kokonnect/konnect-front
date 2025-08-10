@@ -1,0 +1,78 @@
+{
+  "title": "Profile",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "Sign in to access your profile",
+    "description": "Create an account to save your translations, manage children's information, and sync across devices",
+    "benefits": {
+      "sync": "Sync data across devices",
+      "save": "Save translations and preferences",
+      "manage": "Manage multiple children",
+      "notifications": "Receive important notifications"
+    },
+    "loginButton": "Sign In"
+  },
+  "children": {
+    "title": "My Children",
+    "addChild": "Add Child",
+    "editChild": "Edit Child",
+    "removeChild": "Remove Child",
+    "confirmRemove": "Remove Child",
+    "confirmRemoveMessage": "Are you sure you want to remove {{name}} from your profile?",
+    "noChildren": "No children added yet",
+    "childInfo": {
+      "age": "Age: {{age}}",
+      "school": "School: {{school}}",
+      "grade": "Grade: {{grade}}",
+      "class": "Class: {{class}}",
+      "teacher": "Teacher: {{teacher}}"
+    },
+    "form": {
+      "name": "name",
+      "namePlaceholder": "Enter name",
+      "birthdate": "Birthdate",
+      "birthdatePlaceholder": "Enter birthdate",
+      "school": "School",
+      "schoolPlaceholder": "Enter school",
+      "grade": "Grade",
+      "gradePlaceholder": "Enter grade",
+      "class": "Class",
+      "classPlaceholder": "Enter class",
+      "teacher": "Teacher",
+      "teacherPlaceholder": "Enter teacher"
+    }
+  },
+  "preferences": {
+    "title": "Preferences",
+    "language": "Language",
+    "languageDescription": "Language for app interface",
+    "selectLanguage": "Select Language",
+    "notifications": {
+      "title": "Notifications"
+    },
+    "translation": {
+      "title": "Translation Settings",
+      "saveDocHistory": "Save translation history",
+      "saveMessageHistory": "Save message history"
+    }
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "childInfo": "Child Information",
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    },
+    "emailProviderCantChange": "Email and login provider cannot be changed.",
+    "validation": {
+      "nameRequired": "Name is required",
+      "requiredWarning": "Please fill in all required fields"
+    },
+    "successTitle": "Profile updated successfully",
+    "successMessage": "Changes have been saved."
+  }
+}

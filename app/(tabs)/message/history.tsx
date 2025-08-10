@@ -6,13 +6,14 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
-  Modal,
-  TextInput,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import * as Clipboard from "expo-clipboard";
+import { useTranslation } from "react-i18next";
+
+import { formatDateHistory } from "@/utils/formatDate";
+import MessageHistoryModal from "@/components/message/MessageHistoryModal";
+import SkeletonLoader from "@/components/translate/SkeletonLoader";
 
 const primaryColor = "#00B493";
 
@@ -23,21 +24,6 @@ interface HistoryItem {
   translated: string;
   date: Date;
 }
-
-// Mock function to generate title from content
-const generateTitle = (text: string): string => {
-  const lowerText = text.toLowerCase();
-  if (lowerText.includes("absent") || lowerText.includes("결석")) {
-    return "Absence Notification";
-  } else if (lowerText.includes("meeting") || lowerText.includes("상담")) {
-    return "Meeting Request";
-  } else if (lowerText.includes("thank") || lowerText.includes("감사")) {
-    return "Thank You Message";
-  } else if (lowerText.includes("late") || lowerText.includes("늦")) {
-    return "Late Arrival Notice";
-  }
-  return "Message to Teacher";
-};
 
 // Mock data for history with AI-generated titles
 const mockHistoryData: HistoryItem[] = [
@@ -73,12 +59,47 @@ const mockHistoryData: HistoryItem[] = [
   },
 ];
 
+// Skeleton component for loading state
+const renderSkeletonItem = ({ index }: { index: number }) => (
+  <View key={index} style={styles.historyCard}>
+    <View style={styles.cardHeader}>
+      <SkeletonLoader
+        height={16}
+        width="60%"
+        borderRadius={4}
+        marginBottom={0}
+      />
+      <SkeletonLoader
+        height={12}
+        width={60}
+        borderRadius={6}
+        marginBottom={0}
+      />
+    </View>
+    
+    <SkeletonLoader
+      height={14}
+      width="90%"
+      borderRadius={4}
+      marginBottom={4}
+    />
+    
+    <SkeletonLoader
+      height={14}
+      width="75%"
+      borderRadius={4}
+      marginBottom={0}
+    />
+  </View>
+);
+
 export default function HistoryScreen() {
   const router = useRouter();
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [editedKoreanText, setEditedKoreanText] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     // In real app, load from AsyncStorage
@@ -89,47 +110,13 @@ export default function HistoryScreen() {
     // Mock loading delay
     setTimeout(() => {
       setHistory(mockHistoryData);
-    }, 100);
-  };
-
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffHours < 1) {
-      return "Just now";
-    } else if (diffHours < 24) {
-      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-    } else if (diffDays < 7) {
-      return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
+      setIsLoading(false);
+    }, 1500);
   };
 
   const handleItemPress = (item: HistoryItem) => {
     setSelectedItem(item);
-    setEditedKoreanText(item.translated);
     setShowModal(true);
-  };
-
-  const handleCopyKorean = async () => {
-    try {
-      await Clipboard.setStringAsync(editedKoreanText);
-      Alert.alert("Copied", "Korean text copied to clipboard");
-    } catch {
-      Alert.alert("Error", "Failed to copy text");
-    }
-  };
-
-  const handleTTS = () => {
-    if (editedKoreanText) {
-      // Note: expo-speech would be used here if available
-      // Speech.speak(editedKoreanText, { language: 'ko' });
-      Alert.alert("TTS", "Text-to-speech would play the Korean text");
-    }
   };
 
   const renderHistoryItem = ({ item }: { item: HistoryItem }) => (
@@ -139,7 +126,9 @@ export default function HistoryScreen() {
     >
       <View style={styles.cardHeader}>
         <Text style={styles.cardTitle}>{item.title}</Text>
-        <Text style={styles.dateText}>{formatDate(item.date)}</Text>
+        <Text style={styles.dateText}>
+          {formatDateHistory(item.date, i18n.language, t)}
+        </Text>
       </View>
 
       <Text style={styles.koreanPreview} numberOfLines={1}>
@@ -161,20 +150,28 @@ export default function HistoryScreen() {
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.title}>Message Compose History</Text>
+        <Text style={styles.title}>{t("message:history.title")}</Text>
         <View style={styles.headerSpacer} />
       </View>
 
-      {history.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <MaterialCommunityIcons name="history" size={64} color="#ccc" />
-          <Text style={styles.emptyText}>No translation history yet</Text>
-          <Text style={styles.emptySubtext}>
-            Your translated messages will appear here
-          </Text>
-        </View>
+      {isLoading ? (
+        <FlatList
+          data={Array.from({ length: 6 }, (_, index) => index)}
+          keyExtractor={(item) => item.toString()}
+          renderItem={renderSkeletonItem}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
       ) : (
         <FlatList
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <MaterialCommunityIcons name="history" size={64} color="#ccc" />
+              <Text style={styles.emptyText}>
+                {t("message:history.noMessages")}
+              </Text>
+            </View>
+          }
           data={history}
           keyExtractor={(item) => item.id}
           renderItem={renderHistoryItem}
@@ -183,80 +180,11 @@ export default function HistoryScreen() {
         />
       )}
 
-      <Modal
+      <MessageHistoryModal
         visible={showModal}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowModal(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowModal(false)}
-        >
-          <View
-            style={styles.modalContent}
-            onStartShouldSetResponder={() => true}
-          >
-            <View style={styles.modalHeader}>
-              <View style={styles.modalHeaderText}>
-                <Text style={styles.modalTitle}>{selectedItem?.title}</Text>
-                <Text style={styles.modalDate}>
-                  {selectedItem && formatDate(selectedItem.date)}
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => setShowModal(false)}
-                style={styles.closeButton}
-              >
-                <MaterialCommunityIcons name="close" size={24} color="#333" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.modalBody}>
-              <Text style={styles.fieldLabel}>Korean Translation</Text>
-              <TextInput
-                style={styles.koreanTextInput}
-                value={editedKoreanText}
-                onChangeText={setEditedKoreanText}
-                multiline
-                numberOfLines={4}
-                textAlignVertical="top"
-              />
-
-              <Text style={styles.fieldLabel}>Original Message</Text>
-              <View style={styles.originalTextContainer}>
-                <Text style={styles.originalText}>
-                  {selectedItem?.original}
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.modalActions}>
-              <TouchableOpacity style={styles.ttsButton} onPress={handleTTS}>
-                <MaterialCommunityIcons
-                  name="volume-high"
-                  size={20}
-                  color="#666"
-                />
-                <Text style={styles.ttsButtonText}>TTS</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.copyButton}
-                onPress={handleCopyKorean}
-              >
-                <MaterialCommunityIcons
-                  name="content-copy"
-                  size={20}
-                  color="#fff"
-                />
-                <Text style={styles.copyButtonText}>Copy Korean</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        selectedItem={selectedItem}
+        onClose={() => setShowModal(false)}
+      />
     </SafeAreaView>
   );
 }
@@ -343,110 +271,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666",
     textAlign: "center",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    width: "90%",
-    maxWidth: 400,
-    padding: 20,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 8,
-  },
-  modalHeaderText: {
-    flex: 1,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 4,
-  },
-  modalDate: {
-    fontSize: 14,
-    color: "#666",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  modalBody: {
-    marginBottom: 20,
-  },
-  fieldLabel: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  koreanTextInput: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 14,
-    minHeight: 80,
-    textAlignVertical: "top",
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  originalTextContainer: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  originalText: {
-    fontSize: 14,
-    color: "#666",
-    lineHeight: 20,
-  },
-  modalActions: {
-    flexDirection: "row",
-    gap: 12,
-  },
-  ttsButton: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#f5f5f5",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
-  ttsButtonText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#666",
-  },
-  copyButton: {
-    flex: 2,
-    flexDirection: "row",
-    backgroundColor: primaryColor,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  copyButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#fff",
   },
 });

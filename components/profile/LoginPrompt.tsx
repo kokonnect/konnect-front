@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 const primaryColor = "#00B493";
 
@@ -9,16 +10,20 @@ interface LoginPromptProps {
 }
 
 export default function LoginPrompt({ onSignInPress }: LoginPromptProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.section}>
       <View style={styles.loginPrompt}>
         <MaterialCommunityIcons name="account-circle" size={64} color="#ccc" />
-        <Text style={styles.loginTitle}>Sign in to access your profile</Text>
+        <Text style={styles.loginTitle}>{t("profile:loginPrompt.title")}</Text>
         <Text style={styles.loginSubtitle}>
-          Connect with teachers and manage your children&apos;s information
+          {t("profile:loginPrompt.description")}
         </Text>
         <TouchableOpacity style={styles.loginButton} onPress={onSignInPress}>
-          <Text style={styles.loginButtonText}>Sign In</Text>
+          <Text style={styles.loginButtonText}>
+            {t("profile:loginPrompt.loginButton")}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

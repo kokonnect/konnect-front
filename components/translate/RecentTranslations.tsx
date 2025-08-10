@@ -7,7 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+
 import SkeletonLoader from "./SkeletonLoader";
+import { formatDateHistory } from "@/utils/formatDate";
 
 const primaryColor = "#00B493";
 
@@ -29,21 +32,7 @@ export default function RecentTranslations({
   isLoading = false,
   onItemPress,
 }: RecentTranslationsProps) {
-  const formatDate = (date: Date) => {
-    const now = new Date();
-    const diffInDays = Math.floor(
-      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
-    );
-
-    if (diffInDays === 0) return "Today";
-    if (diffInDays === 1) return "Yesterday";
-    if (diffInDays < 7) return `${diffInDays} days ago`;
-
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
+  const { t, i18n } = useTranslation();
 
   const truncateText = (text: string, maxLines: number = 2) => {
     const words = text.split(" ");
@@ -77,7 +66,9 @@ export default function RecentTranslations({
         <Text style={styles.itemTitle} numberOfLines={1} ellipsizeMode="tail">
           {item.title}
         </Text>
-        <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
+        <Text style={styles.itemDate}>
+          {formatDateHistory(item.date, i18n.language, t)}
+        </Text>
         <Text style={styles.itemSummary} numberOfLines={2} ellipsizeMode="tail">
           {truncateText(item.summary)}
         </Text>
@@ -88,17 +79,14 @@ export default function RecentTranslations({
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
       <MaterialCommunityIcons name="translate" size={48} color="#ccc" />
-      <Text style={styles.emptyText}>No recent translations</Text>
-      <Text style={styles.emptySubtext}>
-        Your recent document translations will appear here
-      </Text>
+      <Text style={styles.emptyText}>{t("translate:history.noHistory")}</Text>
     </View>
   );
 
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.sectionTitle}>Recent Translations</Text>
+        <Text style={styles.sectionTitle}>{t("translate:history.recent")}</Text>
         {/* <View style={styles.listContainer}> */}
         {[0, 1, 2, 3, 4].map((index) => renderSkeletonItem({ index }))}
         {/* </View> */}
@@ -111,10 +99,13 @@ export default function RecentTranslations({
       <FlatList
         ListEmptyComponent={renderEmptyState}
         ListHeaderComponent={
-          <Text style={styles.sectionTitle}>Recent Translations</Text>
+          <Text style={styles.sectionTitle}>
+            {t("translate:history.recent")}
+          </Text>
         }
         style={styles.listContainer}
         data={translations}
+        // data={[]} // Limit to 5 items
         keyExtractor={(item) => item.id}
         renderItem={renderTranslationItem}
         showsVerticalScrollIndicator={false}
