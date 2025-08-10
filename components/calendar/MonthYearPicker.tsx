@@ -157,7 +157,7 @@ export default function MonthYearPicker({
             style={styles.confirmButton}
             onPress={handleConfirm}
           >
-            <Text style={styles.confirmButtonText}>Confirm</Text>
+            <Text style={styles.confirmButtonText}>{t("common:confirm")}</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
