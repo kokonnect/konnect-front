@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { t } from "i18next";
 
 export default function ProfileLayout() {
   return (
@@ -11,9 +12,9 @@ export default function ProfileLayout() {
       <Stack.Screen
         name="edit"
         options={{
-          title: "Edit Profile",
+          title: t("profile:editProfile.title"),
           headerShown: true,
-          headerBackTitle: "Back",
+          headerBackTitle: t("back"),
           presentation: "modal",
         }}
       />

@@ -13,6 +13,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -23,21 +24,6 @@ interface HistoryItem {
   translated: string;
   date: Date;
 }
-
-// Mock function to generate title from content
-const generateTitle = (text: string): string => {
-  const lowerText = text.toLowerCase();
-  if (lowerText.includes("absent") || lowerText.includes("결석")) {
-    return "Absence Notification";
-  } else if (lowerText.includes("meeting") || lowerText.includes("상담")) {
-    return "Meeting Request";
-  } else if (lowerText.includes("thank") || lowerText.includes("감사")) {
-    return "Thank You Message";
-  } else if (lowerText.includes("late") || lowerText.includes("늦")) {
-    return "Late Arrival Notice";
-  }
-  return "Message to Teacher";
-};
 
 // Mock data for history with AI-generated titles
 const mockHistoryData: HistoryItem[] = [
@@ -94,19 +80,18 @@ export default function HistoryScreen() {
 
   const formatDate = (date: Date) => {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
-    if (diffHours < 1) {
-      return "Just now";
-    } else if (diffHours < 24) {
-      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-    } else if (diffDays < 7) {
-      return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
+    if (diffInDays === 0) return t("common:today");
+    if (diffInDays === 1) return t("common:yesterday");
+    if (diffInDays < 7) return t("common:daysAgo", { count: diffInDays });
+
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
   };
 
   const handleItemPress = (item: HistoryItem) => {
@@ -161,16 +146,15 @@ export default function HistoryScreen() {
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.title}>Message Compose History</Text>
+        <Text style={styles.title}>{t("message:history.title")}</Text>
         <View style={styles.headerSpacer} />
       </View>
 
       {history.length === 0 ? (
         <View style={styles.emptyContainer}>
           <MaterialCommunityIcons name="history" size={64} color="#ccc" />
-          <Text style={styles.emptyText}>No translation history yet</Text>
-          <Text style={styles.emptySubtext}>
-            Your translated messages will appear here
+          <Text style={styles.emptyText}>
+            {t("message:history.noMessages")}
           </Text>
         </View>
       ) : (
@@ -214,7 +198,9 @@ export default function HistoryScreen() {
             </View>
 
             <View style={styles.modalBody}>
-              <Text style={styles.fieldLabel}>Korean Translation</Text>
+              <Text style={styles.fieldLabel}>
+                {t("message:translation.translatedMessage")}
+              </Text>
               <TextInput
                 style={styles.koreanTextInput}
                 value={editedKoreanText}
@@ -224,7 +210,9 @@ export default function HistoryScreen() {
                 textAlignVertical="top"
               />
 
-              <Text style={styles.fieldLabel}>Original Message</Text>
+              <Text style={styles.fieldLabel}>
+                {t("message:translation.originalMessage")}
+              </Text>
               <View style={styles.originalTextContainer}>
                 <Text style={styles.originalText}>
                   {selectedItem?.original}
@@ -239,7 +227,7 @@ export default function HistoryScreen() {
                   size={20}
                   color="#666"
                 />
-                <Text style={styles.ttsButtonText}>TTS</Text>
+                <Text style={styles.ttsButtonText}>{t("tts")}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -251,7 +239,9 @@ export default function HistoryScreen() {
                   size={20}
                   color="#fff"
                 />
-                <Text style={styles.copyButtonText}>Copy Korean</Text>
+                <Text style={styles.copyButtonText}>
+                  {t("message:translation.copyTranslation")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

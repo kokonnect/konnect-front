@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { isFirstLaunch, isOnboardingCompleted } from "@/utils/storage";
 
 const primaryColor = "#00B493";
@@ -31,6 +32,9 @@ export default function SplashScreen() {
         isOnboardingCompleted(),
         minSplashTime, // Ensure minimum splash time
       ]);
+
+      console.log("First Launch:", firstLaunch);
+      console.log("Onboarding Completed:", onboardingCompleted);
 
       // Navigation logic
       if (firstLaunch || !onboardingCompleted) {
@@ -60,23 +64,12 @@ export default function SplashScreen() {
             <MaterialCommunityIcons name="translate" size={60} color="#fff" />
           </View>
           <Text style={styles.appName}>Konnect</Text>
-          <Text style={styles.tagline}>
-            Bridge the language gap with your child's school
-          </Text>
         </View>
 
         {/* Loading indicator */}
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={primaryColor} />
-          <Text style={styles.loadingText}>Loading...</Text>
         </View>
-      </View>
-
-      {/* Footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          Connecting families through seamless translation
-        </Text>
       </View>
     </View>
   );

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import SkeletonLoader from "./SkeletonLoader";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -35,9 +36,9 @@ export default function RecentTranslations({
       (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
     );
 
-    if (diffInDays === 0) return "Today";
-    if (diffInDays === 1) return "Yesterday";
-    if (diffInDays < 7) return `${diffInDays} days ago`;
+    if (diffInDays === 0) return t("common:today");
+    if (diffInDays === 1) return t("common:yesterday");
+    if (diffInDays < 7) return t("common:daysAgo", { count: diffInDays });
 
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -88,17 +89,14 @@ export default function RecentTranslations({
   const renderEmptyState = () => (
     <View style={styles.emptyContainer}>
       <MaterialCommunityIcons name="translate" size={48} color="#ccc" />
-      <Text style={styles.emptyText}>No recent translations</Text>
-      <Text style={styles.emptySubtext}>
-        Your recent document translations will appear here
-      </Text>
+      <Text style={styles.emptyText}>{t("translate:history.noHistory")}</Text>
     </View>
   );
 
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.sectionTitle}>Recent Translations</Text>
+        <Text style={styles.sectionTitle}>{t("translate:history.recent")}</Text>
         {/* <View style={styles.listContainer}> */}
         {[0, 1, 2, 3, 4].map((index) => renderSkeletonItem({ index }))}
         {/* </View> */}
@@ -111,10 +109,13 @@ export default function RecentTranslations({
       <FlatList
         ListEmptyComponent={renderEmptyState}
         ListHeaderComponent={
-          <Text style={styles.sectionTitle}>Recent Translations</Text>
+          <Text style={styles.sectionTitle}>
+            {t("translate:history.recent")}
+          </Text>
         }
         style={styles.listContainer}
         data={translations}
+        // data={[]} // Limit to 5 items
         keyExtractor={(item) => item.id}
         renderItem={renderTranslationItem}
         showsVerticalScrollIndicator={false}

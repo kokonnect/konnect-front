@@ -26,6 +26,7 @@ import {
   TabType,
   UploadedFile,
 } from "@/components/translate/types";
+import { t } from "i18next";
 // import { SafeAreaView } from "react-native-safe-area-context";
 
 const primaryColor = "#00B493";
@@ -337,9 +338,9 @@ export default function TranslateScreen() {
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerTitle}>Document Translation</Text>
+            <Text style={styles.headerTitle}>{t("translate:title")}</Text>
             <Text style={styles.headerSubtitle}>
-              Upload school documents for instant translation
+              {t("translate:description")}
             </Text>
           </View>
           <TouchableOpacity
@@ -390,7 +391,9 @@ export default function TranslateScreen() {
           onPress={() => setShowImageModal(false)}
         >
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Choose Image Source</Text>
+            <Text style={styles.modalTitle}>
+              {t("translate:upload.chooseImageSource")}
+            </Text>
 
             <TouchableOpacity
               style={styles.modalOption}
@@ -401,7 +404,9 @@ export default function TranslateScreen() {
                 size={24}
                 color={primaryColor}
               />
-              <Text style={styles.modalOptionText}>Take Photo</Text>
+              <Text style={styles.modalOptionText}>
+                {t("translate:upload.takePhoto")}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -413,14 +418,16 @@ export default function TranslateScreen() {
                 size={24}
                 color={primaryColor}
               />
-              <Text style={styles.modalOptionText}>Choose from Gallery</Text>
+              <Text style={styles.modalOptionText}>
+                {t("translate:upload.fromGallery")}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.modalCancel}
               onPress={() => setShowImageModal(false)}
             >
-              <Text style={styles.modalCancelText}>Cancel</Text>
+              <Text style={styles.modalCancelText}>{t("common:cancel")}</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

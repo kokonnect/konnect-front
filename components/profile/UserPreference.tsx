@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
@@ -14,10 +8,8 @@ import LanguageSelectionModal from "@/components/shared/LanguageSelectionModal";
 
 const primaryColor = "#00B493";
 
-
-
 export default function PreferencesSection() {
-  const { t } = useTranslation('profile');
+  const { t } = useTranslation("profile");
   const [pushNotifications, setPushNotifications] = useState(true);
   const [historySave, setHistorySave] = useState(true);
   const [translationSave, setTranslationSave] = useState(true);
@@ -25,7 +17,9 @@ export default function PreferencesSection() {
 
   const currentLanguage = getCurrentLanguage();
   const availableLanguages = getAvailableLanguages();
-  const currentLanguageDisplay = availableLanguages.find(lang => lang.code === currentLanguage)?.nativeName || currentLanguage;
+  const currentLanguageDisplay =
+    availableLanguages.find((lang) => lang.code === currentLanguage)
+      ?.nativeName || currentLanguage;
 
   const handleSetPushNotifications = (value: boolean) => {
     setPushNotifications(value);
@@ -44,15 +38,14 @@ export default function PreferencesSection() {
 
   return (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Preferences</Text>
+      <Text style={styles.sectionTitle}>{t("preferences.title")}</Text>
       <View style={styles.preferencesContainer}>
         <View style={styles.preferenceItem}>
           <View style={styles.preferenceInfo}>
             <MaterialCommunityIcons name="bell" size={20} color="#666" />
             <View style={styles.preferenceText}>
-              <Text style={styles.preferenceTitle}>Push Notifications</Text>
-              <Text style={styles.preferenceSubtitle}>
-                Receive updates about your children
+              <Text style={styles.preferenceTitle}>
+                {t("preferences.notifications.title")}
               </Text>
             </View>
           </View>
@@ -68,9 +61,8 @@ export default function PreferencesSection() {
           <View style={styles.preferenceInfo}>
             <MaterialCommunityIcons name="history" size={20} color="#666" />
             <View style={styles.preferenceText}>
-              <Text style={styles.preferenceTitle}>Save Message History</Text>
-              <Text style={styles.preferenceSubtitle}>
-                Keep history of composed messages
+              <Text style={styles.preferenceTitle}>
+                {t("preferences.translation.saveMessageHistory")}
               </Text>
             </View>
           </View>
@@ -86,9 +78,8 @@ export default function PreferencesSection() {
           <View style={styles.preferenceInfo}>
             <MaterialCommunityIcons name="translate" size={20} color="#666" />
             <View style={styles.preferenceText}>
-              <Text style={styles.preferenceTitle}>Save Translations</Text>
-              <Text style={styles.preferenceSubtitle}>
-                Keep history of translated messages
+              <Text style={styles.preferenceTitle}>
+                {t("preferences.translation.saveDocHistory")}
               </Text>
             </View>
           </View>
@@ -107,9 +98,11 @@ export default function PreferencesSection() {
           <View style={styles.preferenceInfo}>
             <MaterialCommunityIcons name="earth" size={20} color="#666" />
             <View style={styles.preferenceText}>
-              <Text style={styles.preferenceTitle}>{t('preferences.language')}</Text>
+              <Text style={styles.preferenceTitle}>
+                {t("preferences.language")}
+              </Text>
               <Text style={styles.preferenceSubtitle}>
-                {t('preferences.languageDescription')}
+                {t("preferences.languageDescription")}
               </Text>
             </View>
           </View>

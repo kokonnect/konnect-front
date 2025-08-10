@@ -14,9 +14,9 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import UserPreference from "@/components/profile/UserPreference";
 import { useAuthAndUser } from "@/hooks";
 import { Child as BaseChild, UserProfile as BaseUserProfile } from "@/types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -41,7 +41,7 @@ const mockUser: UserProfile = {
     {
       id: "1",
       name: "Emma Johnson",
-      birthdate: new Date(2015, 5, 15),
+      birthDate: "2015-06-15",
       school: "Greenfield Elementary",
       grade: "3rd Grade",
       class: "3A",
@@ -50,7 +50,7 @@ const mockUser: UserProfile = {
     {
       id: "2",
       name: "Lucas Johnson",
-      birthdate: new Date(2018, 2, 8),
+      birthDate: "2018-03-08",
       school: "Greenfield Elementary",
       grade: "Kindergarten",
       class: "K2",
@@ -66,7 +66,7 @@ export default function EditProfileScreen() {
     isAuthenticated,
     hasChildren,
     addChild: addChildToAuth,
-  } = useAuth();
+  } = useAuthAndUser();
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -80,13 +80,6 @@ export default function EditProfileScreen() {
   const [showChildModal, setShowChildModal] = useState(false);
   const [editingChild, setEditingChild] = useState<Child | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  // Show add child modal automatically for new users without children
-  useEffect(() => {
-    if (isAuthenticated && !hasChildren) {
-      setShowChildModal(true);
-    }
-  }, [isAuthenticated, hasChildren]);
 
   // Child form states
   const [childName, setChildName] = useState("");
@@ -169,17 +162,9 @@ export default function EditProfileScreen() {
       });
     }
 
-    setShowChildModal(false);
     resetChildForm();
 
-    // Show success message for first child
-    if (!hasChildren) {
-      Alert.alert(
-        "Welcome to Konnect!",
-        "Your child has been added successfully. You can now use all features of the app.",
-        [{ text: "OK", onPress: () => router.replace("/(tabs)") }],
-      );
-    }
+    setShowChildModal(false);
   };
 
   const handleDeleteChild = () => {
@@ -239,27 +224,27 @@ export default function EditProfileScreen() {
                 <MaterialCommunityIcons name="account" size={40} color="#fff" />
               </View>
             )}
-            <TouchableOpacity style={styles.avatarEditButton}>
-              <MaterialCommunityIcons name="camera" size={16} color="#fff" />
-            </TouchableOpacity>
           </View>
-          <Text style={styles.avatarText}>Change Photo</Text>
         </View>
 
         {/* Form Fields */}
         <View style={styles.formSection}>
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Full Name</Text>
+            <Text style={styles.inputLabel}>
+              {t("profile:editProfile.form.name")}
+            </Text>
             <TextInput
               style={styles.textInput}
               value={name}
               onChangeText={setName}
-              placeholder="Enter your full name"
+              placeholder={t("profile:editProfile.namePlaceholder")}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Email</Text>
+            <Text style={styles.inputLabel}>
+              {t("profile:editProfile.form.email")}
+            </Text>
             <View style={styles.providerInfo}>
               <Text style={styles.emailText}>{user?.email}</Text>
               <View style={styles.providerBadge}>
@@ -281,14 +266,14 @@ export default function EditProfileScreen() {
               </View>
             </View>
             <Text style={styles.providerNote}>
-              Email and login provider cannot be changed
+              {t("profile:editProfile.emailProviderCantChange")}
             </Text>
           </View>
         </View>
 
         {/* Children Section */}
         <View style={styles.childrenSection}>
-          <Text style={styles.sectionTitle}>Children Information</Text>
+          <Text style={styles.sectionTitle}>{t("profile:children.title")}</Text>
           {children.map((child) => (
             <View key={child.id} style={styles.childBlock}>
               <View style={styles.childInfo}>
@@ -316,14 +301,18 @@ export default function EditProfileScreen() {
               size={20}
               color={primaryColor}
             />
-            <Text style={styles.addChildText}>Add Child Information</Text>
+            <Text style={styles.addChildText}>
+              {t("profile:children.addChild")}
+            </Text>
           </TouchableOpacity>
         </View>
 
         {/* Done Button */}
         <View style={styles.doneSection}>
           <TouchableOpacity style={styles.doneButton} onPress={handleSave}>
-            <Text style={styles.doneButtonText}>Done</Text>
+            <Text style={styles.doneButtonText}>
+              {t("profile:editProfile.form.save")}
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -334,21 +323,16 @@ export default function EditProfileScreen() {
         transparent={true}
         animationType="slide"
         onRequestClose={() => {
-          // Don't allow closing modal if user has no children (must add at least one)
-          if (hasChildren) {
-            setShowChildModal(false);
-          }
+          setShowChildModal(false);
         }}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.childModal}>
             <View style={styles.childModalHeader}>
               <Text style={styles.childModalTitle}>
-                {!hasChildren
-                  ? "Complete Your Profile"
-                  : editingChild
-                    ? "Edit Child"
-                    : "Add Child"}
+                {editingChild
+                  ? t("profile:children.editChild")
+                  : t("profile:children.addChild")}
               </Text>
               {hasChildren && (
                 <TouchableOpacity onPress={() => setShowChildModal(false)}>
@@ -357,38 +341,30 @@ export default function EditProfileScreen() {
               )}
             </View>
 
-            {!hasChildren && (
-              <View style={styles.welcomeMessage}>
-                <Text style={styles.welcomeText}>
-                  Welcome! Please add your child's information to get started
-                  with Konnect.
-                </Text>
-              </View>
-            )}
-
             <ScrollView
               style={styles.childForm}
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Child Name *</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.name")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childName}
                   onChangeText={setChildName}
-                  placeholder="Enter child's name"
+                  placeholder={t("profile:children.form.namePlaceholder")}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Birthdate</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.birthdate")}
+                </Text>
                 <TouchableOpacity
                   style={styles.dateInput}
                   onPress={() => setShowDatePicker(true)}
                 >
-                  {/* <Text style={styles.dateText}>
-                    {formatDate(childBirthdate)}
-                  </Text> */}
                   <DateTimePicker
                     value={childBirthdate}
                     mode="date"
@@ -396,60 +372,54 @@ export default function EditProfileScreen() {
                     maximumDate={new Date()}
                     onChange={handleDateChange}
                   />
-                  {/* <MaterialCommunityIcons
-                    name="calendar"
-                    size={20}
-                    color="#666"
-                  /> */}
                 </TouchableOpacity>
-                {/* {showDatePicker && (
-                  <DateTimePicker
-                    value={childBirthdate}
-                    mode="date"
-                    display="default"
-                    maximumDate={new Date()}
-                    onChange={handleDateChange}
-                  />
-                )} */}
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>School Name *</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.school")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childSchool}
                   onChangeText={setChildSchool}
-                  placeholder="Enter school name"
+                  placeholder={t("profile:children.form.schoolPlaceholder")}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Grade</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.grade")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childGrade}
                   onChangeText={setChildGrade}
-                  placeholder="Enter grade (e.g., 3rd Grade)"
+                  placeholder={t("profile:children.form.gradePlaceholder")}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Class</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.class")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childClass}
                   onChangeText={setChildClass}
-                  placeholder="Enter class (e.g., 3A)"
+                  placeholder={t("profile:children.form.classPlaceholder")}
                 />
               </View>
 
               <View style={styles.inputGroup}>
-                <Text style={styles.inputLabel}>Teacher Name</Text>
+                <Text style={styles.inputLabel}>
+                  {t("profile:children.form.teacher")}
+                </Text>
                 <TextInput
                   style={styles.textInput}
                   value={childTeacherName}
                   onChangeText={setChildTeacherName}
-                  placeholder="Enter teacher's name"
+                  placeholder={t("profile:children.form.teacherPlaceholder")}
                 />
               </View>
 
@@ -460,7 +430,7 @@ export default function EditProfileScreen() {
                       style={styles.deleteButton}
                       onPress={handleDeleteChild}
                     >
-                      <Text style={styles.deleteButtonText}>Delete</Text>
+                      <Text style={styles.deleteButtonText}>{t("delete")}</Text>
                     </TouchableOpacity>
                   )}
 
@@ -468,7 +438,7 @@ export default function EditProfileScreen() {
                     style={styles.saveChildButton}
                     onPress={handleSaveChild}
                   >
-                    <Text style={styles.saveChildButtonText}>Save</Text>
+                    <Text style={styles.saveChildButtonText}>{t("save")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>

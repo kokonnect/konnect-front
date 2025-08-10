@@ -8,6 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -78,7 +79,7 @@ interface MonthYearPickerProps {
   visible: boolean;
   currentMonth: string; // Format: "YYYY-MM"
   onClose: () => void;
-  onConfirm: (month: string) => void;
+  onConfirm: (year: number, month: number) => void;
 }
 
 export default function MonthYearPicker({
@@ -96,8 +97,8 @@ export default function MonthYearPicker({
   const renderMonthItem = createMonthRenderItem(tempMonth, setTempMonth);
 
   const handleConfirm = () => {
-    const newMonth = `${tempYear}-${String(tempMonth).padStart(2, "0")}`;
-    onConfirm(newMonth);
+    onConfirm(tempYear, tempMonth);
+    onClose();
   };
 
   return (
@@ -105,24 +106,31 @@ export default function MonthYearPicker({
       visible={visible}
       transparent={true}
       animationType="fade"
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
     >
       <TouchableOpacity
         style={styles.modalOverlay}
         activeOpacity={1}
-        onPress={onClose}
+        onPress={() => onClose()}
       >
         <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Select Month & Year</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <Text style={styles.modalTitle}>
+              {t("calendar:monthYearPicker.title")}
+            </Text>
+            <TouchableOpacity
+              onPress={() => onClose()}
+              style={styles.closeButton}
+            >
               <MaterialCommunityIcons name="close" size={24} color="#333" />
             </TouchableOpacity>
           </View>
 
           <View style={styles.pickerContainer}>
             <View style={styles.yearPicker}>
-              <Text style={styles.pickerLabel}>Year</Text>
+              <Text style={styles.pickerLabel}>
+                {t("calendar:monthYearPicker.selectYear")}
+              </Text>
               <FlatList
                 data={years}
                 keyExtractor={(item) => item.toString()}
@@ -132,7 +140,9 @@ export default function MonthYearPicker({
             </View>
 
             <View style={styles.monthPicker}>
-              <Text style={styles.pickerLabel}>Month</Text>
+              <Text style={styles.pickerLabel}>
+                {t("calendar:monthYearPicker.selectMonth")}
+              </Text>
               <FlatList
                 data={months}
                 keyExtractor={(item) => item.id.toString()}

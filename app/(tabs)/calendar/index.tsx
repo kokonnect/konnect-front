@@ -14,22 +14,24 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import UpcomingEvents from "@/components/shared/UpcomingEvents";
 import SelectedDateSchedule from "@/components/calendar/SelectedDateSchedule";
+import { t } from "i18next";
+import MonthYearPicker from "@/components/calendar/MonthYearPicker";
 
 const primaryColor = "#00B493";
 
 const months = [
-  { id: 1, name: "January" },
-  { id: 2, name: "February" },
-  { id: 3, name: "March" },
-  { id: 4, name: "April" },
-  { id: 5, name: "May" },
-  { id: 6, name: "June" },
-  { id: 7, name: "July" },
-  { id: 8, name: "August" },
-  { id: 9, name: "September" },
-  { id: 10, name: "October" },
-  { id: 11, name: "November" },
-  { id: 12, name: "December" },
+  { id: 1, name: "january" },
+  { id: 2, name: "february" },
+  { id: 3, name: "march" },
+  { id: 4, name: "april" },
+  { id: 5, name: "may" },
+  { id: 6, name: "june" },
+  { id: 7, name: "july" },
+  { id: 8, name: "august" },
+  { id: 9, name: "september" },
+  { id: 10, name: "october" },
+  { id: 11, name: "november" },
+  { id: 12, name: "december" },
 ];
 
 const years = Array.from(
@@ -38,7 +40,8 @@ const years = Array.from(
 );
 
 // Optimized render functions
-const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => void) => 
+const createYearRenderItem =
+  (tempYear: number, setTempYear: (year: number) => void) =>
   ({ item }: { item: number }) => (
     <TouchableOpacity
       style={[
@@ -58,7 +61,8 @@ const createYearRenderItem = (tempYear: number, setTempYear: (year: number) => v
     </TouchableOpacity>
   );
 
-const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) => void) => 
+const createMonthRenderItem =
+  (tempMonth: number, setTempMonth: (month: number) => void) =>
   ({ item }: { item: { id: number; name: string } }) => (
     <TouchableOpacity
       style={[
@@ -70,11 +74,10 @@ const createMonthRenderItem = (tempMonth: number, setTempMonth: (month: number) 
       <Text
         style={[
           styles.pickerItemText,
-          tempMonth === item.id &&
-            styles.selectedPickerItemText,
+          tempMonth === item.id && styles.selectedPickerItemText,
         ]}
       >
-        {item.name}
+        {t(`calendar:months.${item.name}`)}
       </Text>
     </TouchableOpacity>
   );
@@ -227,65 +230,15 @@ export default function CalendarScreen() {
           <UpcomingEvents showViewAll={false} currentMonth={currentMonth} />
         )}
       </ScrollView>
-
-      <Modal
+      <MonthYearPicker
         visible={showMonthPicker}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowMonthPicker(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowMonthPicker(false)}
-        >
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Month & Year</Text>
-              <TouchableOpacity
-                onPress={() => setShowMonthPicker(false)}
-                style={styles.closeButton}
-              >
-                <MaterialCommunityIcons name="close" size={24} color="#333" />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.pickerContainer}>
-              <View style={styles.yearPicker}>
-                <Text style={styles.pickerLabel}>Year</Text>
-                <FlatList
-                  data={years}
-                  keyExtractor={(item) => item.toString()}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={renderYearItem}
-                />
-              </View>
-
-              <View style={styles.monthPicker}>
-                <Text style={styles.pickerLabel}>Month</Text>
-                <FlatList
-                  data={months}
-                  keyExtractor={(item) => item.id.toString()}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={renderMonthItem}
-                />
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={styles.confirmButton}
-              onPress={() => {
-                const newMonth = `${tempYear}-${String(tempMonth).padStart(2, "0")}`;
-                setCurrentMonth(newMonth);
-                setSelected(""); // Clear selected date
-                setShowMonthPicker(false);
-              }}
-            >
-              <Text style={styles.confirmButtonText}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        currentMonth={currentMonth}
+        onClose={() => setShowMonthPicker(false)}
+        onConfirm={(year, month) => {
+          setCurrentMonth(`${year}-${String(month).padStart(2, "0")}`);
+          setSelected("");
+        }}
+      />
     </SafeAreaView>
   );
 }

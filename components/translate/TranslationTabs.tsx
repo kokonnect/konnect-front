@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TabType } from "./types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -39,7 +40,7 @@ export default function TranslationTabs({
               activeTab === tab.id && styles.activeTabLabel,
             ]}
           >
-            {tab.label}
+            {t(`translate:translation.${tab.id}`)}
           </Text>
         </TouchableOpacity>
       ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -33,7 +34,9 @@ export default function TranslationButtons({
             isRetranslating && styles.disabledButtonText,
           ]}
         >
-          {isRetranslating ? "Retranslating..." : "Retranslate"}
+          {isRetranslating
+            ? t("translate:translation.retranslating")
+            : t("translate:translation.retranslate")}
         </Text>
       </TouchableOpacity>
 
@@ -43,7 +46,7 @@ export default function TranslationButtons({
         disabled={isRetranslating}
       >
         <MaterialCommunityIcons name="check" size={18} color="#fff" />
-        <Text style={styles.doneButtonText}>Done</Text>
+        <Text style={styles.doneButtonText}>{t("common:done")}</Text>
       </TouchableOpacity>
     </View>
   );

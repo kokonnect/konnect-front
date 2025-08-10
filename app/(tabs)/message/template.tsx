@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
+import { t } from "i18next";
+import MessageHeader from "@/components/message/MessageHeader";
 
 interface MessageTemplate {
   id: string;
@@ -31,7 +33,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, 제 아이 [아이 이름]이 [날짜]에 [사유]로 인해 학교를 결석하게 됩니다. 결석을 양해해 주시기 바랍니다.",
     messageEn:
       "Hi, my child [Child Name] will be absent from school on [Date] due to [Reason]. Please excuse their absence.",
-    category: "Attendance",
+    category: "absence",
     isFavorite: false,
   },
   {
@@ -41,7 +43,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, [아이 이름]이 오늘 [사유]로 인해 대략 [시간]에 늦게 등교할 예정입니다.",
     messageEn:
       "Good morning, [Child Name] will be arriving late to school today at approximately [Time] due to [Reason].",
-    category: "Attendance",
+    category: "absence",
     isFavorite: true,
   },
   {
@@ -51,7 +53,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, [사유]로 인해 오늘 [시간]에 [아이 이름]을 일찍 데려가야 합니다. 사무실에서 준비시켜 주세요.",
     messageEn:
       "Hello, I need to pick up [Child Name] early today at [Time] for [Reason]. Please have them ready in the office.",
-    category: "Attendance",
+    category: "absence",
     isFavorite: false,
   },
   {
@@ -61,7 +63,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, [아이 이름]이 [날짜]에 내주신 [과목] 숙제에 대해 질문이 있습니다. [질문] 내용을 명확히 해주실 수 있나요?",
     messageEn:
       "Hi, [Child Name] has a question about the [Subject] homework assigned on [Date]. Could you please clarify [Question]?",
-    category: "Academic",
+    category: "homework",
     isFavorite: false,
   },
   {
@@ -81,7 +83,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, [아이 이름]이 오늘 점심 도시락을 가져오지 못했습니다. 급식비를 지불하겠습니다.",
     messageEn:
       "Hello, [Child Name] forgot their lunch today. We will pay for the school lunch.",
-    category: "General",
+    category: "concern",
     isFavorite: true,
   },
   {
@@ -91,7 +93,7 @@ const mockTemplates: MessageTemplate[] = [
       "안녕하세요, [행사명] 관련 동의서를 보내드립니다. 검토 후 서명하여 보내드리겠습니다.",
     messageEn:
       "Hello, I'm sending the permission slip for [Event Name]. I will review, sign, and return it.",
-    category: "Permission",
+    category: "other",
     isFavorite: false,
   },
 ];
@@ -167,7 +169,7 @@ export default function TemplateScreen() {
         <Text
           style={[styles.filterTagText, isActive && styles.activeFilterTagText]}
         >
-          {category}
+          {t(`message:templates.categories.${category.toLowerCase()}`)}
         </Text>
       </TouchableOpacity>
     );
@@ -188,14 +190,18 @@ export default function TemplateScreen() {
           </TouchableOpacity>
           <View style={styles.templateHeaderText}>
             <Text style={styles.templateTitle}>{item.title}</Text>
-            <Text style={styles.categoryText}>{item.category}</Text>
+            <Text style={styles.categoryText}>
+              {t(`message:templates.categories.${item.category.toLowerCase()}`)}
+            </Text>
           </View>
         </View>
         <TouchableOpacity
           style={styles.useButton}
           onPress={() => handleUseTemplate(item)}
         >
-          <Text style={styles.useButtonText}>Use</Text>
+          <Text style={styles.useButtonText}>
+            {t("message:templates.useTemplate")}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -209,12 +215,11 @@ export default function TemplateScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.header}>
-        <Text style={styles.sectionTitle}>Message Templates</Text>
-        <Text style={styles.sectionSubtitle}>
-          Quick templates for common messages
-        </Text>
-      </View>
+      <MessageHeader
+        title={t("message:templates.title")}
+        subtitle={t("message:templates.description")}
+        showHistoryButton={false}
+      />
 
       <View style={styles.filterContainer}>
         <ScrollView
@@ -251,7 +256,9 @@ export default function TemplateScreen() {
               <View style={styles.modalHeaderText}>
                 <Text style={styles.modalTitle}>{selectedTemplate?.title}</Text>
                 <Text style={styles.modalCategory}>
-                  {selectedTemplate?.category}
+                  {t(
+                    `message:templates.categories.${selectedTemplate?.category.toLowerCase()}`,
+                  )}
                 </Text>
               </View>
               <TouchableOpacity
@@ -263,7 +270,9 @@ export default function TemplateScreen() {
             </View>
 
             <View style={styles.modalBody}>
-              <Text style={styles.fieldLabel}>Korean Version</Text>
+              <Text style={styles.fieldLabel}>
+                {t("message:templates.koreanVersion")}
+              </Text>
               <TextInput
                 style={styles.koreanTextInput}
                 value={editedKoreanText}
@@ -273,7 +282,9 @@ export default function TemplateScreen() {
                 textAlignVertical="top"
               />
 
-              <Text style={styles.fieldLabel}>English Version</Text>
+              <Text style={styles.fieldLabel}>
+                {t("message:templates.yourLanguageVersion")}
+              </Text>
               <Text style={styles.englishText}>
                 {selectedTemplate?.messageEn}
               </Text>
@@ -286,7 +297,7 @@ export default function TemplateScreen() {
                   size={20}
                   color="#666"
                 />
-                <Text style={styles.ttsButtonText}>TTS</Text>
+                <Text style={styles.ttsButtonText}>{t("tts")}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.copyButton} onPress={handleCopy}>
@@ -295,7 +306,9 @@ export default function TemplateScreen() {
                   size={20}
                   color="#fff"
                 />
-                <Text style={styles.copyButtonText}>Copy Korean</Text>
+                <Text style={styles.copyButtonText}>
+                  {t("message:templates.copyKorean")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -55,7 +55,7 @@ export default function LoginScreen() {
   // Mock OAuth token retrieval - replace with actual OAuth implementation
   const mockGetOAuthToken = async (provider: "kakao" | "google") => {
     // Simulate OAuth flow delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     return `${provider}_auth_token_${Date.now()}`;
   };
 

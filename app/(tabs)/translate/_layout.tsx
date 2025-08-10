@@ -6,15 +6,6 @@ export default function TranslateLayout() {
   return (
     <Stack
       screenOptions={{
-        // headerStyle: {
-        //   backgroundColor: primaryColor,
-        // },
-        // headerTintColor: "#fff",
-        // headerTitleStyle: {
-        //   color: "#fff",
-        //   fontSize: 18,
-        //   fontWeight: "600",
-        // },
         headerShown: false,
       }}
     >
@@ -24,13 +15,7 @@ export default function TranslateLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="history"
-        // options={{
-        //   title: "Translation History",
-        //   headerBackTitle: "Translate",
-        // }}
-      />
+      <Stack.Screen name="history" />
     </Stack>
   );
 }

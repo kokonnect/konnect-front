@@ -18,6 +18,7 @@ import { useRouter } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "@/components/shared/Button";
 import { Child, NotificationOption, RepeatOption } from "@/types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -29,13 +30,13 @@ const mockChildren: Child[] = [
 ];
 
 const notificationOptions: NotificationOption[] = [
-  { id: "1", label: "None", value: 0 },
-  { id: "2", label: "At time of event", value: 0 },
-  { id: "3", label: "5 minutes before", value: 5 },
-  { id: "4", label: "15 minutes before", value: 15 },
-  { id: "5", label: "30 minutes before", value: 30 },
-  { id: "6", label: "1 hour before", value: 60 },
-  { id: "7", label: "1 day before", value: 1440 },
+  { id: "1", label: "none", value: 0 },
+  { id: "2", label: "at", value: 0 },
+  { id: "3", label: "5min", value: 5 },
+  { id: "4", label: "15min", value: 15 },
+  { id: "5", label: "30min", value: 30 },
+  { id: "6", label: "1hour", value: 60 },
+  { id: "7", label: "1day", value: 1440 },
 ];
 
 const repeatOptions: RepeatOption[] = [
@@ -46,50 +47,61 @@ const repeatOptions: RepeatOption[] = [
   { id: "5", label: "Yearly", value: "yearly" },
 ];
 
-const createChildItemRenderer = (
-  setSelectedChild: (child: Child) => void,
-  setShowChildDropdown: (show: boolean) => void
-) => ({ item }: { item: Child }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedChild(item);
-      setShowChildDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.name}</Text>
-  </TouchableOpacity>
-);
+const createChildItemRenderer =
+  (
+    setSelectedChild: (child: Child) => void,
+    setShowChildDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: Child }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedChild(item);
+        setShowChildDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
-const createNotificationItemRenderer = (
-  setSelectedNotification: (notification: NotificationOption) => void,
-  setShowNotificationDropdown: (show: boolean) => void
-) => ({ item }: { item: NotificationOption }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedNotification(item);
-      setShowNotificationDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.label}</Text>
-  </TouchableOpacity>
-);
+const createNotificationItemRenderer =
+  (
+    setSelectedNotification: (notification: NotificationOption) => void,
+    setShowNotificationDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: NotificationOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedNotification(item);
+        setShowNotificationDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>
+        {" "}
+        {t("calendar:addEvent.form.reminderOptions." + item.label)}
+      </Text>
+    </TouchableOpacity>
+  );
 
-const createRepeatItemRenderer = (
-  setSelectedRepeat: (repeat: RepeatOption) => void,
-  setShowRepeatDropdown: (show: boolean) => void
-) => ({ item }: { item: RepeatOption }) => (
-  <TouchableOpacity
-    style={styles.dropdownItem}
-    onPress={() => {
-      setSelectedRepeat(item);
-      setShowRepeatDropdown(false);
-    }}
-  >
-    <Text style={styles.dropdownItemText}>{item.label}</Text>
-  </TouchableOpacity>
-);
+const createRepeatItemRenderer =
+  (
+    setSelectedRepeat: (repeat: RepeatOption) => void,
+    setShowRepeatDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: RepeatOption }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setSelectedRepeat(item);
+        setShowRepeatDropdown(false);
+      }}
+    >
+      <Text style={styles.dropdownItemText}>
+        {t("calendar:addEvent.form.repeatOptions." + item.value)}
+      </Text>
+    </TouchableOpacity>
+  );
 
 export default function AddCalendarScreen() {
   const router = useRouter();
@@ -112,9 +124,18 @@ export default function AddCalendarScreen() {
   const [showRepeatDropdown, setShowRepeatDropdown] = useState(false);
 
   // Create render functions with state setters
-  const renderChildItem = createChildItemRenderer(setSelectedChild, setShowChildDropdown);
-  const renderNotificationItem = createNotificationItemRenderer(setSelectedNotification, setShowNotificationDropdown);
-  const renderRepeatItem = createRepeatItemRenderer(setSelectedRepeat, setShowRepeatDropdown);
+  const renderChildItem = createChildItemRenderer(
+    setSelectedChild,
+    setShowChildDropdown,
+  );
+  const renderNotificationItem = createNotificationItemRenderer(
+    setSelectedNotification,
+    setShowNotificationDropdown,
+  );
+  const renderRepeatItem = createRepeatItemRenderer(
+    setSelectedRepeat,
+    setShowRepeatDropdown,
+  );
 
   // DateTimePicker states
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
@@ -245,7 +266,6 @@ export default function AddCalendarScreen() {
     }
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -253,9 +273,9 @@ export default function AddCalendarScreen() {
         <TouchableOpacity style={styles.headerButton} onPress={handleCancel}>
           <MaterialCommunityIcons name="close" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Add Event</Text>
+        <Text style={styles.headerTitle}>{t("calendar:addEvent.title")}</Text>
         <Button
-          title="Add"
+          title={t("calendar:addEvent.form.save")}
           onPress={handleSave}
           disabled={!eventTitle.trim() || !selectedChild}
           style={styles.saveButton}
@@ -265,10 +285,12 @@ export default function AddCalendarScreen() {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Event Title */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Event Title *</Text>
+          <Text style={styles.label}>
+            {t("calendar:addEvent.form.eventTitle")}
+          </Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter event title"
+            placeholder={t("calendar:addEvent.form.eventTitlePlaceholder")}
             value={eventTitle}
             onChangeText={setEventTitle}
             placeholderTextColor="#999"
@@ -278,7 +300,9 @@ export default function AddCalendarScreen() {
         {/* All Day Toggle */}
         <View style={styles.formGroup}>
           <View style={styles.toggleRow}>
-            <Text style={styles.label}>All Day</Text>
+            <Text style={styles.label}>
+              {t("calendar:addEvent.form.allDayEvent")}
+            </Text>
             <Switch
               value={isAllDay}
               onValueChange={setIsAllDay}
@@ -290,7 +314,7 @@ export default function AddCalendarScreen() {
 
         {/* Start Date/Time */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Start *</Text>
+          <Text style={styles.label}>{t("common:start")}</Text>
           <View style={styles.dateTimeRow}>
             <TouchableOpacity
               style={[styles.dateTimeButton, { flex: 2 }]}
@@ -351,7 +375,7 @@ export default function AddCalendarScreen() {
 
         {/* End Date/Time */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>End *</Text>
+          <Text style={styles.label}>{t("common:end")}</Text>
           <View style={styles.dateTimeRow}>
             <TouchableOpacity
               style={[styles.dateTimeButton, { flex: 2 }]}
@@ -412,7 +436,7 @@ export default function AddCalendarScreen() {
 
         {/* Child Selector */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Child *</Text>
+          <Text style={styles.label}>{t("common:child")}</Text>
           <TouchableOpacity
             style={styles.dropdown}
             onPress={() => setShowChildDropdown(true)}
@@ -423,7 +447,9 @@ export default function AddCalendarScreen() {
                 !selectedChild && styles.placeholder,
               ]}
             >
-              {selectedChild ? selectedChild.name : "Select a child"}
+              {selectedChild
+                ? selectedChild.name
+                : t("calendar:addEvent.form.selectChildPlaceholder")}
             </Text>
             <MaterialCommunityIcons
               name="chevron-down"
@@ -435,13 +461,18 @@ export default function AddCalendarScreen() {
 
         {/* Notification */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Notification</Text>
+          <Text style={styles.label}>
+            {t("calendar:addEvent.form.reminder")}
+          </Text>
           <TouchableOpacity
             style={styles.dropdown}
             onPress={() => setShowNotificationDropdown(true)}
           >
             <Text style={styles.dropdownText}>
-              {selectedNotification.label}
+              {t(
+                "calendar:addEvent.form.reminderOptions." +
+                  selectedNotification.label,
+              )}
             </Text>
             <MaterialCommunityIcons
               name="chevron-down"
@@ -453,12 +484,16 @@ export default function AddCalendarScreen() {
 
         {/* Repeat */}
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Repeat</Text>
+          <Text style={styles.label}>{t("calendar:addEvent.form.repeat")}</Text>
           <TouchableOpacity
             style={styles.dropdown}
             onPress={() => setShowRepeatDropdown(true)}
           >
-            <Text style={styles.dropdownText}>{selectedRepeat.label}</Text>
+            <Text style={styles.dropdownText}>
+              {t(
+                "calendar:addEvent.form.repeatOptions." + selectedRepeat.value,
+              )}
+            </Text>
             <MaterialCommunityIcons
               name="chevron-down"
               size={20}
@@ -470,7 +505,9 @@ export default function AddCalendarScreen() {
         {/* Repeat End Date - only show if repeat is not "Never" */}
         {selectedRepeat.value !== "never" && (
           <View style={styles.formGroup}>
-            <Text style={styles.label}>End Repeat</Text>
+            <Text style={styles.label}>
+              {t("calendar:addEvent.form.repeatEnd")}
+            </Text>
             <TouchableOpacity
               style={styles.dateTimeButton}
               onPress={() => {
@@ -499,26 +536,6 @@ export default function AddCalendarScreen() {
             )}
           </View>
         )}
-
-        {/* Clear Form Button */}
-        {/* <View style={styles.formGroup}>
-          <Button
-            title="Clear Form"
-            onPress={() => {
-              setEventTitle("");
-              setIsAllDay(false);
-              setStartDate(new Date());
-              setEndDate(new Date());
-              setSelectedChild(null);
-              setSelectedNotification(notificationOptions[0]);
-              setSelectedRepeat(repeatOptions[0]);
-              setRepeatEndDate(new Date());
-            }}
-            icon="delete-outline"
-            style={styles.clearButton}
-            textStyle={styles.clearButtonText}
-          />
-        </View> */}
       </ScrollView>
 
       {/* Child Dropdown Modal */}
@@ -534,7 +551,9 @@ export default function AddCalendarScreen() {
           onPress={() => setShowChildDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Child</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.selectChild")}
+            </Text>
             <FlatList
               data={mockChildren}
               keyExtractor={(item) => item.id}
@@ -558,7 +577,9 @@ export default function AddCalendarScreen() {
           onPress={() => setShowNotificationDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Notification</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.reminder")}
+            </Text>
             <FlatList
               data={notificationOptions}
               keyExtractor={(item) => item.id}
@@ -582,7 +603,9 @@ export default function AddCalendarScreen() {
           onPress={() => setShowRepeatDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Repeat</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.repeat")}
+            </Text>
             <FlatList
               data={repeatOptions}
               keyExtractor={(item) => item.id}

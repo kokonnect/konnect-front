@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { t } from "i18next";
 
 interface TranslationWarningProps {
   showWarning?: boolean;
@@ -22,8 +23,7 @@ export default function TranslationWarning({
             color="#EA580C"
           />
           <Text style={styles.warningText}>
-            AI-generated translation - Please review and verify accuracy before
-            use
+            {t("translate:warnings.aiTranslation")}
           </Text>
           {onDismissWarning && (
             <TouchableOpacity
@@ -37,8 +37,7 @@ export default function TranslationWarning({
       )}
 
       <Text style={styles.explanationText}>
-        Our translation is optimized for easy reading by reducing complex jargon
-        and using simpler, more accessible language.
+        {t("translate:warnings.explanation")}
       </Text>
     </View>
   );

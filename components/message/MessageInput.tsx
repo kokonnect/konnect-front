@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 import {
   View,
@@ -37,7 +38,7 @@ export default function MessageInput({
       ]}
     >
       <View style={styles.inputHeader}>
-        <Text style={styles.inputLabel}>Your Message</Text>
+        <Text style={styles.inputLabel}>{t("message:compose.message")}</Text>
         <Text style={styles.charCount}>
           {userInput.length}/{MAX_CHAR_LIMIT}
         </Text>
@@ -45,7 +46,7 @@ export default function MessageInput({
 
       <TextInput
         style={[styles.textInput, showTranslation && styles.textInputShrinked]}
-        placeholder="Type your message here..."
+        placeholder={t("message:compose.messagePlaceholder")}
         value={userInput}
         onChangeText={(text) => onInputChange(text.slice(0, MAX_CHAR_LIMIT))}
         multiline
@@ -66,7 +67,7 @@ export default function MessageInput({
               (!userInput || isTranslating) && styles.disabledButtonText,
             ]}
           >
-            Clear
+            {t("clear")}
           </Text>
         </TouchableOpacity>
 
@@ -79,7 +80,9 @@ export default function MessageInput({
             onPress={onGenerate}
             disabled={!userInput.trim() || isTranslating}
           >
-            <Text style={styles.generateButtonText}>Generate</Text>
+            <Text style={styles.generateButtonText}>
+              {t("message:compose.generate")}
+            </Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
@@ -87,7 +90,9 @@ export default function MessageInput({
             onPress={onEditDraft}
             disabled={isTranslating}
           >
-            <Text style={styles.editDraftButtonText}>Edit Draft</Text>
+            <Text style={styles.editDraftButtonText}>
+              {t("message:compose.editDraft")}
+            </Text>
           </TouchableOpacity>
         )}
       </View>

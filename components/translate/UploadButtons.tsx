@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -21,7 +22,9 @@ export default function UploadButtons({
         activeOpacity={0.7}
       >
         <MaterialCommunityIcons name="camera" size={32} color={primaryColor} />
-        <Text style={styles.uploadButtonText}>Upload Image</Text>
+        <Text style={styles.uploadButtonText}>
+          {t("translate:upload.uploadImage")}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -34,7 +37,9 @@ export default function UploadButtons({
           size={32}
           color={primaryColor}
         />
-        <Text style={styles.uploadButtonText}>Upload PDF</Text>
+        <Text style={styles.uploadButtonText}>
+          {t("translate:upload.uploadPdf")}
+        </Text>
       </TouchableOpacity>
     </View>
   );

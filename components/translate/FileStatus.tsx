@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { UploadedFile } from "./types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -34,7 +35,9 @@ export default function FileStatus({
       {isTranslating && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={primaryColor} />
-          <Text style={styles.loadingText}>Translating document...</Text>
+          <Text style={styles.loadingText}>
+            {t("translate:translation.translating")}
+          </Text>
         </View>
       )}
     </View>

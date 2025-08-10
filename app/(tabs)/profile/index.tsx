@@ -16,6 +16,7 @@ import PreferencesSection from "@/components/profile/UserPreference";
 import { useTranslation } from "react-i18next";
 import { useAuthAndUser } from "@/hooks";
 import { Child, UserProfile } from "@/types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -59,19 +60,27 @@ const renderChildCard = ({ item }: { item: Child }) => (
     <View style={styles.childInfo}>
       <View style={styles.childInfoRow}>
         <MaterialCommunityIcons name="account" size={16} color="#666" />
-        <Text style={styles.childInfoText}>Age: {item.age}</Text>
+        <Text style={styles.childInfoText}>
+          {t("profile:children.childInfo.age", { age: item.age })}
+        </Text>
       </View>
       <View style={styles.childInfoRow}>
         <MaterialCommunityIcons name="door" size={16} color="#666" />
-        <Text style={styles.childInfoText}>Class: {item.className}</Text>
+        <Text style={styles.childInfoText}>
+          {t("profile:children.childInfo.class", { class: item.className })}
+        </Text>
       </View>
       <View style={styles.childInfoRow}>
         <MaterialCommunityIcons name="account-tie" size={16} color="#666" />
-        <Text style={styles.childInfoText}>Teacher: {item.teacher}</Text>
+        <Text style={styles.childInfoText}>
+          {t("profile:children.childInfo.teacher", { teacher: item.teacher })}
+        </Text>
       </View>
       <View style={styles.childInfoRow}>
         <MaterialCommunityIcons name="school" size={16} color="#666" />
-        <Text style={styles.childInfoText}>{item.school}</Text>
+        <Text style={styles.childInfoText}>
+          {t("profile:children.childInfo.school", { school: item.school })}
+        </Text>
       </View>
     </View>
   </View>
@@ -124,15 +133,17 @@ export default function ProfileScreen() {
     <View style={styles.section}>
       <View style={styles.loginPrompt}>
         <MaterialCommunityIcons name="account-circle" size={64} color="#ccc" />
-        <Text style={styles.loginTitle}>Sign in to access your profile</Text>
+        <Text style={styles.loginTitle}>{t("profile:loginPrompt.title")}</Text>
         <Text style={styles.loginSubtitle}>
-          Connect with teachers and manage your children&apos;s information
+          {t("profile:loginPrompt.description")}
         </Text>
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => router.push("/login")}
         >
-          <Text style={styles.loginButtonText}>Sign In</Text>
+          <Text style={styles.loginButtonText}>
+            {t("profile:loginPrompt.loginButton")}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -140,7 +151,7 @@ export default function ProfileScreen() {
 
   const ChildrenSection = () => (
     <View style={styles.section}>
-      <Text style={styles.sectionTitle}>Children Information</Text>
+      <Text style={styles.sectionTitle}>{t("profile:children.title")}</Text>
       <FlatList
         data={mockChildren}
         renderItem={renderChildCard}
@@ -171,11 +182,8 @@ export default function ProfileScreen() {
       <View style={styles.logoutSection}>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <MaterialCommunityIcons name="logout" size={20} color="#ff4757" />
-          <Text style={styles.logoutButtonText}>Logout</Text>
+          <Text style={styles.logoutButtonText}>{t("logout")}</Text>
         </TouchableOpacity>
-        <Text style={styles.logoutNote}>
-          You can continue using the app without signing in
-        </Text>
       </View>
     );
   };
@@ -191,7 +199,6 @@ export default function ProfileScreen() {
 
         {/* Children Information - Only show for signed in users */}
         {isAuthenticated && <ChildrenSection />}
-
 
         {/* User Preferences */}
         <PreferencesSection />

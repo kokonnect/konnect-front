@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { t } from "i18next";
 
 interface ScheduleEvent {
   id: string;
@@ -76,7 +77,9 @@ const createScheduleRenderItem =
       <View style={styles.scheduleHeader}>
         <Text style={styles.scheduleTitle}>{item.title}</Text>
         {item.isAllDay ? (
-          <Text style={styles.scheduleAllDay}>All Day</Text>
+          <Text style={styles.scheduleAllDay}>
+            {t("calendar:selectedDateSchedule.allDay")}
+          </Text>
         ) : (
           <Text style={styles.scheduleTime}>{item.time}</Text>
         )}
@@ -88,8 +91,12 @@ const createScheduleRenderItem =
 
 const EmptySchedule = () => (
   <View style={styles.emptyContainer}>
-    <Text style={styles.emptyTitle}>No events scheduled</Text>
-    <Text style={styles.emptySubtitle}>This date has no scheduled events</Text>
+    <Text style={styles.emptyTitle}>
+      {t("calendar:selectedDateSchedule.noEventsDate")}
+    </Text>
+    <Text style={styles.emptySubtitle}>
+      {t("calendar:selectedDateSchedule.noEventsDescription")}
+    </Text>
     {/* <View style={styles.skeletonList}>
       <SkeletonItem />
       <SkeletonItem />

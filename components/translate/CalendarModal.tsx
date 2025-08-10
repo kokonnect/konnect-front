@@ -16,6 +16,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../shared/Button";
 import { TranslationEvent } from "./types";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -42,17 +43,15 @@ const mockChildren: Child[] = [
   { id: "3", name: "Sophia" },
   { id: "4", name: "Oliver" },
 ];
-
 const notificationOptions: NotificationOption[] = [
-  { id: "1", label: "None", value: 0 },
-  { id: "2", label: "At time of event", value: 0 },
-  { id: "3", label: "5 minutes before", value: 5 },
-  { id: "4", label: "15 minutes before", value: 15 },
-  { id: "5", label: "30 minutes before", value: 30 },
-  { id: "6", label: "1 hour before", value: 60 },
-  { id: "7", label: "1 day before", value: 1440 },
+  { id: "1", label: "none", value: 0 },
+  { id: "2", label: "at", value: 0 },
+  { id: "3", label: "5min", value: 5 },
+  { id: "4", label: "15min", value: 15 },
+  { id: "5", label: "30min", value: 30 },
+  { id: "6", label: "1hour", value: 60 },
+  { id: "7", label: "1day", value: 1440 },
 ];
-
 const repeatOptions: RepeatOption[] = [
   { id: "1", label: "Never", value: "never" },
   { id: "2", label: "Daily", value: "daily" },
@@ -92,7 +91,9 @@ const createNotificationRenderItem =
         setShowNotificationDropdown(false);
       }}
     >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
+      <Text style={styles.dropdownItemText}>
+        {t("calendar:addEvent.form.reminderOptions." + item.label)}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -109,7 +110,9 @@ const createRepeatRenderItem =
         setShowRepeatDropdown(false);
       }}
     >
-      <Text style={styles.dropdownItemText}>{item.label}</Text>
+      <Text style={styles.dropdownItemText}>
+        {t("calendar:addEvent.form.repeatOptions." + item.value)}
+      </Text>
     </TouchableOpacity>
   );
 
@@ -319,9 +322,11 @@ export default function CalendarModal({
             <TouchableOpacity onPress={onClose}>
               <MaterialCommunityIcons name="close" size={24} color="#333" />
             </TouchableOpacity>
-            <Text style={styles.modalTitle}>Add to Calendar</Text>
+            <Text style={styles.modalTitle}>
+              {t("calendar:addEvent.title")}
+            </Text>
             <Button
-              title="Save"
+              title={t("calendar:addEvent.form.save")}
               onPress={handleSave}
               disabled={!eventTitle.trim() || !selectedChild}
               style={styles.saveButton}
@@ -334,10 +339,12 @@ export default function CalendarModal({
           >
             {/* Event Title */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Event Title *</Text>
+              <Text style={styles.label}>
+                {t("calendar:addEvent.form.eventTitle")}
+              </Text>
               <TextInput
                 style={styles.input}
-                placeholder="Enter event title"
+                placeholder={t("calendar:addEvent.form.eventTitlePlaceholder")}
                 value={eventTitle}
                 onChangeText={setEventTitle}
                 placeholderTextColor="#999"
@@ -347,7 +354,10 @@ export default function CalendarModal({
             {/* All Day Toggle */}
             <View style={styles.formGroup}>
               <View style={styles.toggleRow}>
-                <Text style={styles.label}>All Day</Text>
+                <Text style={styles.label}>
+                  {" "}
+                  {t("calendar:addEvent.form.allDayEvent")}
+                </Text>
                 <Switch
                   value={isAllDay}
                   onValueChange={setIsAllDay}
@@ -359,7 +369,7 @@ export default function CalendarModal({
 
             {/* Start Date/Time */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Start *</Text>
+              <Text style={styles.label}>{t("common:start")}</Text>
               <View style={styles.dateTimeRow}>
                 <TouchableOpacity
                   style={[styles.dateTimeButton, { flex: 2 }]}
@@ -414,7 +424,7 @@ export default function CalendarModal({
 
             {/* End Date/Time */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>End *</Text>
+              <Text style={styles.label}>{t("common:end")}</Text>
               <View style={styles.dateTimeRow}>
                 <TouchableOpacity
                   style={[styles.dateTimeButton, { flex: 2 }]}
@@ -467,7 +477,7 @@ export default function CalendarModal({
 
             {/* Child Selector */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Child *</Text>
+              <Text style={styles.label}>{t("common:child")}</Text>
               <TouchableOpacity
                 style={styles.dropdown}
                 onPress={() => setShowChildDropdown(true)}
@@ -478,7 +488,9 @@ export default function CalendarModal({
                     !selectedChild && styles.placeholder,
                   ]}
                 >
-                  {selectedChild ? selectedChild.name : "Select a child"}
+                  {selectedChild
+                    ? selectedChild.name
+                    : t("calendar:addEvent.form.selectChildPlaceholder")}
                 </Text>
                 <MaterialCommunityIcons
                   name="chevron-down"
@@ -490,13 +502,18 @@ export default function CalendarModal({
 
             {/* Notification */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Notification</Text>
+              <Text style={styles.label}>
+                {t("calendar:addEvent.form.reminder")}
+              </Text>
               <TouchableOpacity
                 style={styles.dropdown}
                 onPress={() => setShowNotificationDropdown(true)}
               >
                 <Text style={styles.dropdownText}>
-                  {selectedNotification.label}
+                  {t(
+                    "calendar:addEvent.form.reminderOptions." +
+                      selectedNotification.label,
+                  )}
                 </Text>
                 <MaterialCommunityIcons
                   name="chevron-down"
@@ -508,12 +525,20 @@ export default function CalendarModal({
 
             {/* Repeat */}
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Repeat</Text>
+              <Text style={styles.label}>
+                {t("calendar:addEvent.form.repeat")}
+              </Text>
               <TouchableOpacity
                 style={styles.dropdown}
                 onPress={() => setShowRepeatDropdown(true)}
               >
-                <Text style={styles.dropdownText}>{selectedRepeat.label}</Text>
+                <Text style={styles.dropdownText}>
+                  {" "}
+                  {t(
+                    "calendar:addEvent.form.repeatOptions." +
+                      selectedRepeat.value,
+                  )}
+                </Text>
                 <MaterialCommunityIcons
                   name="chevron-down"
                   size={20}
@@ -570,7 +595,9 @@ export default function CalendarModal({
           onPress={() => setShowChildDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Child</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.selectChild")}
+            </Text>
             <FlatList
               data={mockChildren}
               keyExtractor={(item) => item.id}
@@ -592,7 +619,9 @@ export default function CalendarModal({
           onPress={() => setShowNotificationDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Notification</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.reminder")}
+            </Text>
             <FlatList
               data={notificationOptions}
               keyExtractor={(item) => item.id}
@@ -614,7 +643,9 @@ export default function CalendarModal({
           onPress={() => setShowRepeatDropdown(false)}
         >
           <View style={styles.dropdownModal}>
-            <Text style={styles.dropdownTitle}>Select Repeat</Text>
+            <Text style={styles.dropdownTitle}>
+              {t("calendar:addEvent.form.repeat")}
+            </Text>
             <FlatList
               data={repeatOptions}
               keyExtractor={(item) => item.id}

@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import SkeletonLoader from "@/components/translate/SkeletonLoader";
+import { t } from "i18next";
 
 const primaryColor = "#00B493";
 
@@ -33,26 +34,6 @@ interface DocumentHistoryItem {
   date: Date;
   fileSize?: string;
 }
-
-// Mock function to generate title from content
-const generateDocumentTitle = (text: string): string => {
-  const lowerText = text.toLowerCase();
-  if (lowerText.includes("permission") || lowerText.includes("field trip")) {
-    return "Field Trip Permission Form";
-  } else if (lowerText.includes("newsletter") || lowerText.includes("weekly")) {
-    return "Weekly Newsletter";
-  } else if (lowerText.includes("exam") || lowerText.includes("test")) {
-    return "Exam Schedule";
-  } else if (
-    lowerText.includes("meeting") ||
-    lowerText.includes("conference")
-  ) {
-    return "Parent-Teacher Conference";
-  } else if (lowerText.includes("holiday") || lowerText.includes("vacation")) {
-    return "Holiday Notice";
-  }
-  return "School Document";
-};
 
 // Mock data for document translation history
 const mockDocumentHistory: DocumentHistoryItem[] = [
@@ -205,19 +186,18 @@ export default function DocumentHistoryScreen() {
 
   const formatDate = (date: Date) => {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.floor(
+      (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
-    if (diffHours < 1) {
-      return "Just now";
-    } else if (diffHours < 24) {
-      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-    } else if (diffDays < 7) {
-      return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-    } else {
-      return date.toLocaleDateString();
-    }
+    if (diffInDays === 0) return t("common:today");
+    if (diffInDays === 1) return t("common:yesterday");
+    if (diffInDays < 7) return t("common:daysAgo", { count: diffInDays });
+
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
   };
 
   const formatEventDate = (date: Date) => {
@@ -350,7 +330,7 @@ export default function DocumentHistoryScreen() {
             style={styles.calendarIcon}
           />
           <Text style={styles.eventsText}>
-            {item.events.length} event{item.events.length > 1 ? "s" : ""} found
+            {t("translate:history.eventsFound", { count: item.events.length })}
           </Text>
         </View>
       )}
@@ -376,7 +356,7 @@ export default function DocumentHistoryScreen() {
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color="#333" />
         </TouchableOpacity>
-        <Text style={styles.title}>Document Translation History</Text>
+        <Text style={styles.title}>{t("translate:history.title")}</Text>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -384,20 +364,20 @@ export default function DocumentHistoryScreen() {
         <View style={styles.listContent}>
           {[0, 1, 2, 3, 4].map((index) => renderSkeletonItem({ index }))}
         </View>
-      ) : history.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <MaterialCommunityIcons
-            name="file-document-multiple"
-            size={64}
-            color="#ccc"
-          />
-          <Text style={styles.emptyText}>No document translations yet</Text>
-          <Text style={styles.emptySubtext}>
-            Your translated documents will appear here
-          </Text>
-        </View>
       ) : (
         <FlatList
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <MaterialCommunityIcons
+                name="file-document-multiple"
+                size={64}
+                color="#ccc"
+              />
+              <Text style={styles.emptyText}>
+                {t("translate:history.noHistory")}
+              </Text>
+            </View>
+          }
           data={history}
           keyExtractor={(item) => item.id}
           renderItem={renderHistoryItem}

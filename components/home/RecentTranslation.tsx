@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { t } from "i18next";
 
 interface TranslationCard {
   id: string;
@@ -93,10 +94,10 @@ export default function RecentTranslation() {
             color="#333"
             style={styles.icon}
           />
-          <Text style={styles.title}>Recent Translation</Text>
+          <Text style={styles.title}>{t("translate:history.recent")}</Text>
         </View>
         <TouchableOpacity onPress={() => router.push("/translate")}>
-          <Text style={styles.viewAll}>View all</Text>
+          <Text style={styles.viewAll}>{t("common:more")}</Text>
         </TouchableOpacity>
       </View>
 

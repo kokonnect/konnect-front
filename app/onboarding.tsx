@@ -11,47 +11,57 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import {
   setOnboardingComplete,
   setUserLanguage,
   setFirstLaunchComplete,
 } from "@/utils/storage";
+import { getAvailableLanguages, changeLanguage } from "@/locales/i18n";
 import { Language } from "@/types";
 
 const primaryColor = "#00B493";
 const { width } = Dimensions.get("window");
 
-const languages: Language[] = [
-  { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
-  { code: "es", name: "Spanish", nativeName: "Español", flag: "🇪🇸" },
-  { code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷" },
-  { code: "zh", name: "Chinese", nativeName: "中文", flag: "🇨🇳" },
-  { code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵" },
-  { code: "fr", name: "French", nativeName: "Français", flag: "🇫🇷" },
-  { code: "de", name: "German", nativeName: "Deutsch", flag: "🇩🇪" },
-  { code: "pt", name: "Portuguese", nativeName: "Português", flag: "🇵🇹" },
-  { code: "it", name: "Italian", nativeName: "Italiano", flag: "🇮🇹" },
-  { code: "ru", name: "Russian", nativeName: "Русский", flag: "🇷🇺" },
-  { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦" },
-  { code: "hi", name: "Hindi", nativeName: "हिन्दी", flag: "🇮🇳" },
-];
+// Get languages from i18n system with flags
+const getLanguagesWithFlags = () => {
+  const availableLanguages = getAvailableLanguages();
+  const flagMap: { [key: string]: string } = {
+    en: "🇺🇸",
+    ko: "🇰🇷",
+  };
+
+  return availableLanguages.map((lang) => ({
+    ...lang,
+    flag: flagMap[lang.code] || "🌐",
+  }));
+};
 
 export default function OnboardingScreen() {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(
-    null,
-  );
+  const { t } = useTranslation("auth");
+  const [selectedLanguage, setSelectedLanguage] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLanguageSelect = (language: Language) => {
+  const languages = getLanguagesWithFlags();
+
+  const handleLanguageSelect = async (language: any) => {
     setSelectedLanguage(language);
+    // Apply the language immediately
+    await changeLanguage(language.code);
   };
 
   const handleGetStarted = async () => {
     if (!selectedLanguage) {
       Alert.alert(
-        "Language Required",
-        "Please select your preferred language to continue.",
+        t("onboarding.languageRequired"),
+        t("onboarding.languageRequiredMessage"),
+        [
+          {
+            text: t("common:ok"),
+            style: "default",
+          },
+        ],
       );
       return;
     }
@@ -70,28 +80,12 @@ export default function OnboardingScreen() {
       router.replace("/(tabs)");
     } catch (error) {
       console.error("Error completing onboarding:", error);
-      Alert.alert("Error", "Something went wrong. Please try again.", [
+      Alert.alert(t("common:error"), t("onboarding.somethingWentWrong"), [
         {
-          text: "OK",
+          text: t("common:ok"),
           onPress: () => setIsLoading(false),
         },
       ]);
-    }
-  };
-
-  const handleSkip = async () => {
-    try {
-      // Complete onboarding without language selection
-      await Promise.all([
-        setUserLanguage("en"), // Default to English
-        setOnboardingComplete(),
-        setFirstLaunchComplete(),
-      ]);
-
-      router.replace("/(tabs)");
-    } catch (error) {
-      console.error("Error skipping onboarding:", error);
-      router.replace("/(tabs)");
     }
   };
 
@@ -122,18 +116,16 @@ export default function OnboardingScreen() {
               color={primaryColor}
             />
           </View>
-          <Text style={styles.welcomeTitle}>Welcome to Konnect!</Text>
+          <Text style={styles.welcomeTitle}>{t("onboarding.title")}</Text>
           <Text style={styles.welcomeSubtitle}>
-            Let&apos;s personalize your experience by selecting your preferred
-            language for translations.
+            {t("onboarding.description")}
           </Text>
         </View>
 
         {/* Language Selection */}
         <View style={styles.languageSection}>
-          <Text style={styles.sectionTitle}>Select Your Language</Text>
-          <Text style={styles.sectionSubtitle}>
-            This will be your primary language for all translations
+          <Text style={styles.sectionTitle}>
+            {t("onboarding.selectLanguage")}
           </Text>
 
           <View style={styles.languageGrid}>
@@ -196,7 +188,9 @@ export default function OnboardingScreen() {
             <Text style={styles.getStartedButtonText}>Setting up...</Text>
           ) : (
             <>
-              <Text style={styles.getStartedButtonText}>Get Started</Text>
+              <Text style={styles.getStartedButtonText}>
+                {isLoading ? t("common:loading") : t("onboarding.getStarted")}
+              </Text>
               <MaterialCommunityIcons
                 name="arrow-right"
                 size={20}
@@ -206,9 +200,7 @@ export default function OnboardingScreen() {
           )}
         </TouchableOpacity>
 
-        <Text style={styles.footerNote}>
-          You can change this later in your profile settings
-        </Text>
+        <Text style={styles.footerNote}>{t("onboarding.footerText")}</Text>
       </View>
     </SafeAreaView>
   );

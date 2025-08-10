@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { t } from "i18next";
 
 interface Event {
   id: string;
@@ -134,11 +135,11 @@ export default function UpcomingEvents({
             color="#333"
             style={styles.icon}
           />
-          <Text style={styles.title}>Upcoming Events</Text>
+          <Text style={styles.title}>{t("calendar:eventList.upcoming")}</Text>
         </View>
         {showViewAll && (
           <TouchableOpacity onPress={() => router.push("/calendar")}>
-            <Text style={styles.viewAll}>View all</Text>
+            <Text style={styles.viewAll}>{t("common:more")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -147,7 +148,7 @@ export default function UpcomingEvents({
         {filteredEvents.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
-              There are no events in this month
+              {t("calendar:eventList.noEventsDescription")}
             </Text>
           </View>
         ) : (
