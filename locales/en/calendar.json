@@ -1,14 +1,15 @@
 {
   "title": "Calendar",
   "monthYearPicker": {
+    "title": "Select Month & Year",
+    "selectYear": "Select Year",
     "selectMonth": "Select Month",
     "cancel": "Cancel",
     "select": "Select"
   },
   "selectedDateSchedule": {
-    "noEventsToday": "No events scheduled for today",
-    "addEvent": "Add Event",
-    "eventDetails": "Event Details",
+    "noEventsDate": "No events scheduled for selected date",
+    "noEventsDescription": "Try adding an event",
     "allDay": "All Day"
   },
   "addEvent": {
@@ -24,6 +25,7 @@
       "reminder": "Reminder",
       "reminderOptions": {
         "none": "None",
+        "at": "At time of event",
         "5min": "5 minutes before",
         "10min": "10 minutes before",
         "15min": "15 minutes before",
@@ -32,16 +34,17 @@
         "2hours": "2 hours before",
         "1day": "1 day before"
       },
-      "eventType": "Event Type",
-      "eventTypes": {
-        "schoolEvent": "School Event",
-        "homework": "Homework",
-        "exam": "Exam/Test",
-        "meeting": "Parent-Teacher Meeting",
-        "holiday": "Holiday",
-        "other": "Other"
+      "repeat": "repeat",
+      "endRepeat": "endRepeat",
+      "repeatOptions": {
+        "never": "never",
+        "daily": "daily",
+        "weekly": "weekly",
+        "monthly": "monthly",
+        "yearly": "yearly"
       },
       "selectChild": "Select Child",
+      "selectChildPlaceholder": "Select a child",
       "save": "Save Event",
       "cancel": "Cancel"
     },
@@ -51,6 +54,7 @@
       "invalidDate": "Please select a valid date"
     }
   },
+
   "modifyEvent": {
     "title": "Edit Event",
     "deleteEvent": "Delete Event",
@@ -60,11 +64,9 @@
     "deleteSuccess": "Event deleted successfully"
   },
   "eventList": {
-    "today": "Today",
     "upcoming": "Upcoming Events",
     "past": "Past Events",
-    "noEvents": "No events",
-    "loadMore": "Load More"
+    "noEvents": "No events"
   },
   "weekDays": {
     "monday": "Monday",

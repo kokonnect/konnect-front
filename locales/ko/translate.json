@@ -1,12 +1,13 @@
 {
-  "title": "번역",
+  "title": "문서 번역",
+  "description": "학교 문서를 업로드하여 번역하세요.",
   "upload": {
     "title": "문서 업로드",
-    "selectFile": "파일 선택",
-    "takePhoto": "사진 촬영",
+    "uploadPdf": "PDF 업로드",
+    "uploadImage": "이미지 업로드",
+    "chooseImageSource": "이미지 소스 선택",
+    "takePhoto": "사진 찍기",
     "fromGallery": "갤러리에서 선택",
-    "dragDrop": "여기에 파일을 끌어다 놓으세요",
-    "supportedFormats": "지원 형식: 이미지(JPG, PNG), PDF, 텍스트 파일",
     "maxFileSize": "최대 파일 크기: 10MB",
     "uploading": "업로드 중...",
     "uploadSuccess": "파일이 성공적으로 업로드되었습니다",
@@ -14,6 +15,8 @@
   },
   "translation": {
     "translating": "문서를 번역하고 있습니다...",
+    "retranslating": "다시 번역 중...",
+    "retranslate": "다시 번역",
     "almostReady": "거의 완료되었습니다...",
     "preparingTranslation": "번역을 준비하고 있습니다...",
     "pleaseWait": "잠시만 기다려주세요",
@@ -26,65 +29,23 @@
     "textCopied": "텍스트가 클립보드에 복사되었습니다",
     "saveTranslation": "번역 저장",
     "shareTranslation": "번역 공유",
-    "translationSaved": "번역이 성공적으로 저장되었습니다"
-  },
-  "summary": {
-    "keyPoints": "주요 내용",
-    "overview": "개요",
-    "noSummaryAvailable": "이 문서에 대한 요약이 없습니다"
-  },
-  "events": {
-    "extractedEvents": "추출된 일정",
-    "addToCalendar": "캘린더에 추가",
-    "addAllToCalendar": "모든 일정 추가",
-    "eventAdded": "일정이 캘린더에 추가되었습니다",
-    "allEventsAdded": "모든 일정이 캘린더에 추가되었습니다",
-    "noEventsFound": "이 문서에서 일정을 찾을 수 없습니다",
-    "eventTypes": {
-      "meeting": "회의",
-      "deadline": "마감일",
-      "exam": "시험",
-      "holiday": "휴일",
-      "activity": "활동",
-      "other": "기타"
-    }
-  },
-  "actions": {
-    "newTranslation": "새 번역",
-    "retryTranslation": "번역 다시 시도",
-    "reportIssue": "문제 신고",
-    "improveTranslation": "번역 개선",
-    "downloadPDF": "PDF로 다운로드",
-    "emailTranslation": "번역 이메일 전송",
-    "print": "인쇄"
+    "translationSaved": "번역이 성공적으로 저장되었습니다",
+    "showOriginal": "원본 보기",
+    "showTranslation": "번역 보기"
   },
   "history": {
     "title": "번역 내역",
     "recent": "최근 번역",
-    "thisWeek": "이번 주",
-    "thisMonth": "이번 달",
-    "older": "이전",
+    "eventsFound": "{{count}}개 일정",
     "noHistory": "번역 내역이 없습니다",
     "clearHistory": "내역 지우기",
     "confirmClear": "내역 지우기",
-    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?",
-    "searchHistory": "내역 검색...",
-    "filterByType": "종류별 필터",
-    "filterByChild": "자녀별 필터",
-    "sortBy": "정렬 기준",
-    "sortOptions": {
-      "newest": "최신순",
-      "oldest": "오래된 순",
-      "alphabetical": "알파벳 순",
-      "type": "종류별"
-    }
+    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?"
   },
   "warnings": {
     "title": "중요 공지",
     "aiTranslation": "이것은 AI 기반 번역입니다. 정확성을 위해 노력하고 있으나, 중요한 정보는 확인해 주세요.",
-    "medicalContent": "의료 내용이 감지되었습니다. 의료 상담은 전문가와 상담해 주세요.",
-    "legalContent": "법적 내용이 감지되었습니다. 공식적인 사안은 법률 전문가와 상담해 주세요.",
-    "financialContent": "금융 정보가 감지되었습니다. 숫자와 금액을 신중히 확인해 주세요."
+    "explanation": "우리의 번역은 복잡한 전문 용어를 줄이고 더 간단하고 접근하기 쉬운 언어를 사용하여 읽기 쉽게 최적화되어 있습니다."
   },
   "fileStatus": {
     "processing": "처리 중",

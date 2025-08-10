@@ -1,12 +1,6 @@
 {
   "title": "Profile",
-  "userProfile": {
-    "editProfile": "Edit Profile",
-    "accountSettings": "Account Settings",
-    "connectedWith": "Connected with {{provider}}",
-    "memberSince": "Member since {{date}}",
-    "lastLogin": "Last login: {{date}}"
-  },
+  "userProfile": {},
   "loginPrompt": {
     "title": "Sign in to access your profile",
     "description": "Create an account to save your translations, manage children's information, and sync across devices",
@@ -15,7 +9,8 @@
       "save": "Save translations and preferences",
       "manage": "Manage multiple children",
       "notifications": "Receive important notifications"
-    }
+    },
+    "loginButton": "Sign In"
   },
   "children": {
     "title": "My Children",
@@ -26,10 +21,25 @@
     "confirmRemoveMessage": "Are you sure you want to remove {{name}} from your profile?",
     "noChildren": "No children added yet",
     "childInfo": {
+      "age": "Age: {{age}}",
       "school": "School: {{school}}",
       "grade": "Grade: {{grade}}",
       "class": "Class: {{class}}",
       "teacher": "Teacher: {{teacher}}"
+    },
+    "form": {
+      "name": "name",
+      "namePlaceholder": "Enter name",
+      "birthdate": "Birthdate",
+      "birthdatePlaceholder": "Enter birthdate",
+      "school": "School",
+      "schoolPlaceholder": "Enter school",
+      "grade": "Grade",
+      "gradePlaceholder": "Enter grade",
+      "class": "Class",
+      "classPlaceholder": "Enter class",
+      "teacher": "Teacher",
+      "teacherPlaceholder": "Enter teacher"
     }
   },
   "preferences": {
@@ -38,28 +48,12 @@
     "languageDescription": "Language for app interface",
     "selectLanguage": "Select Language",
     "notifications": {
-      "title": "Notifications",
-      "schoolNotices": "School Notices",
-      "events": "Calendar Events",
-      "messages": "Messages",
-      "translations": "Translation Updates"
-    },
-    "display": {
-      "title": "Display",
-      "theme": "Theme",
-      "lightTheme": "Light",
-      "darkTheme": "Dark",
-      "systemTheme": "System",
-      "fontSize": "Font Size",
-      "small": "Small",
-      "medium": "Medium",
-      "large": "Large"
+      "title": "Notifications"
     },
     "translation": {
       "title": "Translation Settings",
-      "autoTranslate": "Auto-translate new content",
-      "saveHistory": "Save translation history",
-      "simplifiedLanguage": "Use simplified language"
+      "saveDocHistory": "Save translation history",
+      "saveMessageHistory": "Save message history"
     }
   },
   "editProfile": {
@@ -69,55 +63,14 @@
       "namePlaceholder": "Enter your name",
       "email": "Email",
       "emailPlaceholder": "Enter your email",
-      "phone": "Phone Number",
-      "phonePlaceholder": "Enter your phone number",
-      "preferredLanguage": "Preferred Language",
-      "timezone": "Timezone",
+      "childInfo": "Child Information",
       "save": "Save Changes",
       "cancel": "Cancel"
     },
+    "emailProviderCantChange": "Email and login provider cannot be changed.",
     "validation": {
-      "nameRequired": "Name is required",
-      "emailInvalid": "Please enter a valid email",
-      "phoneInvalid": "Please enter a valid phone number"
+      "nameRequired": "Name is required"
     },
     "success": "Profile updated successfully"
-  },
-  "settings": {
-    "account": {
-      "title": "Account",
-      "changePassword": "Change Password",
-      "twoFactorAuth": "Two-Factor Authentication",
-      "connectedAccounts": "Connected Accounts",
-      "deleteAccount": "Delete Account",
-      "confirmDelete": "Delete Account",
-      "confirmDeleteMessage": "Are you sure you want to delete your account? This action cannot be undone."
-    },
-    "privacy": {
-      "title": "Privacy",
-      "dataSharing": "Data Sharing",
-      "analytics": "Usage Analytics",
-      "marketingEmails": "Marketing Emails",
-      "exportData": "Export My Data",
-      "requestDeletion": "Request Data Deletion"
-    },
-    "about": {
-      "title": "About",
-      "version": "Version {{version}}",
-      "termsOfService": "Terms of Service",
-      "privacyPolicy": "Privacy Policy",
-      "licenses": "Open Source Licenses",
-      "contact": "Contact Support",
-      "rateApp": "Rate Our App",
-      "shareApp": "Share Konnect"
-    }
-  },
-  "statistics": {
-    "title": "My Statistics",
-    "translationsCount": "Translations: {{count}}",
-    "messagesCount": "Messages Sent: {{count}}",
-    "eventsCount": "Events Created: {{count}}",
-    "thisMonth": "This Month",
-    "allTime": "All Time"
   }
 }

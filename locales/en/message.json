@@ -2,28 +2,23 @@
   "title": "Messages",
   "compose": {
     "title": "Compose Message",
+    "description": "Draft messages for teacher communication in your language",
     "to": "To",
     "toPlaceholder": "Select recipient",
-    "subject": "Subject",
-    "subjectPlaceholder": "Enter subject",
     "message": "Message",
     "messagePlaceholder": "Type your message here...",
-    "attachments": "Attachments",
-    "addAttachment": "Add Attachment",
-    "send": "Send",
-    "saveDraft": "Save Draft",
-    "cancel": "Cancel",
-    "recipients": {
-      "teacher": "Teacher",
-      "school": "School Office",
-      "principal": "Principal",
-      "nurse": "School Nurse",
-      "counselor": "Counselor"
-    }
+    "generate": "Generate",
+    "editDraft": "Edit Draft",
+    "koreanTranslation": "Korean Translation",
+    "translating": "Translating...",
+    "cancel": "Cancel"
   },
   "templates": {
     "title": "Message Templates",
+    "description": "Quick templates for common messages",
     "categories": {
+      "all": "All",
+      "favorite": "Favorite",
       "absence": "Absence",
       "lateness": "Late Arrival",
       "earlyDismissal": "Early Dismissal",
@@ -33,42 +28,21 @@
       "appreciation": "Thank You",
       "other": "Other"
     },
-    "searchTemplates": "Search templates...",
-    "useTemplate": "Use Template",
-    "editTemplate": "Edit Template",
-    "noTemplates": "No templates available",
-    "commonTemplates": {
-      "sickAbsence": {
-        "title": "Sick Leave Notification",
-        "content": "Hello Teacher, {{childName}} will be absent today due to illness. We will provide a medical certificate upon return. Thank you for your understanding."
-      },
-      "lateArrival": {
-        "title": "Late Arrival Notice",
-        "content": "Hello Teacher, {{childName}} will arrive late today due to {{reason}}. Expected arrival time is {{time}}. Thank you."
-      },
-      "meetingRequest": {
-        "title": "Parent-Teacher Meeting Request",
-        "content": "Hello Teacher, I would like to schedule a meeting to discuss {{childName}}'s progress. Please let me know your available times. Thank you."
-      }
-    }
+    "useTemplate": "Use",
+    "koreanVersion": "Korean Version",
+    "yourLanguageVersion": "Your Language Version",
+    "copyKorean": "Copy Korean",
+    "editTemplate": "Edit",
+    "noTemplates": "No templates available"
   },
   "history": {
-    "title": "Message History",
-    "sent": "Sent",
-    "received": "Received",
-    "draft": "Draft",
-    "all": "All Messages",
-    "noMessages": "No messages",
-    "searchMessages": "Search messages...",
-    "markAsRead": "Mark as Read",
-    "markAsUnread": "Mark as Unread",
-    "delete": "Delete",
-    "reply": "Reply",
-    "forward": "Forward"
+    "title": "Message Translation History",
+    "noMessages": "No Translation messages",
+    "delete": "Delete"
   },
   "translation": {
-    "translateToKorean": "Translate to Korean",
-    "translateToEnglish": "Translate to English",
+    "translateToKorean": "translate to Korean",
+    "translateToYour": "translate to your language",
     "originalMessage": "Original Message",
     "translatedMessage": "Translated Message",
     "translating": "Translating...",
@@ -76,17 +50,5 @@
     "copyTranslation": "Copy Translation",
     "translationCopied": "Translation copied to clipboard"
   },
-  "validation": {
-    "recipientRequired": "Please select a recipient",
-    "subjectRequired": "Please enter a subject",
-    "messageRequired": "Please enter a message",
-    "messageTooLong": "Message is too long (max {{max}} characters)"
-  },
-  "status": {
-    "sending": "Sending...",
-    "sent": "Message sent successfully",
-    "failed": "Failed to send message",
-    "saving": "Saving draft...",
-    "saved": "Draft saved"
-  }
+  "validation": {}
 }

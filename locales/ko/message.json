@@ -2,28 +2,22 @@
   "title": "메시지",
   "compose": {
     "title": "메시지 작성",
+    "description": "교사와의 소통을 위한 메시지를 작성하세요.",
     "to": "받는 사람",
-    "toPlaceholder": "받는 사람 선택",
-    "subject": "제목",
-    "subjectPlaceholder": "제목 입력",
     "message": "메시지",
     "messagePlaceholder": "여기에 메시지를 입력하세요...",
-    "attachments": "첨부파일",
-    "addAttachment": "첨부파일 추가",
-    "send": "보내기",
-    "saveDraft": "임시저장",
-    "cancel": "취소",
-    "recipients": {
-      "teacher": "담임선생님",
-      "school": "학교 사무실",
-      "principal": "교장선생님",
-      "nurse": "보건선생님",
-      "counselor": "상담선생님"
-    }
+    "generate": "생성",
+    "editDraft": "초안 편집",
+    "koreanTranslation": "한국어 번역",
+    "translating": "번역 중...",
+    "cancel": "취소"
   },
   "templates": {
     "title": "메시지 템플릿",
+    "description": "일반적인 메시지를 위한 빠른 템플릿",
     "categories": {
+      "all": "전체",
+      "favorite": "즐겨찾기",
       "absence": "결석",
       "lateness": "지각",
       "earlyDismissal": "조퇴",
@@ -33,42 +27,21 @@
       "appreciation": "감사 인사",
       "other": "기타"
     },
-    "searchTemplates": "템플릿 검색...",
-    "useTemplate": "템플릿 사용",
-    "editTemplate": "템플릿 편집",
-    "noTemplates": "사용 가능한 템플릿이 없습니다",
-    "commonTemplates": {
-      "sickAbsence": {
-        "title": "질병결석 알림",
-        "content": "안녕하세요. {{childName}}은(는) 오늘 질병으로 인해 결석합니다. 등교 시 진단서를 제출하겠습니다. 감사합니다."
-      },
-      "lateArrival": {
-        "title": "지각 알림",
-        "content": "안녕하세요. {{childName}}은(는) 오늘 {{reason}}으로 인해 늦게 등교할 예정입니다. 예상 도착 시간은 {{time}}입니다. 감사합니다."
-      },
-      "meetingRequest": {
-        "title": "학부모 상담 요청",
-        "content": "안녕하세요. {{childName}}의 학습 상황에 대해 상담을 요청드립니다. 가능하신 시간을 알려주시면 감사하겠습니다."
-      }
-    }
+    "useTemplate": "사용",
+    "editTemplate": "편집",
+    "koreanVersion": "한국어 버전",
+    "copyKorean": "한국어 복사",
+    "yourLanguageVersion": "설정 언어 버전",
+    "noTemplates": "사용 가능한 템플릿이 없습니다"
   },
   "history": {
-    "title": "메시지 내역",
-    "sent": "보낸 메시지",
-    "received": "받은 메시지",
-    "draft": "임시저장",
-    "all": "전체 메시지",
-    "noMessages": "메시지 없음",
-    "searchMessages": "메시지 검색...",
-    "markAsRead": "읽음으로 표시",
-    "markAsUnread": "안 읽음으로 표시",
-    "delete": "삭제",
-    "reply": "답장",
-    "forward": "전달"
+    "title": "메시지 번역 내역",
+    "noMessages": "메시지 번역 기록이 없습니다.",
+    "delete": "삭제"
   },
   "translation": {
     "translateToKorean": "한국어로 번역",
-    "translateToEnglish": "영어로 번역",
+    "translateToYour": "설정 언어로 번역",
     "originalMessage": "원본 메시지",
     "translatedMessage": "번역된 메시지",
     "translating": "번역 중...",
@@ -76,17 +49,5 @@
     "copyTranslation": "번역 복사",
     "translationCopied": "번역이 클립보드에 복사되었습니다"
   },
-  "validation": {
-    "recipientRequired": "받는 사람을 선택해주세요",
-    "subjectRequired": "제목을 입력해주세요",
-    "messageRequired": "메시지를 입력해주세요",
-    "messageTooLong": "메시지가 너무 깁니다 (최대 {{max}}자)"
-  },
-  "status": {
-    "sending": "전송 중...",
-    "sent": "메시지가 성공적으로 전송되었습니다",
-    "failed": "메시지 전송에 실패했습니다",
-    "saving": "임시저장 중...",
-    "saved": "임시저장되었습니다"
-  }
+  "validation": {}
 }

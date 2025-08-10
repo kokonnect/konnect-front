@@ -1,12 +1,13 @@
 {
-  "title": "Translate",
+  "title": "Document Translate",
+  "description": "Upload school documents for translation",
   "upload": {
     "title": "Upload Document",
-    "selectFile": "Select File",
+    "uploadPdf": "Upload PDF",
+    "uploadImage": "Upload Image",
+    "chooseImageSource": "Choose Image Source",
     "takePhoto": "Take Photo",
     "fromGallery": "Choose from Gallery",
-    "dragDrop": "Drag and drop files here",
-    "supportedFormats": "Supported: Images (JPG, PNG), PDF, Text files",
     "maxFileSize": "Max file size: 10MB",
     "uploading": "Uploading...",
     "uploadSuccess": "File uploaded successfully",
@@ -14,6 +15,8 @@
   },
   "translation": {
     "translating": "Translating your document...",
+    "retranslating": "Retranslating...",
+    "retranslate": "Retranslate",
     "almostReady": "Almost ready...",
     "preparingTranslation": "Preparing your translation...",
     "pleaseWait": "This may take a few moments",
@@ -26,65 +29,23 @@
     "textCopied": "Text copied to clipboard",
     "saveTranslation": "Save Translation",
     "shareTranslation": "Share Translation",
-    "translationSaved": "Translation saved successfully"
-  },
-  "summary": {
-    "keyPoints": "Key Points",
-    "overview": "Overview",
-    "noSummaryAvailable": "No summary available for this document"
-  },
-  "events": {
-    "extractedEvents": "Extracted Events",
-    "addToCalendar": "Add to Calendar",
-    "addAllToCalendar": "Add All to Calendar",
-    "eventAdded": "Event added to calendar",
-    "allEventsAdded": "All events added to calendar",
-    "noEventsFound": "No events found in this document",
-    "eventTypes": {
-      "meeting": "Meeting",
-      "deadline": "Deadline",
-      "exam": "Exam",
-      "holiday": "Holiday",
-      "activity": "Activity",
-      "other": "Other"
-    }
-  },
-  "actions": {
-    "newTranslation": "New Translation",
-    "retryTranslation": "Retry Translation",
-    "reportIssue": "Report Issue",
-    "improveTranslation": "Improve Translation",
-    "downloadPDF": "Download as PDF",
-    "emailTranslation": "Email Translation",
-    "print": "Print"
+    "translationSaved": "Translation saved successfully",
+    "showOriginal": "Show Original",
+    "showTranslation": "Show Translation"
   },
   "history": {
     "title": "Translation History",
     "recent": "Recent Translations",
-    "thisWeek": "This Week",
-    "thisMonth": "This Month",
-    "older": "Older",
+    "eventsFound": "{{count}} event(s) found",
     "noHistory": "No translation history",
     "clearHistory": "Clear History",
     "confirmClear": "Clear History",
-    "confirmClearMessage": "Are you sure you want to clear all translation history?",
-    "searchHistory": "Search history...",
-    "filterByType": "Filter by Type",
-    "filterByChild": "Filter by Child",
-    "sortBy": "Sort by",
-    "sortOptions": {
-      "newest": "Newest First",
-      "oldest": "Oldest First",
-      "alphabetical": "Alphabetical",
-      "type": "By Type"
-    }
+    "confirmClearMessage": "Are you sure you want to clear all translation history?"
   },
   "warnings": {
     "title": "Important Notice",
     "aiTranslation": "This is an AI-powered translation. While we strive for accuracy, please verify important information.",
-    "medicalContent": "Medical content detected. Please consult with professionals for medical advice.",
-    "legalContent": "Legal content detected. Please consult with legal professionals for official matters.",
-    "financialContent": "Financial information detected. Please verify numbers and amounts carefully."
+    "medicalContent": "Medical content detected. Please consult with professionals for medical advice."
   },
   "fileStatus": {
     "processing": "Processing",

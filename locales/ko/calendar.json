@@ -1,15 +1,16 @@
 {
   "title": "캘린더",
   "monthYearPicker": {
+    "title": "월 및 연도 선택",
+    "selectYear": "연도 선택",
     "selectMonth": "월 선택",
     "cancel": "취소",
     "select": "선택"
   },
   "selectedDateSchedule": {
-    "noEventsToday": "오늘 예정된 일정이 없습니다",
-    "addEvent": "일정 추가",
-    "eventDetails": "일정 상세정보",
-    "allDay": "종일"
+    "noEventsDate": "이 날짜에는 예정된 일정이 없습니다",
+    "noEventsDescription": "일정을 추가해 보세요",
+    "allDay": "하루 종일"
   },
   "addEvent": {
     "title": "일정 추가",
@@ -20,10 +21,11 @@
       "eventDescriptionPlaceholder": "일정 설명을 입력하세요 (선택사항)",
       "eventDate": "날짜",
       "eventTime": "시간",
-      "allDayEvent": "종일 일정",
+      "allDayEvent": "하루 종일",
       "reminder": "알림",
       "reminderOptions": {
         "none": "없음",
+        "at": "일정 시간에",
         "5min": "5분 전",
         "10min": "10분 전",
         "15min": "15분 전",
@@ -32,16 +34,17 @@
         "2hours": "2시간 전",
         "1day": "하루 전"
       },
-      "eventType": "일정 종류",
-      "eventTypes": {
-        "schoolEvent": "학교 행사",
-        "homework": "숙제",
-        "exam": "시험",
-        "meeting": "학부모 상담",
-        "holiday": "휴일",
-        "other": "기타"
+      "repeat": "일정 반복",
+      "repeatEnd": "반복 종료",
+      "repeatOptions": {
+        "never": "없음",
+        "daily": "매일",
+        "weekly": "매주",
+        "monthly": "매월",
+        "yearly": "매년"
       },
       "selectChild": "자녀 선택",
+      "selectChildPlaceholder": "자녀를 선택하세요",
       "save": "일정 저장",
       "cancel": "취소"
     },
@@ -60,11 +63,9 @@
     "deleteSuccess": "일정이 성공적으로 삭제되었습니다"
   },
   "eventList": {
-    "today": "오늘",
     "upcoming": "예정된 일정",
     "past": "지난 일정",
-    "noEvents": "일정 없음",
-    "loadMore": "더 보기"
+    "noEventsDescription": "이 달에는 일정이 없습니다"
   },
   "weekDays": {
     "monday": "월요일",
