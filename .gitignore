@@ -43,4 +43,14 @@ yarn-error.*
 .vscode
 .vscode/
 
+# Claude Code agents
+.claude/
+
+# temp ios and android files
+ios/
+android/
+
+# env
+.env
+
 app-example

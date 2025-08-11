@@ -1,0 +1,80 @@
+{
+  "title": "Document Translate",
+  "description": "Upload school documents for translation",
+  "upload": {
+    "title": "Upload Document",
+    "uploadPdf": "Upload PDF",
+    "uploadImage": "Upload Image",
+    "chooseImageSource": "Choose Image Source",
+    "takePhoto": "Take Photo",
+    "fromGallery": "Choose from Gallery",
+    "maxFileSize": "Max file size: 10MB",
+    "uploading": "Uploading...",
+    "uploadSuccess": "File uploaded successfully",
+    "uploadError": "Failed to upload file"
+  },
+  "translation": {
+    "translating": "Translating your document...",
+    "retranslating": "Retranslating...",
+    "retranslate": "Retranslate",
+    "almostReady": "Almost ready...",
+    "preparingTranslation": "Preparing your translation...",
+    "pleaseWait": "This may take a few moments",
+    "summary": "Summary",
+    "fullText": "Full Text",
+    "events": "Events",
+    "viewOriginal": "View Original",
+    "viewTranslated": "View Translated",
+    "copyToClipboard": "Copy to Clipboard",
+    "textCopied": "Text copied to clipboard",
+    "saveTranslation": "Save Translation",
+    "shareTranslation": "Share Translation",
+    "translationSaved": "Translation saved successfully",
+    "showOriginal": "Show Original",
+    "showTranslation": "Show Translation"
+  },
+  "history": {
+    "title": "Translation History",
+    "recent": "Recent Translations",
+    "eventsFound": "{{count}} event(s) found",
+    "noHistory": "No translation history",
+    "translation": "Translation",
+    "Original": "Original",
+    "events": "Events",
+    "clearHistory": "Clear History",
+    "confirmClear": "Clear History",
+    "confirmClearMessage": "Are you sure you want to clear all translation history?",
+    "copyKorean": "Copy Korean"
+  },
+  "warnings": {
+    "title": "Important Notice",
+    "aiTranslation": "This is an AI-powered translation. While we strive for accuracy, please verify important information.",
+    "explanation": "Our translation is optimized for easy reading by reducing complex jargonand using simpler, more accessible language."
+  },
+  "fileStatus": {
+    "processing": "Processing",
+    "ready": "Ready",
+    "error": "Error",
+    "analyzing": "Analyzing document...",
+    "extractingText": "Extracting text...",
+    "translatingContent": "Translating content...",
+    "generatingSummary": "Generating summary...",
+    "extractingEvents": "Extracting events...",
+    "complete": "Complete"
+  },
+  "errors": {
+    "fileNotSupported": "File type not supported",
+    "fileTooLarge": "File size exceeds 10MB limit",
+    "translationFailed": "Translation failed. Please try again.",
+    "networkError": "Network error. Please check your connection.",
+    "serverError": "Server error. Please try again later.",
+    "quotaExceeded": "Translation quota exceeded. Please try again tomorrow."
+  },
+  "tips": {
+    "title": "Tips",
+    "clearPhoto": "Take clear photos for better translation",
+    "goodLighting": "Ensure good lighting when taking photos",
+    "fullPage": "Capture the entire page in frame",
+    "multiplePages": "For multiple pages, upload as PDF"
+  }
+}

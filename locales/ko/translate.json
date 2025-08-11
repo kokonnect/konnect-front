@@ -1,0 +1,80 @@
+{
+  "title": "문서 번역",
+  "description": "학교 문서를 업로드하여 번역하세요.",
+  "upload": {
+    "title": "문서 업로드",
+    "uploadPdf": "PDF 업로드",
+    "uploadImage": "이미지 업로드",
+    "chooseImageSource": "이미지 소스 선택",
+    "takePhoto": "사진 찍기",
+    "fromGallery": "갤러리에서 선택",
+    "maxFileSize": "최대 파일 크기: 10MB",
+    "uploading": "업로드 중...",
+    "uploadSuccess": "파일이 성공적으로 업로드되었습니다",
+    "uploadError": "파일 업로드에 실패했습니다"
+  },
+  "translation": {
+    "translating": "문서를 번역하고 있습니다...",
+    "retranslating": "다시 번역 중...",
+    "retranslate": "다시 번역",
+    "almostReady": "거의 완료되었습니다...",
+    "preparingTranslation": "번역을 준비하고 있습니다...",
+    "pleaseWait": "잠시만 기다려주세요",
+    "summary": "요약",
+    "fullText": "전체 텍스트",
+    "events": "일정",
+    "viewOriginal": "원본 보기",
+    "viewTranslated": "번역 보기",
+    "copyToClipboard": "클립보드에 복사",
+    "textCopied": "텍스트가 클립보드에 복사되었습니다",
+    "saveTranslation": "번역 저장",
+    "shareTranslation": "번역 공유",
+    "translationSaved": "번역이 성공적으로 저장되었습니다",
+    "showOriginal": "원본 보기",
+    "showTranslation": "번역 보기"
+  },
+  "history": {
+    "title": "번역 내역",
+    "recent": "최근 번역",
+    "eventsFound": "{{count}}개 일정",
+    "noHistory": "번역 내역이 없습니다",
+    "translation": "번역본",
+    "original": "원본",
+    "events": "일정",
+    "clearHistory": "내역 지우기",
+    "confirmClear": "내역 지우기",
+    "confirmClearMessage": "모든 번역 내역을 지우시겠습니까?",
+    "copyKorean": "한국어 복사"
+  },
+  "warnings": {
+    "title": "중요 공지",
+    "aiTranslation": "이것은 AI 기반 번역입니다. 정확성을 위해 노력하고 있으나, 중요한 정보는 확인해 주세요.",
+    "explanation": "우리의 번역은 복잡한 전문 용어를 줄이고 더 간단하고 접근하기 쉬운 언어를 사용하여 읽기 쉽게 최적화되어 있습니다."
+  },
+  "fileStatus": {
+    "processing": "처리 중",
+    "ready": "준비 완료",
+    "error": "오류",
+    "analyzing": "문서 분석 중...",
+    "extractingText": "텍스트 추출 중...",
+    "translatingContent": "내용 번역 중...",
+    "generatingSummary": "요약 생성 중...",
+    "extractingEvents": "일정 추출 중...",
+    "complete": "완료"
+  },
+  "errors": {
+    "fileNotSupported": "지원되지 않는 파일 형식입니다",
+    "fileTooLarge": "파일 크기가 10MB 한계를 초과합니다",
+    "translationFailed": "번역에 실패했습니다. 다시 시도해 주세요.",
+    "networkError": "네트워크 오류입니다. 연결을 확인해 주세요.",
+    "serverError": "서버 오류입니다. 나중에 다시 시도해 주세요.",
+    "quotaExceeded": "번역 할당량을 초과했습니다. 내일 다시 시도해 주세요."
+  },
+  "tips": {
+    "title": "팁",
+    "clearPhoto": "더 나은 번역을 위해 선명한 사진을 촬영하세요",
+    "goodLighting": "사진을 촬영할 때 충분한 조명을 확보하세요",
+    "fullPage": "전체 페이지가 화면에 들어오도록 촬영하세요",
+    "multiplePages": "여러 페이지의 경우 PDF로 업로드하세요"
+  }
+}

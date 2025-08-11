@@ -1,0 +1,78 @@
+{
+  "title": "프로필",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "프로필에 액세스하려면 로그인하세요",
+    "description": "계정을 만들어 번역 저장, 자녀 정보 관리, 기기 간 동기화를 이용하세요",
+    "benefits": {
+      "sync": "기기 간 데이터 동기화",
+      "save": "번역 및 설정 저장",
+      "manage": "여러 자녀 관리",
+      "notifications": "중요한 알림 수신"
+    },
+    "loginButton": "로그인"
+  },
+  "children": {
+    "title": "내 자녀",
+    "addChild": "자녀 추가",
+    "editChild": "자녀 정보 편집",
+    "removeChild": "자녀 삭제",
+    "confirmRemove": "자녀 삭제",
+    "confirmRemoveMessage": "정말 {{name}}을(를) 삭제하시겠습니까?",
+    "noChildren": "아직 추가된 자녀가 없습니다",
+    "childInfo": {
+      "age": "나이: {{age}}",
+      "school": "학교: {{school}}",
+      "grade": "학년: {{grade}}",
+      "class": "반: {{class}}",
+      "teacher": "담임: {{teacher}}"
+    },
+    "form": {
+      "name": "이름",
+      "namePlaceholder": "이름을 입력하세요",
+      "birthdate": "생년월일",
+      "birthdatePlaceholder": "생년월일을 입력하세요",
+      "school": "학교",
+      "schoolPlaceholder": "학교를 입력하세요",
+      "grade": "학년",
+      "gradePlaceholder": "학년을 입력하세요",
+      "class": "반",
+      "classPlaceholder": "반을 입력하세요",
+      "teacher": "담임",
+      "teacherPlaceholder": "담임을 입력하세요"
+    }
+  },
+  "preferences": {
+    "title": "환경 설정",
+    "language": "언어",
+    "languageDescription": "앱 인터페이스 언어",
+    "selectLanguage": "언어 선택",
+    "notifications": {
+      "title": "알림"
+    },
+    "translation": {
+      "title": "번역 설정",
+      "saveMessageHistory": "메시지 내역 저장",
+      "saveDocHistory": "번역 내역 저장"
+    }
+  },
+  "editProfile": {
+    "title": "프로필 편집",
+    "form": {
+      "name": "이름",
+      "namePlaceholder": "이름을 입력하세요",
+      "email": "이메일",
+      "emailPlaceholder": "이메일을 입력하세요",
+      "childInfo": "자녀 정보",
+      "save": "변경사항 저장",
+      "cancel": "취소"
+    },
+    "emailProviderCantChange": "이메일은 변경할 수 없습니다.",
+    "validation": {
+      "nameRequired": "이름은 필수입니다",
+      "requiredWarning": "필수 항목은 반드시 입력해야 합니다"
+    },
+    "successTitle": "프로필이 성공적으로 업데이트되었습니다",
+    "successMessage": "변경사항이 저장되었습니다."
+  }
+}
