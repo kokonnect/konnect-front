@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useTranslation } from "react-i18next";
 import { isFirstLaunch, isOnboardingCompleted } from "@/utils/storage";
 
 const primaryColor = "#00B493";

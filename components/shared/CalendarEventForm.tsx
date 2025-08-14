@@ -160,42 +160,48 @@ const RepeatItemRenderer = ({
 );
 
 // Factory functions for render items (defined outside component)
-const createRenderChildItem = (
-  setSelectedChild: (child: Child) => void,
-  setShowDropdown: (show: boolean) => void
-) => ({ item }: { item: Child }) => (
-  <ChildItemRenderer
-    item={item}
-    setSelectedChild={setSelectedChild}
-    setShowDropdown={setShowDropdown}
-  />
-);
+const createRenderChildItem =
+  (
+    setSelectedChild: (child: Child) => void,
+    setShowDropdown: (show: boolean) => void,
+  ) =>
+  ({ item }: { item: Child }) => (
+    <ChildItemRenderer
+      item={item}
+      setSelectedChild={setSelectedChild}
+      setShowDropdown={setShowDropdown}
+    />
+  );
 
-const createRenderNotificationItem = (
-  setSelected: (item: NotificationOption) => void,
-  setShowDropdown: (show: boolean) => void,
-  t: any
-) => ({ item }: { item: NotificationOption }) => (
-  <NotificationItemRenderer
-    item={item}
-    setSelected={setSelected}
-    setShowDropdown={setShowDropdown}
-    t={t}
-  />
-);
+const createRenderNotificationItem =
+  (
+    setSelected: (item: NotificationOption) => void,
+    setShowDropdown: (show: boolean) => void,
+    t: any,
+  ) =>
+  ({ item }: { item: NotificationOption }) => (
+    <NotificationItemRenderer
+      item={item}
+      setSelected={setSelected}
+      setShowDropdown={setShowDropdown}
+      t={t}
+    />
+  );
 
-const createRenderRepeatItem = (
-  setSelected: (item: RepeatOption) => void,
-  setShowDropdown: (show: boolean) => void,
-  t: any
-) => ({ item }: { item: RepeatOption }) => (
-  <RepeatItemRenderer
-    item={item}
-    setSelected={setSelected}
-    setShowDropdown={setShowDropdown}
-    t={t}
-  />
-);
+const createRenderRepeatItem =
+  (
+    setSelected: (item: RepeatOption) => void,
+    setShowDropdown: (show: boolean) => void,
+    t: any,
+  ) =>
+  ({ item }: { item: RepeatOption }) => (
+    <RepeatItemRenderer
+      item={item}
+      setSelected={setSelected}
+      setShowDropdown={setShowDropdown}
+      t={t}
+    />
+  );
 
 export default function CalendarEventForm({
   mode,
@@ -255,9 +261,20 @@ export default function CalendarEventForm({
   const [showRepeatEndDatePicker, setShowRepeatEndDatePicker] = useState(false);
 
   // Create render functions using factory functions
-  const renderChildItem = createRenderChildItem(setSelectedChild, setShowChildDropdown);
-  const renderNotificationItem = createRenderNotificationItem(setSelectedNotification, setShowNotificationDropdown, t);
-  const renderRepeatItem = createRenderRepeatItem(setSelectedRepeat, setShowRepeatDropdown, t);
+  const renderChildItem = createRenderChildItem(
+    setSelectedChild,
+    setShowChildDropdown,
+  );
+  const renderNotificationItem = createRenderNotificationItem(
+    setSelectedNotification,
+    setShowNotificationDropdown,
+    t,
+  );
+  const renderRepeatItem = createRenderRepeatItem(
+    setSelectedRepeat,
+    setShowRepeatDropdown,
+    t,
+  );
 
   const handleSave = () => {
     if (!eventTitle.trim() || !selectedChild) {
