@@ -163,30 +163,13 @@ export default function ComposeScreen() {
         {/* Translation Section */}
 
         {showTranslation && (
-          <View style={styles.translationSection}>
-            <Text style={styles.translationLabel}>
-              {t("message:compose.koreanTranslation")}
-            </Text>
-
-            {isTranslating ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={primaryColor} />
-                <Text style={styles.loadingText}>
-                  {t("message:compose.translating")}
-                </Text>
-              </View>
-            ) : (
-              <>
-                <TranslationOutput
-                  isTranslating={isTranslating}
-                  translatedText={translatedText}
-                  onCopy={handleCopyTranslation}
-                  onTTS={handleTTS}
-                  onTextChange={setTranslatedText}
-                />
-              </>
-            )}
-          </View>
+          <TranslationOutput
+            isTranslating={isTranslating}
+            translatedText={translatedText}
+            onCopy={handleCopyTranslation}
+            onTTS={handleTTS}
+            onTextChange={setTranslatedText}
+          />
         )}
       </View>
     </KeyboardAvoidingView>

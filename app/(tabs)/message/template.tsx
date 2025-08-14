@@ -240,7 +240,7 @@ export default function TemplateScreen() {
   );
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
       <MessageHeader
         title={t("message:templates.title")}
         subtitle={t("message:templates.description")}
@@ -248,21 +248,23 @@ export default function TemplateScreen() {
       />
 
       <View style={styles.filterContainer}>
-        <ScrollView
+        <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.filterScrollContent}
-        >
-          {getCategories().map(renderFilterTag)}
-        </ScrollView>
+          data={getCategories()}
+          renderItem={({ item }) => renderFilterTag(item)}
+          keyExtractor={(item) => item}
+        />
       </View>
 
       <FlatList
         data={filteredTemplates}
         keyExtractor={(item) => item.id}
         renderItem={renderTemplate}
-        scrollEnabled={false}
+        scrollEnabled={true}
         contentContainerStyle={styles.templateList}
+        showsVerticalScrollIndicator={false}
       />
 
       {/* <TouchableOpacity style={styles.addButton}>
@@ -340,7 +342,7 @@ export default function TemplateScreen() {
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -573,7 +575,7 @@ const styles = StyleSheet.create({
   },
   filterContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 8,
   },
   filterScrollContent: {
     paddingHorizontal: 4,

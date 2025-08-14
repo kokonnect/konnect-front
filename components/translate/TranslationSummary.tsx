@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import SkeletonLoader from "./SkeletonLoader";
 
 interface TranslationSummaryProps {
@@ -25,9 +25,9 @@ export default function TranslationSummary({
   }
 
   return (
-    <View style={styles.tabContent}>
+    <ScrollView style={styles.tabContent} showsVerticalScrollIndicator={false}>
       <Text style={styles.summaryText}>{summary}</Text>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
   tabContent: {
     marginBottom: 4,
     flex: 1,
-  },
-  summaryText: {
     backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
@@ -48,9 +46,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  summaryText: {
     fontSize: 16,
-    color: "#333",
     lineHeight: 24,
+    color: "#333",
   },
   skeletonContainer: {
     backgroundColor: "#fff",

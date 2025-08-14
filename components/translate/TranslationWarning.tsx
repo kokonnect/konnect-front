@@ -1,5 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 
@@ -14,77 +19,124 @@ export default function TranslationWarning({
 }: TranslationWarningProps) {
   const { t } = useTranslation();
 
+  if (!showWarning) return null;
+
   return (
     <View style={styles.container}>
-      {/* Warning Text */}
-      {showWarning && (
-        <View style={styles.warningContainer}>
-          <MaterialCommunityIcons
-            name="alert-circle-outline"
-            size={16}
-            color="#EA580C"
-          />
-          <Text style={styles.warningText}>
-            {t("translate:warnings.aiTranslation")}
-          </Text>
-          {onDismissWarning && (
-            <TouchableOpacity
-              onPress={onDismissWarning}
-              style={styles.dismissButton}
-            >
-              <MaterialCommunityIcons name="close" size={16} color="#EA580C" />
-            </TouchableOpacity>
-          )}
-        </View>
-      )}
+      <View style={styles.gradientBackground}>
+        {onDismissWarning && (
+          <TouchableOpacity
+            onPress={onDismissWarning}
+            style={styles.dismissButton}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
+            <MaterialCommunityIcons name="close" size={18} color="#9A3412" />
+          </TouchableOpacity>
+        )}
 
-      <Text style={styles.explanationText}>
-        {t("translate:warnings.explanation")}
-      </Text>
+        <View style={styles.contentContainer}>
+          <View style={styles.warningRow}>
+            <MaterialCommunityIcons
+              name="alert-circle"
+              size={18}
+              color="#EA580C"
+              style={styles.warningIcon}
+            />
+            <Text style={styles.warningText}>
+              {t("translate:warnings.aiTranslation")}
+            </Text>
+          </View>
+
+          <View style={styles.divider} />
+
+          <View style={styles.explanationRow}>
+            <MaterialCommunityIcons
+              name="lightbulb-outline"
+              size={16}
+              color="#92400E"
+              style={styles.explanationIcon}
+            />
+            <Text style={styles.explanationText}>
+              {t("translate:warnings.explanation")}
+            </Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    padding: 16,
+    position: "absolute",
+    bottom: 100,
+    left: 16,
+    right: 16,
+    zIndex: 1000,
     borderRadius: 12,
-    marginTop: 12,
-    shadowColor: "#000",
+    shadowColor: "#EA580C",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 8,
   },
-  warningContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  gradientBackground: {
     backgroundColor: "#FFF7ED",
+    borderRadius: 12,
     padding: 12,
-    borderRadius: 8,
     borderWidth: 1,
     borderColor: "#FED7AA",
-    marginBottom: 12,
-  },
-  warningText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: "#EA580C",
-    fontWeight: "500",
-    flex: 1,
   },
   dismissButton: {
+    position: "absolute",
+    top: 8,
+    right: 8,
     padding: 4,
-    marginLeft: 8,
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: 12,
+    zIndex: 1,
+  },
+  contentContainer: {
+    paddingTop: 8,
+  },
+  warningRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  warningIcon: {
+    marginTop: 1,
+  },
+  warningText: {
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 20,
+    fontSize: 14,
+    color: "#DC2626",
+    fontWeight: "500",
+    lineHeight: 20,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#FED7AA",
+    marginVertical: 12,
+    opacity: 0.5,
+  },
+  explanationRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+  explanationIcon: {
+    marginTop: 2,
   },
   explanationText: {
-    fontSize: 12,
-    color: "#666",
-    lineHeight: 16,
-    fontStyle: "italic",
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 13,
+    color: "#78350F",
+    lineHeight: 18,
+    opacity: 0.9,
   },
 });

@@ -23,6 +23,8 @@ import TranslationWarning from "@/components/translate/TranslationWarning";
 import TranslationButtons from "@/components/translate/TranslationButtons";
 import CalendarModal from "@/components/translate/CalendarModal";
 import RecentTranslations from "@/components/translate/RecentTranslations";
+import VocabularyGuide from "@/components/translate/VocabularyGuide";
+import VocabularyModal from "@/components/translate/VocabularyModal";
 import {
   TranslationResult,
   TabType,
@@ -45,6 +47,9 @@ export default function TranslateScreen() {
   // Calendar modal states
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [selectedEventData, setSelectedEventData] = useState(null);
+
+  // Vocabulary modal states
+  const [showVocabularyModal, setShowVocabularyModal] = useState(false);
 
   // Recent translations states
   const [recentTranslations, setRecentTranslations] = useState([]);
@@ -164,7 +169,7 @@ export default function TranslateScreen() {
     setTimeout(() => {
       setTranslationResult({
         summary:
-          "School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.",
+          "School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.School event notification about upcoming field trip to the Natural History Museum on August 20th, 2025. Permission form and lunch required.",
         fullText:
           "Dear Parents,\\n\\nWe are excited to announce our annual field trip to the Natural History Museum scheduled for August 20th, 2025. All students are required to bring a packed lunch and wear comfortable walking shoes.\\n\\nPlease submit the signed permission form by August 15th. The trip will start at 9:00 AM and we will return by 3:00 PM.\\n\\nBest regards,\\nSchool Administration",
         originalText:
@@ -183,6 +188,44 @@ export default function TranslateScreen() {
             title: "Permission Form Deadline",
             date: "2025-08-15",
             description: "Submit signed permission form for field trip.",
+          },
+        ],
+        vocabulary: [
+          {
+            id: "v1",
+            korean: "학부모",
+            romanization: "hakbumo",
+            english: "Parents",
+            description: "Parents or guardians of students",
+            example: "학부모님께 알려드립니다",
+            exampleTranslation: "Notice to parents",
+          },
+          {
+            id: "v2",
+            korean: "현장학습",
+            romanization: "hyeonjang hakseup",
+            english: "Field Trip",
+            description: "Educational trip outside of school",
+            example: "박물관 현장학습이 있습니다",
+            exampleTranslation: "There is a field trip to the museum",
+          },
+          {
+            id: "v3",
+            korean: "동의서",
+            romanization: "dong-uiseo",
+            english: "Permission Form",
+            description: "Consent or permission document",
+            example: "동의서를 제출해 주세요",
+            exampleTranslation: "Please submit the permission form",
+          },
+          {
+            id: "v4",
+            korean: "도시락",
+            romanization: "dosirak",
+            english: "Packed Lunch",
+            description: "Lunch box or packed meal",
+            example: "도시락을 지참해 주세요",
+            exampleTranslation: "Please bring a packed lunch",
           },
         ],
       });
@@ -259,6 +302,44 @@ export default function TranslateScreen() {
             description: "Return signed permission form for the field trip.",
           },
         ],
+        vocabulary: [
+          {
+            id: "v1",
+            korean: "학부모",
+            romanization: "hakbumo",
+            english: "Parents",
+            description: "Parents or guardians of students",
+            example: "학부모님께 알려드립니다",
+            exampleTranslation: "Notice to parents",
+          },
+          {
+            id: "v2",
+            korean: "현장학습",
+            romanization: "hyeonjang hakseup",
+            english: "Field Trip",
+            description: "Educational trip outside of school",
+            example: "박물관 현장학습이 있습니다",
+            exampleTranslation: "There is a field trip to the museum",
+          },
+          {
+            id: "v3",
+            korean: "동의서",
+            romanization: "dong-uiseo",
+            english: "Permission Form",
+            description: "Consent or permission document",
+            example: "동의서를 제출해 주세요",
+            exampleTranslation: "Please submit the permission form",
+          },
+          {
+            id: "v4",
+            korean: "도시락",
+            romanization: "dosirak",
+            english: "Packed Lunch",
+            description: "Lunch box or packed meal",
+            example: "도시락을 지참해 주세요",
+            exampleTranslation: "Please bring a packed lunch",
+          },
+        ],
       });
       setIsRetranslating(false);
     }, 2500);
@@ -289,10 +370,17 @@ export default function TranslateScreen() {
     switch (activeTab) {
       case "summary":
         return (
-          <TranslationSummary
-            summary={translationResult.summary}
-            isLoading={isRetranslating}
-          />
+          <>
+            <TranslationSummary
+              summary={translationResult.summary}
+              isLoading={isRetranslating}
+            />
+            <VocabularyGuide
+              vocabulary={translationResult.vocabulary}
+              isLoading={isRetranslating}
+              onPress={() => setShowVocabularyModal(true)}
+            />
+          </>
         );
       case "fullText":
         return (
@@ -319,9 +407,13 @@ export default function TranslateScreen() {
     if (!translationResult) return null;
 
     return (
-      <View style={styles.resultsContainer}>
+      <View
+        style={styles.resultsContainer}
+        // showsVerticalScrollIndicator={false}
+        // nestedScrollEnabled={true}
+      >
         <TranslationTabs activeTab={activeTab} onTabChange={setActiveTab} />
-        {renderTabContent()}
+        <View style={styles.tabContentWrapper}>{renderTabContent()}</View>
         <TranslationWarning
           showWarning={showWarning}
           onDismissWarning={handleDismissWarning}
@@ -442,6 +534,14 @@ export default function TranslateScreen() {
         onSave={handleCalendarSave}
         eventData={selectedEventData}
       />
+
+      {/* Vocabulary Modal */}
+      <VocabularyModal
+        visible={showVocabularyModal}
+        onClose={() => setShowVocabularyModal(false)}
+        vocabulary={translationResult?.vocabulary}
+        isLoading={isRetranslating}
+      />
     </SafeAreaView>
   );
 }
@@ -453,7 +553,8 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   headerTop: {
     flexDirection: "row",
@@ -489,6 +590,9 @@ const styles = StyleSheet.create({
   resultsContainer: {
     flex: 1,
     marginTop: 16,
+  },
+  tabContentWrapper: {
+    flex: 1,
   },
   modalOverlay: {
     flex: 1,

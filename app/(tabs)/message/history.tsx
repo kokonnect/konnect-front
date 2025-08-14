@@ -76,20 +76,10 @@ const renderSkeletonItem = ({ index }: { index: number }) => (
         marginBottom={0}
       />
     </View>
-    
-    <SkeletonLoader
-      height={14}
-      width="90%"
-      borderRadius={4}
-      marginBottom={4}
-    />
-    
-    <SkeletonLoader
-      height={14}
-      width="75%"
-      borderRadius={4}
-      marginBottom={0}
-    />
+
+    <SkeletonLoader height={14} width="90%" borderRadius={4} marginBottom={4} />
+
+    <SkeletonLoader height={14} width="75%" borderRadius={4} marginBottom={0} />
   </View>
 );
 

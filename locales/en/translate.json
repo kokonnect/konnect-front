@@ -76,5 +76,10 @@
     "goodLighting": "Ensure good lighting when taking photos",
     "fullPage": "Capture the entire page in frame",
     "multiplePages": "For multiple pages, upload as PDF"
+  },
+  "vocabulary": {
+    "title": "Key Vocabulary",
+    "description": "Key Korean school-related terms found in this document.",
+    "example": "Example"
   }
 }

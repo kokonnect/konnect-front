@@ -47,9 +47,7 @@ export default function FileStatus({
 }
 
 const styles = StyleSheet.create({
-  fileStatusContainer: {
-    marginTop: 16,
-  },
+  fileStatusContainer: {},
   fileInfo: {
     flexDirection: "row",
     alignItems: "center",
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
-    marginBottom: 8,
+    // marginBottom: 8,
     borderWidth: 1,
     borderColor: "#e0e0e0",
   },

@@ -46,19 +46,6 @@ export default function TranslationHistoryModal({
 }: TranslationHistoryModalProps) {
   const { t, i18n } = useTranslation();
 
-  const handleCopyTranslation = async () => {
-    if (!selectedItem) return;
-    try {
-      await Clipboard.setStringAsync(selectedItem.translatedText);
-      Alert.alert(
-        t("common:success"),
-        t("translate:history.translationCopied"),
-      );
-    } catch (error) {
-      Alert.alert(t("common:error"), t("translate:history.copyFailed"));
-    }
-  };
-
   const getDocumentIcon = (type: "pdf" | "image") => {
     return type === "pdf" ? "file-pdf-box" : "image";
   };
@@ -152,22 +139,6 @@ export default function TranslationHistoryModal({
               )}
             </View>
           </ScrollView>
-
-          <View style={styles.modalActions}>
-            <TouchableOpacity
-              style={styles.copyTranslationButton}
-              onPress={handleCopyTranslation}
-            >
-              <MaterialCommunityIcons
-                name="content-copy"
-                size={20}
-                color="#fff"
-              />
-              <Text style={styles.copyTranslationButtonText}>
-                {t("translate:history.copyKorean")}
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </TouchableOpacity>
     </Modal>
@@ -223,9 +194,7 @@ const styles = StyleSheet.create({
     padding: 4,
     marginLeft: 12,
   },
-  modalBody: {
-    marginBottom: 20,
-  },
+  modalBody: {},
   fieldLabel: {
     fontSize: 14,
     fontWeight: "600",

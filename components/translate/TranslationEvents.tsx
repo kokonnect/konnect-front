@@ -74,6 +74,7 @@ export default function TranslationEvents({
 
   return (
     <FlatList
+      scrollEnabled={false}
       data={events}
       keyExtractor={(item) => item.id}
       renderItem={renderEvent}
