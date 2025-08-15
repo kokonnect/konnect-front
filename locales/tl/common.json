@@ -100,6 +100,7 @@
   "unblock": "I-unblock",
   "report": "I-report",
   "daysAgo": "{{count}} araw na nakalipas",
+  "demoBanner": "DEMO - Lahat ng datos ay nasa Ingles",
   "navigation": {
     "home": "Home",
     "translate": "Isalin",

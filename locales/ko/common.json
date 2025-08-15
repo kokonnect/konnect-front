@@ -100,6 +100,7 @@
   "unblock": "차단 해제",
   "report": "신고",
   "daysAgo": "{{count}}일 전",
+  "demoBanner": "데모 - 모든 데이터는 영어로 표시됩니다",
   "navigation": {
     "home": "홈",
     "translate": "번역",

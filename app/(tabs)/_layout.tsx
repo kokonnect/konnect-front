@@ -1,11 +1,13 @@
 import { Tabs } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const primaryColor = "#00B493";
 
 export default function RootLayout() {
   const { t } = useTranslation('common');
+  const insets = useSafeAreaInsets();
   
   return (
     <Tabs
@@ -19,6 +21,7 @@ export default function RootLayout() {
         },
         headerStyle: {
           backgroundColor: primaryColor,
+          paddingTop: insets.top + 28, // Account for status bar + banner height
         },
         headerTitle: t('appName'),
         headerTitleStyle: {

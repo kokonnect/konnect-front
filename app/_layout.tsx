@@ -4,7 +4,8 @@ import { store } from "@/store/store";
 import { AuthContainer } from "@/components/auth/AuthContainer";
 import { useEffect, useState } from "react";
 import { initI18n } from "@/locales/i18n";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
+import StatusBarBanner from "@/components/shared/StatusBarBanner";
 
 export default function RootLayout() {
   const [isI18nReady, setIsI18nReady] = useState(Platform.OS === 'web');
@@ -26,29 +27,32 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="splash" />
-        <Stack.Screen name="onboarding" />
-        <Stack.Screen
-          name="login"
-          options={{
-            headerShown: true,
-            headerBackButtonDisplayMode: "minimal",
-            headerTintColor: "#00B493",
-          }}
-        />
-        <Stack.Screen
-          name="add-child"
-          options={{
+      <View style={{ flex: 1 }}>
+        <Stack
+          screenOptions={{
             headerShown: false,
           }}
-        />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
+        >
+          <Stack.Screen name="splash" />
+          <Stack.Screen name="onboarding" />
+          <Stack.Screen
+            name="login"
+            options={{
+              headerShown: true,
+              headerBackButtonDisplayMode: "minimal",
+              headerTintColor: "#00B493",
+            }}
+          />
+          <Stack.Screen
+            name="add-child"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+        <StatusBarBanner />
+      </View>
     </Provider>
   );
 }

@@ -100,6 +100,7 @@
   "unblock": "取消屏蔽",
   "report": "举报",
   "daysAgo": "{{count}} 天前",
+  "demoBanner": "演示版 - 所有数据均为英文",
   "navigation": {
     "home": "首页",
     "translate": "翻译",
