@@ -1,0 +1,78 @@
+{
+  "title": "个人资料",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "登录以访问您的个人资料",
+    "description": "创建账户以保存翻译、管理孩子信息并在设备间同步",
+    "benefits": {
+      "sync": "跨设备同步数据",
+      "save": "保存翻译和偏好设置",
+      "manage": "管理多个孩子",
+      "notifications": "接收重要通知"
+    },
+    "loginButton": "登录"
+  },
+  "children": {
+    "title": "我的孩子",
+    "addChild": "添加孩子",
+    "editChild": "编辑孩子",
+    "removeChild": "移除孩子",
+    "confirmRemove": "移除孩子",
+    "confirmRemoveMessage": "您确定要从个人资料中移除{{name}}吗？",
+    "noChildren": "还没有添加孩子",
+    "childInfo": {
+      "age": "年龄：{{age}}",
+      "school": "学校：{{school}}",
+      "grade": "年级：{{grade}}",
+      "class": "班级：{{class}}",
+      "teacher": "老师：{{teacher}}"
+    },
+    "form": {
+      "name": "姓名",
+      "namePlaceholder": "输入姓名",
+      "birthdate": "出生日期",
+      "birthdatePlaceholder": "输入出生日期",
+      "school": "学校",
+      "schoolPlaceholder": "输入学校",
+      "grade": "年级",
+      "gradePlaceholder": "输入年级",
+      "class": "班级",
+      "classPlaceholder": "输入班级",
+      "teacher": "老师",
+      "teacherPlaceholder": "输入老师姓名"
+    }
+  },
+  "preferences": {
+    "title": "偏好设置",
+    "language": "语言",
+    "languageDescription": "应用界面语言",
+    "selectLanguage": "选择语言",
+    "notifications": {
+      "title": "通知"
+    },
+    "translation": {
+      "title": "翻译设置",
+      "saveDocHistory": "保存文档翻译历史",
+      "saveMessageHistory": "保存消息历史"
+    }
+  },
+  "editProfile": {
+    "title": "编辑个人资料",
+    "form": {
+      "name": "姓名",
+      "namePlaceholder": "输入您的姓名",
+      "email": "邮箱",
+      "emailPlaceholder": "输入您的邮箱",
+      "childInfo": "孩子信息",
+      "save": "保存更改",
+      "cancel": "取消"
+    },
+    "emailProviderCantChange": "邮箱和登录提供商无法更改。",
+    "validation": {
+      "nameRequired": "姓名是必填项",
+      "requiredWarning": "请填写所有必填字段"
+    },
+    "successTitle": "个人资料更新成功",
+    "successMessage": "更改已保存。"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Mga Mensehe",
+  "compose": {
+    "title": "Sumulat ng Mensehe",
+    "nav": "Sumulat",
+    "description": "Mag-draft ng mga mensehe para sa komunikasyon sa guro sa inyong wika",
+    "to": "Para kay",
+    "toPlaceholder": "Pumili ng tatanggap",
+    "message": "Mensehe",
+    "messagePlaceholder": "Itype dito ang inyong mensehe...",
+    "generate": "Gumawa",
+    "editDraft": "I-edit ang Draft",
+    "koreanTranslation": "Salin sa Korean",
+    "translating": "Nagsasalin...",
+    "cancel": "Kanselahin"
+  },
+  "templates": {
+    "title": "Mga Template ng Mensehe",
+    "nav": "Template",
+    "description": "Mga mabilis na template para sa karaniwang mensehe",
+    "categories": {
+      "all": "Lahat",
+      "favorite": "Paborito",
+      "absence": "Pagkakaabsent",
+      "lateness": "Pagkalate",
+      "earlyDismissal": "Maagng Pag-alis",
+      "homework": "Takdang Aralin",
+      "meeting": "Kahilingan na Makipagkita",
+      "concern": "Alalahanin/Tanong",
+      "appreciation": "Salamat",
+      "other": "Iba pa"
+    },
+    "useTemplate": "Gamitin",
+    "koreanVersion": "Korean na Bersyon",
+    "yourLanguageVersion": "Bersyon sa Inyong Wika",
+    "copyKorean": "Kopyahin ang Korean",
+    "editTemplate": "I-edit",
+    "noTemplates": "Walang available na template"
+  },
+  "history": {
+    "title": "Kasaysayan ng Salin ng Mensehe",
+    "noMessages": "Walang mga mensehe na naisalin",
+    "delete": "Burahin"
+  },
+  "translation": {
+    "translateToKorean": "isalin sa Korean",
+    "translateToYour": "isalin sa inyong wika",
+    "originalMessage": "Orihinal na Mensehe",
+    "translatedMessage": "Naisaling Mensehe",
+    "translating": "Nagsasalin...",
+    "translationFailed": "Nabigo ang pagsasalin. Pakisubok ulit.",
+    "copyTranslation": "Kopyahin ang Salin",
+    "translationCopied": "Nakopya na ang salin sa clipboard"
+  },
+  "validation": {}
+}

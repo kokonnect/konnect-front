@@ -1,0 +1,120 @@
+{
+  "title": "ប្រតិទិន",
+  "monthYearPicker": {
+    "title": "ជ្រើសរើសខែ និងឆ្នាំ",
+    "selectYear": "ជ្រើសរើសឆ្នាំ",
+    "selectMonth": "ជ្រើសរើសខែ",
+    "cancel": "បោះបង់",
+    "select": "ជ្រើសរើស"
+  },
+  "selectedDateSchedule": {
+    "noEventsDate": "មិនមានព្រឹត្តិការណ៍ណាកំណត់សម្រាប់កាលបរិច្ឆេទដែលបានជ្រើសរើសទេ",
+    "noEventsDescription": "សាកល្បងបន្ថែមព្រឹត្តិការណ៍",
+    "allDay": "ពេញមួយថ្ងៃ"
+  },
+  "form": {
+    "eventTitle": "ចំណងជើងព្រឹត្តិការណ៍",
+    "eventTitlePlaceholder": "បញ្ចូលចំណងជើងព្រឹត្តិការណ៍",
+    "eventDescription": "ការពណ៌នា",
+    "eventDescriptionPlaceholder": "បញ្ចូលការពណ៌នាព្រឹត្តិការណ៍ (ជម្រើស)",
+    "eventDate": "កាលបរិច្ឆេទ",
+    "eventTime": "ពេលវេលា",
+    "allDay": "ព្រឹត្តិការណ៍ពេញមួយថ្ងៃ",
+    "start": "ចាប់ផ្តើម",
+    "end": "បញ្ចប់",
+    "reminder": "ការរំលឹក",
+    "reminderOptions": {
+      "none": "គ្មាន",
+      "at": "នៅពេលព្រឹត្តិការណ៍",
+      "5min": "5 នាទីមុន",
+      "10min": "10 នាទីមុន",
+      "15min": "15 នាទីមុន",
+      "30min": "30 នាទីមុន",
+      "1hour": "1 ម៉ោងមុន",
+      "2hours": "2 ម៉ោងមុន",
+      "1day": "1 ថ្ងៃមុន"
+    },
+    "repeat": "ធ្វើម្តងទៀត",
+    "endRepeat": "បញ្ចប់ការធ្វើម្តងទៀត",
+    "repeatOptions": {
+      "never": "មិនធ្វើម្តងទៀត",
+      "daily": "រាល់ថ្ងៃ",
+      "weekly": "រាល់សប្តាហ៍",
+      "monthly": "រាល់ខែ",
+      "yearly": "រាល់ឆ្នាំ"
+    },
+    "selectChild": "ជ្រើសរើសកុមារ",
+    "selectChildPlaceholder": "ជ្រើសរើសកុមារ",
+    "save": "រក្សាទុកព្រឹត្តិការណ៍",
+    "cancel": "បោះបង់"
+  },
+  "addEvent": {
+    "title": "បន្ថែមព្រឹត្តិការណ៍"
+  },
+  "modifyEvent": {
+    "title": "កែសម្រួលព្រឹត្តិការណ៍",
+    "deleteEvent": "លុបព្រឹត្តិការណ៍",
+    "confirmDelete": "លុបព្រឹត្តិការណ៍",
+    "confirmDeleteMessage": "តើអ្នកប្រាកដថាចង់លុបព្រឹត្តិការណ៍នេះមែនទេ?",
+    "updateSuccess": "បានធ្វើបច្ចុប្បន្នភាពព្រឹត្តិការណ៍ដោយជោគជ័យ",
+    "deleteSuccess": "បានលុបព្រឹត្តិការណ៍ដោយជោគជ័យ",
+    "update": "ធ្វើបច្ចុប្បន្នភាព"
+  },
+  "validation": {
+    "titleRequired": "ចំណងជើងព្រឹត្តិការណ៍ត្រូវការ",
+    "dateRequired": "កាលបរិច្ឆេទព្រឹត្តិការណ៍ត្រូវការ",
+    "invalidDate": "សូមជ្រើសរើសកាលបរិច្ឆេទត្រឹមត្រូវ"
+  },
+  "eventList": {
+    "upcoming": "ព្រឹត្តិការណ៍នាពេលខាងមុខ",
+    "past": "ព្រឹត្តិការណ៍កន្លងមក",
+    "noEventsDescription": "គ្មានព្រឹត្តិការណ៍កំណត់សម្រាប់ខែនេះទេ"
+  },
+  "weekDays": {
+    "monday": "ថ្ងៃច័ន្ទ",
+    "tuesday": "ថ្ងៃអង្គារ",
+    "wednesday": "ថ្ងៃពុធ",
+    "thursday": "ថ្ងៃព្រហស្បតិ៍",
+    "friday": "ថ្ងៃសុក្រ",
+    "saturday": "ថ្ងៃសៅរ៍",
+    "sunday": "ថ្ងៃអាទិត្យ"
+  },
+  "weekDaysShort": {
+    "monday": "ច",
+    "tuesday": "អ",
+    "wednesday": "ព",
+    "thursday": "ព្រ",
+    "friday": "សុ",
+    "saturday": "ស",
+    "sunday": "អា"
+  },
+  "months": {
+    "january": "មករា",
+    "february": "កុម្ភៈ",
+    "march": "មីនា",
+    "april": "មេសា",
+    "may": "ឧសភា",
+    "june": "មិថុនា",
+    "july": "កក្កដា",
+    "august": "សីហា",
+    "september": "កញ្ញា",
+    "october": "តុលា",
+    "november": "វិច្ឆិកា",
+    "december": "ធ្នូ"
+  },
+  "monthShort": {
+    "january": "ម.រា",
+    "february": "កុ.ភៈ",
+    "march": "មី.នា",
+    "april": "មេ.សា",
+    "may": "ឧ.ភា",
+    "june": "មិ.នា",
+    "july": "កក.ដា",
+    "august": "សី.ហា",
+    "september": "កញ.ញា",
+    "october": "តុ.លា",
+    "november": "វិ.កា",
+    "december": "ធ្នូ"
+  },
+  "today": "ថ្ងៃនេះ"
+}

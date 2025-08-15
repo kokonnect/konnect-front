@@ -1,0 +1,56 @@
+{
+  "title": "メッセージ",
+  "compose": {
+    "title": "メッセージ作成",
+    "nav": "作成",
+    "description": "先生とのコミュニケーション用メッセージを日本語で下書き",
+    "to": "宛先",
+    "toPlaceholder": "受信者を選択",
+    "message": "メッセージ",
+    "messagePlaceholder": "こちらにメッセージを入力してください...",
+    "generate": "生成",
+    "editDraft": "下書き編集",
+    "koreanTranslation": "韓国語翻訳",
+    "translating": "翻訳中...",
+    "cancel": "キャンセル"
+  },
+  "templates": {
+    "title": "メッセージテンプレート",
+    "nav": "テンプレート",
+    "description": "よく使うメッセージのクイックテンプレート",
+    "categories": {
+      "all": "すべて",
+      "favorite": "お気に入り",
+      "absence": "欠席",
+      "lateness": "遅刻",
+      "earlyDismissal": "早退",
+      "homework": "宿題",
+      "meeting": "面談依頼",
+      "concern": "相談・質問",
+      "appreciation": "お礼",
+      "other": "その他"
+    },
+    "useTemplate": "使用",
+    "koreanVersion": "韓国語版",
+    "yourLanguageVersion": "日本語版",
+    "copyKorean": "韓国語をコピー",
+    "editTemplate": "編集",
+    "noTemplates": "テンプレートがありません"
+  },
+  "history": {
+    "title": "メッセージ翻訳履歴",
+    "noMessages": "翻訳メッセージがありません",
+    "delete": "削除"
+  },
+  "translation": {
+    "translateToKorean": "韓国語に翻訳",
+    "translateToYour": "日本語に翻訳",
+    "originalMessage": "元のメッセージ",
+    "translatedMessage": "翻訳されたメッセージ",
+    "translating": "翻訳中...",
+    "translationFailed": "翻訳に失敗しました。もう一度お試しください。",
+    "copyTranslation": "翻訳をコピー",
+    "translationCopied": "翻訳をクリップボードにコピーしました"
+  },
+  "validation": {}
+}

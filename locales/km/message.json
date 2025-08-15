@@ -1,0 +1,56 @@
+{
+  "title": "សារ",
+  "compose": {
+    "title": "សរសេរសារ",
+    "nav": "សរសេរ",
+    "description": "សរសេរសារសម្រាប់ទំនាក់ទំនងជាមួយគ្រូដោយប្រើភាសារបស់អ្នក",
+    "to": "ទៅ",
+    "toPlaceholder": "ជ្រើសរើសអ្នកទទួល",
+    "message": "សារ",
+    "messagePlaceholder": "វាយសាររបស់អ្នកនៅទីនេះ...",
+    "generate": "បង្កើត",
+    "editDraft": "កែសំណាង",
+    "koreanTranslation": "ការបកប្រែភាសាកូរ៉េ",
+    "translating": "កំពុងបកប្រែ...",
+    "cancel": "បោះបង់"
+  },
+  "templates": {
+    "title": "ពុម្ពសារ",
+    "nav": "ពុម្ព",
+    "description": "ពុម្ពរហ័សសម្រាប់សារធម្មតា",
+    "categories": {
+      "all": "ទាំងអស់",
+      "favorite": "ចំណូលចិត្ត",
+      "absence": "អវត្តមាន",
+      "lateness": "មកយឺត",
+      "earlyDismissal": "ចេញមុន",
+      "homework": "កិច្ចការផ្ទះ",
+      "meeting": "សំណើជួបប្រជុំ",
+      "concern": "កង្វល់/សំណួរ",
+      "appreciation": "អរគុណ",
+      "other": "ផ្សេងៗ"
+    },
+    "useTemplate": "ប្រើប្រាស់",
+    "koreanVersion": "កំណែភាសាកូរ៉េ",
+    "yourLanguageVersion": "កំណែភាសារបស់អ្នក",
+    "copyKorean": "ចម្លងភាសាកូរ៉េ",
+    "editTemplate": "កែសម្រួល",
+    "noTemplates": "មិនមានពុម្ពទេ"
+  },
+  "history": {
+    "title": "ប្រវត្តិការបកប្រែសារ",
+    "noMessages": "មិនមានសារបកប្រែទេ",
+    "delete": "លុប"
+  },
+  "translation": {
+    "translateToKorean": "បកប្រែទៅភាសាកូរ៉េ",
+    "translateToYour": "បកប្រែទៅភាសារបស់អ្នក",
+    "originalMessage": "សារដើម",
+    "translatedMessage": "សារដែលបានបកប្រែ",
+    "translating": "កំពុងបកប្រែ...",
+    "translationFailed": "ការបកប្រែបានបរាជ័យ។ សូមព្យាយាមម្តងទៀត។",
+    "copyTranslation": "ចម្លងការបកប្រែ",
+    "translationCopied": "បានចម្លងការបកប្រែទៅក្លិបបោតហើយ"
+  },
+  "validation": {}
+}

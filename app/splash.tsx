@@ -9,6 +9,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { isFirstLaunch, isOnboardingCompleted } from "@/utils/storage";
+import { shouldShowLanguageOnboarding, initI18n } from "@/locales/i18n";
 
 const primaryColor = "#00B493";
 const { width, height } = Dimensions.get("window");
@@ -22,22 +23,27 @@ export default function SplashScreen() {
 
   const checkAppState = async () => {
     try {
+      // Initialize i18n first
+      await initI18n();
+
       // Add a minimum splash duration for better UX
       const minSplashTime = new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Check app state
-      const [firstLaunch, onboardingCompleted] = await Promise.all([
+      const [firstLaunch, onboardingCompleted, showLanguageOnboarding] = await Promise.all([
         isFirstLaunch(),
         isOnboardingCompleted(),
+        shouldShowLanguageOnboarding(),
         minSplashTime, // Ensure minimum splash time
       ]);
 
       console.log("First Launch:", firstLaunch);
       console.log("Onboarding Completed:", onboardingCompleted);
+      console.log("Show Language Onboarding:", showLanguageOnboarding);
 
       // Navigation logic
-      if (firstLaunch || !onboardingCompleted) {
-        // First time user - go to onboarding
+      if (firstLaunch || !onboardingCompleted || showLanguageOnboarding) {
+        // First time user or language not set - go to onboarding
         router.replace("/onboarding");
       } else {
         // Returning user - go to main app

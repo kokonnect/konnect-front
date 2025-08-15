@@ -1,0 +1,120 @@
+{
+  "title": "ปฏิทิน",
+  "monthYearPicker": {
+    "title": "เลือกเดือนและปี",
+    "selectYear": "เลือกปี",
+    "selectMonth": "เลือกเดือน",
+    "cancel": "ยกเลิก",
+    "select": "เลือก"
+  },
+  "selectedDateSchedule": {
+    "noEventsDate": "ไม่มีกิจกรรมที่กำหนดไว้สำหรับวันที่เลือก",
+    "noEventsDescription": "ลองเพิ่มกิจกรรม",
+    "allDay": "ตลอดวัน"
+  },
+  "form": {
+    "eventTitle": "หัวข้อกิจกรรม",
+    "eventTitlePlaceholder": "ใส่หัวข้อกิจกรรม",
+    "eventDescription": "คำอธิบาย",
+    "eventDescriptionPlaceholder": "ใส่คำอธิบายกิจกรรม (ไม่จำเป็น)",
+    "eventDate": "วันที่",
+    "eventTime": "เวลา",
+    "allDay": "กิจกรรมตลอดวัน",
+    "start": "เริ่ม",
+    "end": "สิ้นสุด",
+    "reminder": "การแจ้งเตือน",
+    "reminderOptions": {
+      "none": "ไม่มี",
+      "at": "ตอนเริ่มกิจกรรม",
+      "5min": "5 นาทีก่อน",
+      "10min": "10 นาทีก่อน",
+      "15min": "15 นาทีก่อน",
+      "30min": "30 นาทีก่อน",
+      "1hour": "1 ชั่วโมงก่อน",
+      "2hours": "2 ชั่วโมงก่อน",
+      "1day": "1 วันก่อน"
+    },
+    "repeat": "ทำซ้ำ",
+    "endRepeat": "สิ้นสุดการทำซ้ำ",
+    "repeatOptions": {
+      "never": "ไม่เคย",
+      "daily": "รายวัน",
+      "weekly": "รายสัปดาห์",
+      "monthly": "รายเดือน",
+      "yearly": "รายปี"
+    },
+    "selectChild": "เลือกเด็ก",
+    "selectChildPlaceholder": "เลือกเด็ก",
+    "save": "บันทึกกิจกรรม",
+    "cancel": "ยกเลิก"
+  },
+  "addEvent": {
+    "title": "เพิ่มกิจกรรม"
+  },
+  "modifyEvent": {
+    "title": "แก้ไขกิจกรรม",
+    "deleteEvent": "ลบกิจกรรม",
+    "confirmDelete": "ลบกิจกรรม",
+    "confirmDeleteMessage": "คุณแน่ใจหรือไม่ว่าต้องการลบกิจกรรมนี้?",
+    "updateSuccess": "อัปเดตกิจกรรมสำเร็จ",
+    "deleteSuccess": "ลบกิจกรรมสำเร็จ",
+    "update": "อัปเดต"
+  },
+  "validation": {
+    "titleRequired": "จำเป็นต้องมีหัวข้อกิจกรรม",
+    "dateRequired": "จำเป็นต้องมีวันที่กิจกรรม",
+    "invalidDate": "กรุณาเลือกวันที่ที่ถูกต้อง"
+  },
+  "eventList": {
+    "upcoming": "กิจกรรมที่จะมาถึง",
+    "past": "กิจกรรมที่ผ่านมา",
+    "noEventsDescription": "ไม่มีกิจกรรมที่กำหนดไว้สำหรับเดือนนี้"
+  },
+  "weekDays": {
+    "monday": "วันจันทร์",
+    "tuesday": "วันอังคาร",
+    "wednesday": "วันพุธ",
+    "thursday": "วันพฤหัสบดี",
+    "friday": "วันศุกร์",
+    "saturday": "วันเสาร์",
+    "sunday": "วันอาทิตย์"
+  },
+  "weekDaysShort": {
+    "monday": "จ.",
+    "tuesday": "อ.",
+    "wednesday": "พ.",
+    "thursday": "พฤ.",
+    "friday": "ศ.",
+    "saturday": "ส.",
+    "sunday": "อา."
+  },
+  "months": {
+    "january": "มกราคม",
+    "february": "กุมภาพันธ์",
+    "march": "มีนาคม",
+    "april": "เมษายน",
+    "may": "พฤษภาคม",
+    "june": "มิถุนายน",
+    "july": "กรกฎาคม",
+    "august": "สิงหาคม",
+    "september": "กันยายน",
+    "october": "ตุลาคม",
+    "november": "พฤศจิกายน",
+    "december": "ธันวาคม"
+  },
+  "monthShort": {
+    "january": "ม.ค.",
+    "february": "ก.พ.",
+    "march": "มี.ค.",
+    "april": "เม.ย.",
+    "may": "พ.ค.",
+    "june": "มิ.ย.",
+    "july": "ก.ค.",
+    "august": "ส.ค.",
+    "september": "ก.ย.",
+    "october": "ต.ค.",
+    "november": "พ.ย.",
+    "december": "ธ.ค."
+  },
+  "today": "วันนี้"
+}

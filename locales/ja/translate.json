@@ -1,0 +1,85 @@
+{
+  "title": "文書翻訳",
+  "description": "学校の文書をアップロードして翻訳",
+  "upload": {
+    "title": "文書をアップロード",
+    "uploadPdf": "PDFアップロード",
+    "uploadImage": "画像アップロード",
+    "chooseImageSource": "画像ソースを選択",
+    "takePhoto": "写真を撮る",
+    "fromGallery": "ギャラリーから選択",
+    "maxFileSize": "最大ファイルサイズ: 10MB",
+    "uploading": "アップロード中...",
+    "uploadSuccess": "ファイルのアップロードが完了しました",
+    "uploadError": "ファイルのアップロードに失敗しました"
+  },
+  "translation": {
+    "translating": "文書を翻訳中...",
+    "retranslating": "再翻訳中...",
+    "retranslate": "再翻訳",
+    "almostReady": "もうすぐ完了...",
+    "preparingTranslation": "翻訳を準備中...",
+    "pleaseWait": "しばらくお待ちください",
+    "summary": "要約",
+    "fullText": "全文",
+    "events": "イベント",
+    "viewOriginal": "原文を表示",
+    "viewTranslated": "翻訳を表示",
+    "copyToClipboard": "クリップボードにコピー",
+    "textCopied": "テキストをクリップボードにコピーしました",
+    "saveTranslation": "翻訳を保存",
+    "shareTranslation": "翻訳を共有",
+    "translationSaved": "翻訳の保存が完了しました",
+    "showOriginal": "原文を表示",
+    "showTranslation": "翻訳を表示"
+  },
+  "history": {
+    "title": "翻訳履歴",
+    "recent": "最近の翻訳",
+    "eventsFound": "{{count}}個のイベントが見つかりました",
+    "noHistory": "翻訳履歴がありません",
+    "translation": "翻訳",
+    "Original": "原文",
+    "events": "イベント",
+    "clearHistory": "履歴をクリア",
+    "confirmClear": "履歴をクリア",
+    "confirmClearMessage": "すべての翻訳履歴をクリアしてもよろしいですか？",
+    "copyKorean": "韓国語をコピー"
+  },
+  "warnings": {
+    "title": "重要なお知らせ",
+    "aiTranslation": "これはAI翻訳です。正確性を心がけていますが、重要な情報は確認してください。",
+    "explanation": "私たちの翻訳は、複雑な専門用語を減らし、より簡単で分かりやすい言葉を使用して読みやすさを最適化しています。"
+  },
+  "fileStatus": {
+    "processing": "処理中",
+    "ready": "準備完了",
+    "error": "エラー",
+    "analyzing": "文書を分析中...",
+    "extractingText": "テキストを抽出中...",
+    "translatingContent": "コンテンツを翻訳中...",
+    "generatingSummary": "要約を生成中...",
+    "extractingEvents": "イベントを抽出中...",
+    "complete": "完了"
+  },
+  "errors": {
+    "fileNotSupported": "サポートされていないファイル形式です",
+    "fileTooLarge": "ファイルサイズが10MBの制限を超えています",
+    "translationFailed": "翻訳に失敗しました。もう一度お試しください。",
+    "networkError": "ネットワークエラーです。接続を確認してください。",
+    "serverError": "サーバーエラーです。後でもう一度お試しください。",
+    "quotaExceeded": "翻訳の割り当てを超過しました。明日もう一度お試しください。"
+  },
+  "tips": {
+    "title": "ヒント",
+    "clearPhoto": "より良い翻訳のために鮮明な写真を撮影してください",
+    "goodLighting": "写真撮影時は十分な照明を確保してください",
+    "fullPage": "ページ全体をフレーム内に収めて撮影してください",
+    "multiplePages": "複数ページの場合はPDF形式でアップロードしてください"
+  },
+  "vocabulary": {
+    "title": "重要語彙",
+    "description": "この文書で見つかった韓国の学校関連の重要用語。",
+    "example": "例"
+  }
+}

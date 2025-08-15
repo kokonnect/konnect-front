@@ -1,0 +1,85 @@
+{
+  "title": "แปลเอกสาร",
+  "description": "อัปโหลดเอกสารโรงเรียนเพื่อแปล",
+  "upload": {
+    "title": "อัปโหลดเอกสาร",
+    "uploadPdf": "อัปโหลด PDF",
+    "uploadImage": "อัปโหลดรูปภาพ",
+    "chooseImageSource": "เลือกแหล่งรูปภาพ",
+    "takePhoto": "ถ่ายภาพ",
+    "fromGallery": "เลือกจากแกลเลอรี",
+    "maxFileSize": "ขนาดไฟล์สูงสุด: 10MB",
+    "uploading": "กำลังอัปโหลด...",
+    "uploadSuccess": "อัปโหลดไฟล์สำเร็จ",
+    "uploadError": "อัปโหลดไฟล์ล้มเหลว"
+  },
+  "translation": {
+    "translating": "กำลังแปลเอกสารของคุณ...",
+    "retranslating": "กำลังแปลใหม่...",
+    "retranslate": "แปลใหม่",
+    "almostReady": "เกือบเสร็จแล้ว...",
+    "preparingTranslation": "กำลังเตรียมการแปล...",
+    "pleaseWait": "อาจใช้เวลาสักครู่",
+    "summary": "สรุป",
+    "fullText": "ข้อความเต็ม",
+    "events": "กิจกรรม",
+    "viewOriginal": "ดูต้นฉบับ",
+    "viewTranslated": "ดูฉบับแปล",
+    "copyToClipboard": "คัดลอกไปยังคลิปบอร์ด",
+    "textCopied": "คัดลอกข้อความไปยังคลิปบอร์ดแล้ว",
+    "saveTranslation": "บันทึกการแปล",
+    "shareTranslation": "แชร์การแปล",
+    "translationSaved": "บันทึกการแปลสำเร็จ",
+    "showOriginal": "แสดงต้นฉบับ",
+    "showTranslation": "แสดงการแปล"
+  },
+  "history": {
+    "title": "ประวัติการแปล",
+    "recent": "การแปลล่าสุด",
+    "eventsFound": "พบ {{count}} กิจกรรม",
+    "noHistory": "ไม่มีประวัติการแปล",
+    "translation": "การแปล",
+    "Original": "ต้นฉบับ",
+    "events": "กิจกรรม",
+    "clearHistory": "ล้างประวัติ",
+    "confirmClear": "ล้างประวัติ",
+    "confirmClearMessage": "คุณแน่ใจหรือไม่ที่จะล้างประวัติการแปลทั้งหมด?",
+    "copyKorean": "คัดลอกภาษาเกาหลี"
+  },
+  "warnings": {
+    "title": "ประกาศสำคัญ",
+    "aiTranslation": "นี่คือการแปลโดย AI แม้ว่าเราจะพยายามให้ความแม่นยำ แต่กรุณาตรวจสอบข้อมูลสำคัญ",
+    "explanation": "การแปลของเราได้รับการปรับปรุงเพื่อให้อ่านง่ายโดยการลดศัพท์เทคนิคที่ซับซ้อนและใช้ภาษาที่เรียบง่ายและเข้าถึงได้มากขึ้น"
+  },
+  "fileStatus": {
+    "processing": "กำลังประมวลผล",
+    "ready": "พร้อม",
+    "error": "ข้อผิดพลาด",
+    "analyzing": "กำลังวิเคราะห์เอกสาร...",
+    "extractingText": "กำลังดึงข้อความ...",
+    "translatingContent": "กำลังแปลเนื้อหา...",
+    "generatingSummary": "กำลังสร้างสรุป...",
+    "extractingEvents": "กำลังดึงกิจกรรม...",
+    "complete": "เสร็จสิ้น"
+  },
+  "errors": {
+    "fileNotSupported": "ไม่รองรับประเภทไฟล์นี้",
+    "fileTooLarge": "ขนาดไฟล์เกินขีดจำกัด 10MB",
+    "translationFailed": "การแปลล้มเหลว กรุณาลองใหม่",
+    "networkError": "ข้อผิดพลาดเครือข่าย กรุณาตรวจสอบการเชื่อมต่อ",
+    "serverError": "ข้อผิดพลาดเซิร์ฟเวอร์ กรุณาลองใหม่ภายหลัง",
+    "quotaExceeded": "เกินโควต้าการแปล กรุณาลองใหม่พรุ่งนี้"
+  },
+  "tips": {
+    "title": "เคล็ดลับ",
+    "clearPhoto": "ถ่ายภาพให้ชัดเพื่อการแปลที่ดีขึ้น",
+    "goodLighting": "ให้แน่ใจว่ามีแสงที่ดีเมื่อถ่ายภาพ",
+    "fullPage": "จับภาพทั้งหน้าให้อยู่ในกรอบ",
+    "multiplePages": "สำหรับหลายหน้า ให้อัปโหลดเป็น PDF"
+  },
+  "vocabulary": {
+    "title": "คำศัพท์สำคัญ",
+    "description": "คำศัพท์ภาษาเกาหลีที่เกี่ยวข้องกับโรงเรียนที่พบในเอกสารนี้",
+    "example": "ตัวอย่าง"
+  }
+}

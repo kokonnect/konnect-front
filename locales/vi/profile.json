@@ -1,0 +1,78 @@
+{
+  "title": "Hồ sơ",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "Đăng nhập để truy cập hồ sơ của bạn",
+    "description": "Tạo tài khoản để lưu các bản dịch, quản lý thông tin con em và đồng bộ giữa các thiết bị",
+    "benefits": {
+      "sync": "Đồng bộ dữ liệu giữa các thiết bị",
+      "save": "Lưu bản dịch và tùy chọn",
+      "manage": "Quản lý nhiều con",
+      "notifications": "Nhận thông báo quan trọng"
+    },
+    "loginButton": "Đăng nhập"
+  },
+  "children": {
+    "title": "Con em của tôi",
+    "addChild": "Thêm con",
+    "editChild": "Chỉnh sửa thông tin con",
+    "removeChild": "Xóa con",
+    "confirmRemove": "Xóa con",
+    "confirmRemoveMessage": "Bạn có chắc muốn xóa {{name}} khỏi hồ sơ không?",
+    "noChildren": "Chưa thêm con nào",
+    "childInfo": {
+      "age": "Tuổi: {{age}}",
+      "school": "Trường: {{school}}",
+      "grade": "Lớp: {{grade}}",
+      "class": "Lớp: {{class}}",
+      "teacher": "Giáo viên: {{teacher}}"
+    },
+    "form": {
+      "name": "tên",
+      "namePlaceholder": "Nhập tên",
+      "birthdate": "Ngày sinh",
+      "birthdatePlaceholder": "Nhập ngày sinh",
+      "school": "Trường",
+      "schoolPlaceholder": "Nhập tên trường",
+      "grade": "Lớp",
+      "gradePlaceholder": "Nhập lớp",
+      "class": "Lớp",
+      "classPlaceholder": "Nhập lớp",
+      "teacher": "Giáo viên",
+      "teacherPlaceholder": "Nhập tên giáo viên"
+    }
+  },
+  "preferences": {
+    "title": "Tùy chọn",
+    "language": "Ngôn ngữ",
+    "languageDescription": "Ngôn ngữ cho giao diện ứng dụng",
+    "selectLanguage": "Chọn ngôn ngữ",
+    "notifications": {
+      "title": "Thông báo"
+    },
+    "translation": {
+      "title": "Cài đặt dịch",
+      "saveDocHistory": "Lưu lịch sử dịch tài liệu",
+      "saveMessageHistory": "Lưu lịch sử tin nhắn"
+    }
+  },
+  "editProfile": {
+    "title": "Chỉnh sửa hồ sơ",
+    "form": {
+      "name": "Tên",
+      "namePlaceholder": "Nhập tên của bạn",
+      "email": "Email",
+      "emailPlaceholder": "Nhập email của bạn",
+      "childInfo": "Thông tin con",
+      "save": "Lưu thay đổi",
+      "cancel": "Hủy"
+    },
+    "emailProviderCantChange": "Email và nhà cung cấp đăng nhập không thể thay đổi.",
+    "validation": {
+      "nameRequired": "Tên là bắt buộc",
+      "requiredWarning": "Vui lòng điền tất cả các trường bắt buộc"
+    },
+    "successTitle": "Cập nhật hồ sơ thành công",
+    "successMessage": "Các thay đổi đã được lưu."
+  }
+}

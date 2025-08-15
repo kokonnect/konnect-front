@@ -1,0 +1,78 @@
+{
+  "title": "プロフィール",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "プロフィールにアクセスするにはサインイン",
+    "description": "アカウントを作成して翻訳を保存、お子様の情報管理、デバイス間の同期を行えます",
+    "benefits": {
+      "sync": "デバイス間でデータを同期",
+      "save": "翻訳と設定を保存",
+      "manage": "複数のお子様を管理",
+      "notifications": "重要な通知を受信"
+    },
+    "loginButton": "サインイン"
+  },
+  "children": {
+    "title": "私の子ども",
+    "addChild": "子どもを追加",
+    "editChild": "子ども情報編集",
+    "removeChild": "子どもを削除",
+    "confirmRemove": "子どもを削除",
+    "confirmRemoveMessage": "{{name}}をプロフィールから削除してもよろしいですか？",
+    "noChildren": "まだ子どもが追加されていません",
+    "childInfo": {
+      "age": "年齢: {{age}}",
+      "school": "学校: {{school}}",
+      "grade": "学年: {{grade}}",
+      "class": "クラス: {{class}}",
+      "teacher": "担任: {{teacher}}"
+    },
+    "form": {
+      "name": "名前",
+      "namePlaceholder": "名前を入力",
+      "birthdate": "生年月日",
+      "birthdatePlaceholder": "生年月日を入力",
+      "school": "学校",
+      "schoolPlaceholder": "学校名を入力",
+      "grade": "学年",
+      "gradePlaceholder": "学年を入力",
+      "class": "クラス",
+      "classPlaceholder": "クラスを入力",
+      "teacher": "担任",
+      "teacherPlaceholder": "担任名を入力"
+    }
+  },
+  "preferences": {
+    "title": "設定",
+    "language": "言語",
+    "languageDescription": "アプリインターフェースの言語",
+    "selectLanguage": "言語を選択",
+    "notifications": {
+      "title": "通知"
+    },
+    "translation": {
+      "title": "翻訳設定",
+      "saveDocHistory": "文書翻訳履歴を保存",
+      "saveMessageHistory": "メッセージ履歴を保存"
+    }
+  },
+  "editProfile": {
+    "title": "プロフィール編集",
+    "form": {
+      "name": "名前",
+      "namePlaceholder": "お名前を入力",
+      "email": "メール",
+      "emailPlaceholder": "メールアドレスを入力",
+      "childInfo": "お子様の情報",
+      "save": "変更を保存",
+      "cancel": "キャンセル"
+    },
+    "emailProviderCantChange": "メールアドレスとログインプロバイダーは変更できません。",
+    "validation": {
+      "nameRequired": "名前は必須です",
+      "requiredWarning": "すべての必須フィールドを入力してください"
+    },
+    "successTitle": "プロフィールの更新が完了しました",
+    "successMessage": "変更が保存されました。"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "title": "ប្រវត្តិរូប",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "ចូលប្រើដើម្បីចូលប្រើប្រវត្តិរូបរបស់អ្នក",
+    "description": "បង្កើតគណនីដើម្បីរក្សាទុកការបកប្រែ គ្រប់គ្រងព័ត៌មានកុមារ និងធ្វើសមកាលកម្មរវាងឧបករណ៍",
+    "benefits": {
+      "sync": "ធ្វើសមកាលកម្មទិន្នន័យរវាងឧបករណ៍",
+      "save": "រក្សាទុកការបកប្រែនិងការកំណត់",
+      "manage": "គ្រប់គ្រងកុមារច្រើននាក់",
+      "notifications": "ទទួលការជូនដំណឹងសំខាន់"
+    },
+    "loginButton": "ចូល"
+  },
+  "children": {
+    "title": "កុមាររបស់ខ្ញុំ",
+    "addChild": "បន្ថែមកុមារ",
+    "editChild": "កែសម្រួលកុមារ",
+    "removeChild": "យកកុមារចេញ",
+    "confirmRemove": "យកកុមារចេញ",
+    "confirmRemoveMessage": "តើអ្នកពិតជាចង់យក {{name}} ចេញពីប្រវត្តិរូបរបស់អ្នកមែនទេ?",
+    "noChildren": "មិនទាន់បានបន្ថែមកុមារនៅឡើយទេ",
+    "childInfo": {
+      "age": "អាយុ: {{age}}",
+      "school": "សាលា: {{school}}",
+      "grade": "ថ្នាក់: {{grade}}",
+      "class": "ក្រុម: {{class}}",
+      "teacher": "គ្រូ: {{teacher}}"
+    },
+    "form": {
+      "name": "ឈ្មោះ",
+      "namePlaceholder": "បញ្ចូលឈ្មោះ",
+      "birthdate": "ថ្ងៃកំណើត",
+      "birthdatePlaceholder": "បញ្ចូលថ្ងៃកំណើត",
+      "school": "សាលា",
+      "schoolPlaceholder": "បញ្ចូលឈ្មោះសាលា",
+      "grade": "ថ្នាក់",
+      "gradePlaceholder": "បញ្ចូលថ្នាក់",
+      "class": "ក្រុម",
+      "classPlaceholder": "បញ្ចូលក្រុម",
+      "teacher": "គ្រូ",
+      "teacherPlaceholder": "បញ្ចូលឈ្មោះគ្រូ"
+    }
+  },
+  "preferences": {
+    "title": "ការកំណត់",
+    "language": "ភាសា",
+    "languageDescription": "ភាសាសម្រាប់ចំណុចប្រទាក់កម្មវិធី",
+    "selectLanguage": "ជ្រើសរើសភាសា",
+    "notifications": {
+      "title": "ការជូនដំណឹង"
+    },
+    "translation": {
+      "title": "ការកំណត់ការបកប្រែ",
+      "saveDocHistory": "រក្សាទុកប្រវត្តិការបកប្រែឯកសារ",
+      "saveMessageHistory": "រក្សាទុកប្រវត្តិសារ"
+    }
+  },
+  "editProfile": {
+    "title": "កែសម្រួលប្រវត្តិរូប",
+    "form": {
+      "name": "ឈ្មោះ",
+      "namePlaceholder": "បញ្ចូលឈ្មោះរបស់អ្នក",
+      "email": "អ៊ីមែល",
+      "emailPlaceholder": "បញ្ចូលអ៊ីមែលរបស់អ្នក",
+      "childInfo": "ព័ត៌មានកុមារ",
+      "save": "រក្សាទុកការផ្លាស់ប្តូរ",
+      "cancel": "បោះបង់"
+    },
+    "emailProviderCantChange": "អ៊ីមែលនិងអ្នកផ្តល់សេវាចូលមិនអាចផ្លាស់ប្តូរបានទេ។",
+    "validation": {
+      "nameRequired": "ឈ្មោះចាំបាច់",
+      "requiredWarning": "សូមបំពេញរាល់ប្រអប់ចាំបាច់ទាំងអស់"
+    },
+    "successTitle": "បានកែប្រែប្រវត្តិរូបដោយជោគជ័យ",
+    "successMessage": "ការផ្លាស់ប្តូរត្រូវបានរក្សាទុក។"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "title": "消息",
+  "compose": {
+    "title": "撰写消息",
+    "nav": "撰写",
+    "description": "用您的语言起草与老师沟通的消息",
+    "to": "收件人",
+    "toPlaceholder": "选择收件人",
+    "message": "消息",
+    "messagePlaceholder": "在此输入您的消息...",
+    "generate": "生成",
+    "editDraft": "编辑草稿",
+    "koreanTranslation": "韩语翻译",
+    "translating": "翻译中...",
+    "cancel": "取消"
+  },
+  "templates": {
+    "title": "消息模板",
+    "nav": "模板",
+    "description": "常用消息的快捷模板",
+    "categories": {
+      "all": "全部",
+      "favorite": "收藏",
+      "absence": "请假",
+      "lateness": "迟到",
+      "earlyDismissal": "早退",
+      "homework": "作业",
+      "meeting": "会面请求",
+      "concern": "关心/问题",
+      "appreciation": "感谢",
+      "other": "其他"
+    },
+    "useTemplate": "使用",
+    "koreanVersion": "韩语版本",
+    "yourLanguageVersion": "您的语言版本",
+    "copyKorean": "复制韩语",
+    "editTemplate": "编辑",
+    "noTemplates": "暂无模板"
+  },
+  "history": {
+    "title": "消息翻译历史",
+    "noMessages": "无翻译消息",
+    "delete": "删除"
+  },
+  "translation": {
+    "translateToKorean": "翻译为韩语",
+    "translateToYour": "翻译为您的语言",
+    "originalMessage": "原始消息",
+    "translatedMessage": "翻译消息",
+    "translating": "翻译中...",
+    "translationFailed": "翻译失败。请重试。",
+    "copyTranslation": "复制翻译",
+    "translationCopied": "翻译已复制到剪贴板"
+  },
+  "validation": {}
+}
