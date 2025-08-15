@@ -1,0 +1,78 @@
+{
+  "title": "โปรไฟล์",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "เข้าสู่ระบบเพื่อเข้าถึงโปรไฟล์ของคุณ",
+    "description": "สร้างบัญชีเพื่อบันทึกการแปล จัดการข้อมูลบุตร และซิงค์ข้ามอุปกรณ์",
+    "benefits": {
+      "sync": "ซิงค์ข้อมูลข้ามอุปกรณ์",
+      "save": "บันทึกการแปลและการตั้งค่า",
+      "manage": "จัดการบุตรหลายคน",
+      "notifications": "รับการแจ้งเตือนสำคัญ"
+    },
+    "loginButton": "เข้าสู่ระบบ"
+  },
+  "children": {
+    "title": "บุตรของฉัน",
+    "addChild": "เพิ่มบุตร",
+    "editChild": "แก้ไขข้อมูลบุตร",
+    "removeChild": "ลบบุตร",
+    "confirmRemove": "ลบบุตร",
+    "confirmRemoveMessage": "คุณแน่ใจหรือไม่ที่จะลบ {{name}} ออกจากโปรไฟล์?",
+    "noChildren": "ยังไม่ได้เพิ่มบุตร",
+    "childInfo": {
+      "age": "อายุ: {{age}}",
+      "school": "โรงเรียน: {{school}}",
+      "grade": "ชั้น: {{grade}}",
+      "class": "ห้อง: {{class}}",
+      "teacher": "ครู: {{teacher}}"
+    },
+    "form": {
+      "name": "ชื่อ",
+      "namePlaceholder": "ใส่ชื่อ",
+      "birthdate": "วันเกิด",
+      "birthdatePlaceholder": "ใส่วันเกิด",
+      "school": "โรงเรียน",
+      "schoolPlaceholder": "ใส่ชื่อโรงเรียน",
+      "grade": "ชั้น",
+      "gradePlaceholder": "ใส่ชั้น",
+      "class": "ห้อง",
+      "classPlaceholder": "ใส่ห้อง",
+      "teacher": "ครู",
+      "teacherPlaceholder": "ใส่ชื่อครู"
+    }
+  },
+  "preferences": {
+    "title": "การตั้งค่า",
+    "language": "ภาษา",
+    "languageDescription": "ภาษาสำหรับส่วนติดต่อแอป",
+    "selectLanguage": "เลือกภาษา",
+    "notifications": {
+      "title": "การแจ้งเตือน"
+    },
+    "translation": {
+      "title": "การตั้งค่าการแปล",
+      "saveDocHistory": "บันทึกประวัติการแปลเอกสาร",
+      "saveMessageHistory": "บันทึกประวัติข้อความ"
+    }
+  },
+  "editProfile": {
+    "title": "แก้ไขโปรไฟล์",
+    "form": {
+      "name": "ชื่อ",
+      "namePlaceholder": "ใส่ชื่อของคุณ",
+      "email": "อีเมล",
+      "emailPlaceholder": "ใส่อีเมลของคุณ",
+      "childInfo": "ข้อมูลบุตร",
+      "save": "บันทึกการเปลี่ยนแปลง",
+      "cancel": "ยกเลิก"
+    },
+    "emailProviderCantChange": "อีเมลและผู้ให้บริการเข้าสู่ระบบไม่สามารถเปลี่ยนแปลงได้",
+    "validation": {
+      "nameRequired": "ต้องใส่ชื่อ",
+      "requiredWarning": "กรุณากรอกข้อมูลในช่องที่จำเป็นทั้งหมด"
+    },
+    "successTitle": "อัปเดตโปรไฟล์สำเร็จ",
+    "successMessage": "การเปลี่ยนแปลงได้รับการบันทึกแล้ว"
+  }
+}

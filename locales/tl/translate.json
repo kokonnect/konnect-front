@@ -1,0 +1,85 @@
+{
+  "title": "Pagsasalin ng Dokumento",
+  "description": "Mag-upload ng mga dokumento ng paaralan para sa pagsasalin",
+  "upload": {
+    "title": "Mag-upload ng Dokumento",
+    "uploadPdf": "Mag-upload ng PDF",
+    "uploadImage": "Mag-upload ng Larawan",
+    "chooseImageSource": "Pumili ng Pinagmulan ng Larawan",
+    "takePhoto": "Kumuha ng Larawan",
+    "fromGallery": "Pumili sa Gallery",
+    "maxFileSize": "Maximum file size: 10MB",
+    "uploading": "Nag-uupload...",
+    "uploadSuccess": "Matagumpay na na-upload ang file",
+    "uploadError": "Nabigong ma-upload ang file"
+  },
+  "translation": {
+    "translating": "Sinasalin ang inyong dokumento...",
+    "retranslating": "Muling sinasalin...",
+    "retranslate": "Muling Isalin",
+    "almostReady": "Halos tapos na...",
+    "preparingTranslation": "Inihahanda ang pagsasalin...",
+    "pleaseWait": "Maaaring tumagal ng ilang sandali",
+    "summary": "Buod",
+    "fullText": "Buong Teksto",
+    "events": "Mga Kaganapan",
+    "viewOriginal": "Tingnan ang Orihinal",
+    "viewTranslated": "Tingnan ang Naisalin",
+    "copyToClipboard": "Kopyahin sa Clipboard",
+    "textCopied": "Nakopya na ang teksto sa clipboard",
+    "saveTranslation": "I-save ang Salin",
+    "shareTranslation": "I-share ang Salin",
+    "translationSaved": "Matagumpay na na-save ang salin",
+    "showOriginal": "Ipakita ang Orihinal",
+    "showTranslation": "Ipakita ang Salin"
+  },
+  "history": {
+    "title": "Kasaysayan ng Pagsasalin",
+    "recent": "Mga Kamakailang Salin",
+    "eventsFound": "Natagpuan ang {{count}} (mga) kaganapan",
+    "noHistory": "Walang kasaysayan ng pagsasalin",
+    "translation": "Salin",
+    "Original": "Orihinal",
+    "events": "Mga Kaganapan",
+    "clearHistory": "I-clear ang History",
+    "confirmClear": "I-clear ang History",
+    "confirmClearMessage": "Sigurado po ba kayong gusto ninyong i-clear ang lahat ng kasaysayan ng pagsasalin?",
+    "copyKorean": "Kopyahin ang Korean"
+  },
+  "warnings": {
+    "title": "Mahalagang Paalala",
+    "aiTranslation": "Ito ay AI-powered na pagsasalin. Bagamat nagsusumikap kaming maging tumpak, pakiverify ang mahalagang impormasyon.",
+    "explanation": "Ang aming pagsasalin ay na-optimize para sa madaling pagbabasa sa pamamagitan ng pagbabawas ng mga kumplikadong jargon at paggamit ng mas simple, mas accessible na wika."
+  },
+  "fileStatus": {
+    "processing": "Pinoproseso",
+    "ready": "Handa",
+    "error": "Error",
+    "analyzing": "Sinusuri ang dokumento...",
+    "extractingText": "Kinukuha ang teksto...",
+    "translatingContent": "Sinasalin ang content...",
+    "generatingSummary": "Ginagawa ang buod...",
+    "extractingEvents": "Kinukuha ang mga kaganapan...",
+    "complete": "Tapos"
+  },
+  "errors": {
+    "fileNotSupported": "Hindi supportadong uri ng file",
+    "fileTooLarge": "Lumampas ang laki ng file sa 10MB na limitasyon",
+    "translationFailed": "Nabigo ang pagsasalin. Pakisubok ulit.",
+    "networkError": "Network error. Pakicheck ang inyong connection.",
+    "serverError": "Server error. Pakisubok ulit mamaya.",
+    "quotaExceeded": "Nalampasan ang translation quota. Pakisubok ulit bukas."
+  },
+  "tips": {
+    "title": "Mga Tip",
+    "clearPhoto": "Kumuha ng malinaw na larawan para sa mas magandang pagsasalin",
+    "goodLighting": "Siguraduhing maganda ang ilaw kapag kumuha ng larawan",
+    "fullPage": "I-capture ang buong pahina sa frame",
+    "multiplePages": "Para sa maraming pahina, mag-upload bilang PDF"
+  },
+  "vocabulary": {
+    "title": "Mga Pangunahing Salita",
+    "description": "Mga pangunahing salitang Korean na may kinalaman sa paaralan na natagpuan sa dokumentong ito.",
+    "example": "Halimbawa"
+  }
+}

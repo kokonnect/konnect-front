@@ -19,6 +19,48 @@ import koMessage from "./ko/message.json";
 import koProfile from "./ko/profile.json";
 import koTranslate from "./ko/translate.json";
 
+import viCommon from "./vi/common.json";
+import viAuth from "./vi/auth.json";
+import viCalendar from "./vi/calendar.json";
+import viMessage from "./vi/message.json";
+import viProfile from "./vi/profile.json";
+import viTranslate from "./vi/translate.json";
+
+import zhCommon from "./zh/common.json";
+import zhAuth from "./zh/auth.json";
+import zhCalendar from "./zh/calendar.json";
+import zhMessage from "./zh/message.json";
+import zhProfile from "./zh/profile.json";
+import zhTranslate from "./zh/translate.json";
+
+import thCommon from "./th/common.json";
+import thAuth from "./th/auth.json";
+import thCalendar from "./th/calendar.json";
+import thMessage from "./th/message.json";
+import thProfile from "./th/profile.json";
+import thTranslate from "./th/translate.json";
+
+import jaCommon from "./ja/common.json";
+import jaAuth from "./ja/auth.json";
+import jaCalendar from "./ja/calendar.json";
+import jaMessage from "./ja/message.json";
+import jaProfile from "./ja/profile.json";
+import jaTranslate from "./ja/translate.json";
+
+import tlCommon from "./tl/common.json";
+import tlAuth from "./tl/auth.json";
+import tlCalendar from "./tl/calendar.json";
+import tlMessage from "./tl/message.json";
+import tlProfile from "./tl/profile.json";
+import tlTranslate from "./tl/translate.json";
+
+import kmCommon from "./km/common.json";
+import kmAuth from "./km/auth.json";
+import kmCalendar from "./km/calendar.json";
+import kmMessage from "./km/message.json";
+import kmProfile from "./km/profile.json";
+import kmTranslate from "./km/translate.json";
+
 const LANGUAGE_KEY = "@app_language";
 
 const resources = {
@@ -38,6 +80,54 @@ const resources = {
     profile: koProfile,
     translate: koTranslate,
   },
+  vi: {
+    common: viCommon,
+    auth: viAuth,
+    calendar: viCalendar,
+    message: viMessage,
+    profile: viProfile,
+    translate: viTranslate,
+  },
+  zh: {
+    common: zhCommon,
+    auth: zhAuth,
+    calendar: zhCalendar,
+    message: zhMessage,
+    profile: zhProfile,
+    translate: zhTranslate,
+  },
+  th: {
+    common: thCommon,
+    auth: thAuth,
+    calendar: thCalendar,
+    message: thMessage,
+    profile: thProfile,
+    translate: thTranslate,
+  },
+  ja: {
+    common: jaCommon,
+    auth: jaAuth,
+    calendar: jaCalendar,
+    message: jaMessage,
+    profile: jaProfile,
+    translate: jaTranslate,
+  },
+  tl: {
+    common: tlCommon,
+    auth: tlAuth,
+    calendar: tlCalendar,
+    message: tlMessage,
+    profile: tlProfile,
+    translate: tlTranslate,
+  },
+  km: {
+    common: kmCommon,
+    auth: kmAuth,
+    calendar: kmCalendar,
+    message: kmMessage,
+    profile: kmProfile,
+    translate: kmTranslate,
+  },
 };
 
 // Track initialization state
@@ -47,9 +137,8 @@ let isInitialized = false;
 const initI18nSync = () => {
   if (isInitialized) return;
 
-  // Get device language for web
-  const deviceLanguage = Localization.getLocales()[0]?.languageCode || "en";
-  const defaultLanguage = (resources as any)[deviceLanguage] ? deviceLanguage : "en";
+  // Use enhanced device language detection for web too
+  const defaultLanguage = detectDeviceLanguage();
 
   i18n.use(initReactI18next).init({
     resources,
@@ -68,6 +157,34 @@ const initI18nSync = () => {
   isInitialized = true;
 };
 
+// Enhanced device language detection
+const detectDeviceLanguage = () => {
+  const locales = Localization.getLocales();
+  const deviceLanguages = locales.map(locale => locale.languageCode?.toLowerCase()).filter(Boolean);
+  
+  // Check for exact matches first
+  for (const lang of deviceLanguages) {
+    if ((resources as any)[lang]) {
+      return lang;
+    }
+  }
+  
+  // Check for language family matches (e.g., zh-CN -> zh)
+  for (const locale of locales) {
+    if (locale.languageCode) {
+      const langCode = locale.languageCode.toLowerCase();
+      const baseLang = langCode.split('-')[0]; // Extract base language (zh from zh-CN)
+      
+      if ((resources as any)[baseLang]) {
+        return baseLang;
+      }
+    }
+  }
+  
+  // Default to English if no supported language found
+  return "en";
+};
+
 // Async initialization for mobile
 const initI18n = async () => {
   if (isInitialized) return;
@@ -82,10 +199,8 @@ const initI18n = async () => {
   let savedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
 
   if (!savedLanguage) {
-    // Get device language
-    const deviceLanguage = Localization.getLocales()[0]?.languageCode || "en";
-    // Check if we support this language, otherwise default to English
-    savedLanguage = (resources as any)[deviceLanguage] ? deviceLanguage : "en";
+    // Use enhanced device language detection
+    savedLanguage = detectDeviceLanguage();
   }
 
   i18n.use(initReactI18next).init({
@@ -114,10 +229,30 @@ export const changeLanguage = async (language: string) => {
 // Get current language
 export const getCurrentLanguage = () => i18n.language;
 
+// Get device language without initialization
+export const getDeviceLanguage = () => detectDeviceLanguage();
+
+// Check if language onboarding should be shown
+export const shouldShowLanguageOnboarding = async () => {
+  if (Platform.OS === 'web') {
+    // For web, always use detected device language
+    return false;
+  }
+  
+  const savedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
+  return !savedLanguage; // Show onboarding if no language is saved
+};
+
 // Get available languages
 export const getAvailableLanguages = () => [
-  { code: "en", name: "English", nativeName: "English" },
-  { code: "ko", name: "Korean", nativeName: "한국어" },
+  { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
+  { code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷" },
+  { code: "vi", name: "Vietnamese", nativeName: "Tiếng Việt", flag: "🇻🇳" },
+  { code: "zh", name: "Chinese", nativeName: "中文", flag: "🇨🇳" },
+  { code: "th", name: "Thai", nativeName: "ภาษาไทย", flag: "🇹🇭" },
+  { code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵" },
+  { code: "tl", name: "Filipino", nativeName: "Filipino", flag: "🇵🇭" },
+  { code: "km", name: "Khmer", nativeName: "ភាសាខ្មែរ", flag: "🇰🇭" },
 ];
 
 // Initialize immediately for web platform

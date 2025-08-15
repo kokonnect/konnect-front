@@ -1,0 +1,56 @@
+{
+  "title": "Tin nhắn",
+  "compose": {
+    "title": "Soạn tin nhắn",
+    "nav": "Soạn",
+    "description": "Soạn thảo tin nhắn để giao tiếp với giáo viên bằng ngôn ngữ của bạn",
+    "to": "Đến",
+    "toPlaceholder": "Chọn người nhận",
+    "message": "Tin nhắn",
+    "messagePlaceholder": "Nhập tin nhắn của bạn ở đây...",
+    "generate": "Tạo",
+    "editDraft": "Chỉnh sửa bản nháp",
+    "koreanTranslation": "Bản dịch tiếng Hàn",
+    "translating": "Đang dịch...",
+    "cancel": "Hủy"
+  },
+  "templates": {
+    "title": "Mẫu tin nhắn",
+    "nav": "Mẫu",
+    "description": "Mẫu nhanh cho các tin nhắn thường dùng",
+    "categories": {
+      "all": "Tất cả",
+      "favorite": "Yêu thích",
+      "absence": "Vắng mặt",
+      "lateness": "Đến muộn",
+      "earlyDismissal": "Ra về sớm",
+      "homework": "Bài tập về nhà",
+      "meeting": "Yêu cầu gặp mặt",
+      "concern": "Quan tâm/Câu hỏi",
+      "appreciation": "Cảm ơn",
+      "other": "Khác"
+    },
+    "useTemplate": "Sử dụng",
+    "koreanVersion": "Phiên bản tiếng Hàn",
+    "yourLanguageVersion": "Phiên bản ngôn ngữ của bạn",
+    "copyKorean": "Sao chép tiếng Hàn",
+    "editTemplate": "Chỉnh sửa",
+    "noTemplates": "Không có mẫu nào"
+  },
+  "history": {
+    "title": "Lịch sử dịch tin nhắn",
+    "noMessages": "Không có tin nhắn dịch",
+    "delete": "Xóa"
+  },
+  "translation": {
+    "translateToKorean": "dịch sang tiếng Hàn",
+    "translateToYour": "dịch sang ngôn ngữ của bạn",
+    "originalMessage": "Tin nhắn gốc",
+    "translatedMessage": "Tin nhắn đã dịch",
+    "translating": "Đang dịch...",
+    "translationFailed": "Dịch thất bại. Vui lòng thử lại.",
+    "copyTranslation": "Sao chép bản dịch",
+    "translationCopied": "Bản dịch đã được sao chép vào clipboard"
+  },
+  "validation": {}
+}

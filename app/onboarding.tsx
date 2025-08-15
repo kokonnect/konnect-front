@@ -16,7 +16,7 @@ import {
   setUserLanguage,
   setFirstLaunchComplete,
 } from "@/utils/storage";
-import { getAvailableLanguages, changeLanguage } from "@/locales/i18n";
+import { getAvailableLanguages, changeLanguage, getDeviceLanguage } from "@/locales/i18n";
 import { showAlert } from "@/utils/alert";
 
 import { Language } from "@/types";
@@ -26,16 +26,7 @@ const { width } = Dimensions.get("window");
 
 // Get languages from i18n system with flags
 const getLanguagesWithFlags = () => {
-  const availableLanguages = getAvailableLanguages();
-  const flagMap: { [key: string]: string } = {
-    en: "🇺🇸",
-    ko: "🇰🇷",
-  };
-
-  return availableLanguages.map((lang) => ({
-    ...lang,
-    flag: flagMap[lang.code] || "🌐",
-  }));
+  return getAvailableLanguages();
 };
 
 export default function OnboardingScreen() {
@@ -45,6 +36,17 @@ export default function OnboardingScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
   const languages = getLanguagesWithFlags();
+
+  // Pre-select device language on component mount
+  React.useEffect(() => {
+    const deviceLang = getDeviceLanguage();
+    const deviceLanguageObj = languages.find(lang => lang.code === deviceLang);
+    if (deviceLanguageObj) {
+      setSelectedLanguage(deviceLanguageObj);
+      // Optionally apply the language immediately for preview
+      changeLanguage(deviceLanguageObj.code);
+    }
+  }, []);
 
   const handleLanguageSelect = async (language: any) => {
     setSelectedLanguage(language);

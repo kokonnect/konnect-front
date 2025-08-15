@@ -1,0 +1,85 @@
+{
+  "title": "Dịch tài liệu",
+  "description": "Tải lên tài liệu nhà trường để dịch",
+  "upload": {
+    "title": "Tải lên tài liệu",
+    "uploadPdf": "Tải lên PDF",
+    "uploadImage": "Tải lên hình ảnh",
+    "chooseImageSource": "Chọn nguồn hình ảnh",
+    "takePhoto": "Chụp ảnh",
+    "fromGallery": "Chọn từ thư viện",
+    "maxFileSize": "Kích thước tối đa: 10MB",
+    "uploading": "Đang tải lên...",
+    "uploadSuccess": "Tải lên thành công",
+    "uploadError": "Không thể tải lên tệp"
+  },
+  "translation": {
+    "translating": "Đang dịch tài liệu của bạn...",
+    "retranslating": "Đang dịch lại...",
+    "retranslate": "Dịch lại",
+    "almostReady": "Sắp xong...",
+    "preparingTranslation": "Đang chuẩn bị bản dịch...",
+    "pleaseWait": "Vui lòng đợi trong giây lát",
+    "summary": "Tóm tắt",
+    "fullText": "Toàn văn",
+    "events": "Sự kiện",
+    "viewOriginal": "Xem bản gốc",
+    "viewTranslated": "Xem bản dịch",
+    "copyToClipboard": "Sao chép vào clipboard",
+    "textCopied": "Văn bản đã được sao chép vào clipboard",
+    "saveTranslation": "Lưu bản dịch",
+    "shareTranslation": "Chia sẻ bản dịch",
+    "translationSaved": "Lưu bản dịch thành công",
+    "showOriginal": "Hiện bản gốc",
+    "showTranslation": "Hiện bản dịch"
+  },
+  "history": {
+    "title": "Lịch sử dịch",
+    "recent": "Bản dịch gần đây",
+    "eventsFound": "Tìm thấy {{count}} sự kiện",
+    "noHistory": "Không có lịch sử dịch",
+    "translation": "Bản dịch",
+    "Original": "Bản gốc",
+    "events": "Sự kiện",
+    "clearHistory": "Xóa lịch sử",
+    "confirmClear": "Xóa lịch sử",
+    "confirmClearMessage": "Bạn có chắc muốn xóa tất cả lịch sử dịch không?",
+    "copyKorean": "Sao chép tiếng Hàn"
+  },
+  "warnings": {
+    "title": "Thông báo quan trọng",
+    "aiTranslation": "Đây là bản dịch AI. Mặc dù chúng tôi cố gắng đảm bảo độ chính xác, vui lòng kiểm tra lại thông tin quan trọng.",
+    "explanation": "Bản dịch của chúng tôi được tối ưu hóa để dễ đọc bằng cách giảm thuật ngữ phức tạp và sử dụng ngôn ngữ đơn giản, dễ tiếp cận hơn."
+  },
+  "fileStatus": {
+    "processing": "Đang xử lý",
+    "ready": "Sẵn sàng",
+    "error": "Lỗi",
+    "analyzing": "Đang phân tích tài liệu...",
+    "extractingText": "Đang trích xuất văn bản...",
+    "translatingContent": "Đang dịch nội dung...",
+    "generatingSummary": "Đang tạo tóm tắt...",
+    "extractingEvents": "Đang trích xuất sự kiện...",
+    "complete": "Hoàn thành"
+  },
+  "errors": {
+    "fileNotSupported": "Loại tệp không được hỗ trợ",
+    "fileTooLarge": "Kích thước tệp vượt quá giới hạn 10MB",
+    "translationFailed": "Dịch thất bại. Vui lòng thử lại.",
+    "networkError": "Lỗi mạng. Vui lòng kiểm tra kết nối.",
+    "serverError": "Lỗi máy chủ. Vui lòng thử lại sau.",
+    "quotaExceeded": "Vượt quá hạn ngạch dịch. Vui lòng thử lại vào ngày mai."
+  },
+  "tips": {
+    "title": "Mẹo",
+    "clearPhoto": "Chụp ảnh rõ nét để dịch tốt hơn",
+    "goodLighting": "Đảm bảo ánh sáng tốt khi chụp ảnh",
+    "fullPage": "Chụp toàn bộ trang trong khung hình",
+    "multiplePages": "Đối với nhiều trang, tải lên dưới dạng PDF"
+  },
+  "vocabulary": {
+    "title": "Từ vựng chính",
+    "description": "Các thuật ngữ tiếng Hàn quan trọng liên quan đến trường học được tìm thấy trong tài liệu này.",
+    "example": "Ví dụ"
+  }
+}

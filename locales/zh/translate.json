@@ -1,0 +1,85 @@
+{
+  "title": "文档翻译",
+  "description": "上传学校文档进行翻译",
+  "upload": {
+    "title": "上传文档",
+    "uploadPdf": "上传PDF",
+    "uploadImage": "上传图片",
+    "chooseImageSource": "选择图片来源",
+    "takePhoto": "拍照",
+    "fromGallery": "从相册选择",
+    "maxFileSize": "最大文件大小：10MB",
+    "uploading": "上传中...",
+    "uploadSuccess": "文件上传成功",
+    "uploadError": "文件上传失败"
+  },
+  "translation": {
+    "translating": "正在翻译您的文档...",
+    "retranslating": "重新翻译中...",
+    "retranslate": "重新翻译",
+    "almostReady": "即将完成...",
+    "preparingTranslation": "正在准备翻译...",
+    "pleaseWait": "这可能需要几分钟时间",
+    "summary": "摘要",
+    "fullText": "全文",
+    "events": "事件",
+    "viewOriginal": "查看原文",
+    "viewTranslated": "查看翻译",
+    "copyToClipboard": "复制到剪贴板",
+    "textCopied": "文本已复制到剪贴板",
+    "saveTranslation": "保存翻译",
+    "shareTranslation": "分享翻译",
+    "translationSaved": "翻译保存成功",
+    "showOriginal": "显示原文",
+    "showTranslation": "显示翻译"
+  },
+  "history": {
+    "title": "翻译历史",
+    "recent": "最近翻译",
+    "eventsFound": "找到{{count}}个事件",
+    "noHistory": "无翻译历史",
+    "translation": "翻译",
+    "Original": "原文",
+    "events": "事件",
+    "clearHistory": "清空历史",
+    "confirmClear": "清空历史",
+    "confirmClearMessage": "您确定要清空所有翻译历史吗？",
+    "copyKorean": "复制韩语"
+  },
+  "warnings": {
+    "title": "重要提示",
+    "aiTranslation": "这是AI翻译。虽然我们努力确保准确性，但请验证重要信息。",
+    "explanation": "我们的翻译经过优化，通过减少复杂术语并使用更简单、更易理解的语言来提高可读性。"
+  },
+  "fileStatus": {
+    "processing": "处理中",
+    "ready": "就绪",
+    "error": "错误",
+    "analyzing": "分析文档中...",
+    "extractingText": "提取文本中...",
+    "translatingContent": "翻译内容中...",
+    "generatingSummary": "生成摘要中...",
+    "extractingEvents": "提取事件中...",
+    "complete": "完成"
+  },
+  "errors": {
+    "fileNotSupported": "不支持的文件类型",
+    "fileTooLarge": "文件大小超过10MB限制",
+    "translationFailed": "翻译失败。请重试。",
+    "networkError": "网络错误。请检查连接。",
+    "serverError": "服务器错误。请稍后重试。",
+    "quotaExceeded": "翻译配额已用完。请明天再试。"
+  },
+  "tips": {
+    "title": "提示",
+    "clearPhoto": "拍摄清晰的照片以获得更好的翻译",
+    "goodLighting": "拍照时确保光线充足",
+    "fullPage": "在框架内拍摄整页",
+    "multiplePages": "多页文档请上传PDF格式"
+  },
+  "vocabulary": {
+    "title": "关键词汇",
+    "description": "在此文档中找到的与韩国学校相关的关键词汇。",
+    "example": "示例"
+  }
+}

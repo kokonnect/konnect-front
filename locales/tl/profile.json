@@ -1,0 +1,78 @@
+{
+  "title": "Profile",
+  "userProfile": {},
+  "loginPrompt": {
+    "title": "Mag-sign in para ma-access ang inyong profile",
+    "description": "Gumawa ng account para ma-save ang mga salin, ma-manage ang impormasyon ng inyong mga anak, at ma-sync sa lahat ng devices",
+    "benefits": {
+      "sync": "I-sync ang data sa lahat ng devices",
+      "save": "I-save ang mga salin at preferences",
+      "manage": "Pamahalaan ang maraming anak",
+      "notifications": "Tumanggap ng mahalagang notifications"
+    },
+    "loginButton": "Mag-Sign In"
+  },
+  "children": {
+    "title": "Aking mga Anak",
+    "addChild": "Magdagdag ng Anak",
+    "editChild": "I-edit ang Anak",
+    "removeChild": "Alisin ang Anak",
+    "confirmRemove": "Alisin ang Anak",
+    "confirmRemoveMessage": "Sigurado po ba kayong gusto ninyong alisin si {{name}} sa inyong profile?",
+    "noChildren": "Walang pang naidagdag na anak",
+    "childInfo": {
+      "age": "Edad: {{age}}",
+      "school": "Paaralan: {{school}}",
+      "grade": "Baitang: {{grade}}",
+      "class": "Klase: {{class}}",
+      "teacher": "Guro: {{teacher}}"
+    },
+    "form": {
+      "name": "pangalan",
+      "namePlaceholder": "Ilagay ang pangalan",
+      "birthdate": "Kaarawan",
+      "birthdatePlaceholder": "Ilagay ang kaarawan",
+      "school": "Paaralan",
+      "schoolPlaceholder": "Ilagay ang paaralan",
+      "grade": "Baitang",
+      "gradePlaceholder": "Ilagay ang baitang",
+      "class": "Klase",
+      "classPlaceholder": "Ilagay ang klase",
+      "teacher": "Guro",
+      "teacherPlaceholder": "Ilagay ang pangalan ng guro"
+    }
+  },
+  "preferences": {
+    "title": "Mga Preference",
+    "language": "Wika",
+    "languageDescription": "Wika para sa app interface",
+    "selectLanguage": "Pumili ng Wika",
+    "notifications": {
+      "title": "Mga Notification"
+    },
+    "translation": {
+      "title": "Mga Setting ng Pagsasalin",
+      "saveDocHistory": "I-save ang history ng pagsasalin ng dokumento",
+      "saveMessageHistory": "I-save ang history ng mensehe"
+    }
+  },
+  "editProfile": {
+    "title": "I-edit ang Profile",
+    "form": {
+      "name": "Pangalan",
+      "namePlaceholder": "Ilagay ang inyong pangalan",
+      "email": "Email",
+      "emailPlaceholder": "Ilagay ang inyong email",
+      "childInfo": "Impormasyon ng Anak",
+      "save": "I-save ang mga Pagbabago",
+      "cancel": "Kanselahin"
+    },
+    "emailProviderCantChange": "Hindi mababago ang email at login provider.",
+    "validation": {
+      "nameRequired": "Kailangan ang pangalan",
+      "requiredWarning": "Pakipunan lahat ng kailangang fields"
+    },
+    "successTitle": "Matagumpay na na-update ang profile",
+    "successMessage": "Na-save na ang mga pagbabago."
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "title": "Kalendaryo",
+  "monthYearPicker": {
+    "title": "Pumili ng Buwan at Taon",
+    "selectYear": "Pumili ng Taon",
+    "selectMonth": "Pumili ng Buwan",
+    "cancel": "Kanselahin",
+    "select": "Piliin"
+  },
+  "selectedDateSchedule": {
+    "noEventsDate": "Walang nakaplang kaganapan para sa napiling petsa",
+    "noEventsDescription": "Subukang magdagdag ng kaganapan",
+    "allDay": "Buong Araw"
+  },
+  "form": {
+    "eventTitle": "Pamagat ng Kaganapan",
+    "eventTitlePlaceholder": "Ilagay ang pamagat ng kaganapan",
+    "eventDescription": "Paglalarawan",
+    "eventDescriptionPlaceholder": "Ilagay ang paglalarawan ng kaganapan (opsyonal)",
+    "eventDate": "Petsa",
+    "eventTime": "Oras",
+    "allDay": "Kaganapang Buong Araw",
+    "start": "Simula",
+    "end": "Katapusan",
+    "reminder": "Paalala",
+    "reminderOptions": {
+      "none": "Wala",
+      "at": "Sa oras ng kaganapan",
+      "5min": "5 minuto bago",
+      "10min": "10 minuto bago",
+      "15min": "15 minuto bago",
+      "30min": "30 minuto bago",
+      "1hour": "1 oras bago",
+      "2hours": "2 oras bago",
+      "1day": "1 araw bago"
+    },
+    "repeat": "ulitin",
+    "endRepeat": "tapusin ang pag-uulit",
+    "repeatOptions": {
+      "never": "hindi kailanman",
+      "daily": "araw-araw",
+      "weekly": "lingguhan",
+      "monthly": "buwanan",
+      "yearly": "taunan"
+    },
+    "selectChild": "Pumili ng Anak",
+    "selectChildPlaceholder": "Pumili ng isang anak",
+    "save": "I-save ang Kaganapan",
+    "cancel": "Kanselahin"
+  },
+  "addEvent": {
+    "title": "Magdagdag ng Kaganapan"
+  },
+  "modifyEvent": {
+    "title": "I-edit ang Kaganapan",
+    "deleteEvent": "Tanggalin ang Kaganapan",
+    "confirmDelete": "Tanggalin ang Kaganapan",
+    "confirmDeleteMessage": "Sigurado ka bang gusto mong tanggalin ang kaganapang ito?",
+    "updateSuccess": "Matagumpay na na-update ang kaganapan",
+    "deleteSuccess": "Matagumpay na natanggal ang kaganapan",
+    "update": "i-update"
+  },
+  "validation": {
+    "titleRequired": "Kinakailangan ang pamagat ng kaganapan",
+    "dateRequired": "Kinakailangan ang petsa ng kaganapan",
+    "invalidDate": "Mangyaring pumili ng wastong petsa"
+  },
+  "eventList": {
+    "upcoming": "Paparating na mga Kaganapan",
+    "past": "Nakaraang mga Kaganapan",
+    "noEventsDescription": "Walang nakaplang kaganapan para sa buwang ito"
+  },
+  "weekDays": {
+    "monday": "Lunes",
+    "tuesday": "Martes",
+    "wednesday": "Miyerkules",
+    "thursday": "Huwebes",
+    "friday": "Biyernes",
+    "saturday": "Sabado",
+    "sunday": "Linggo"
+  },
+  "weekDaysShort": {
+    "monday": "Lun",
+    "tuesday": "Mar",
+    "wednesday": "Miy",
+    "thursday": "Huw",
+    "friday": "Biy",
+    "saturday": "Sab",
+    "sunday": "Lin"
+  },
+  "months": {
+    "january": "Enero",
+    "february": "Pebrero",
+    "march": "Marso",
+    "april": "Abril",
+    "may": "Mayo",
+    "june": "Hunyo",
+    "july": "Hulyo",
+    "august": "Agosto",
+    "september": "Setyembre",
+    "october": "Oktubre",
+    "november": "Nobyembre",
+    "december": "Disyembre"
+  },
+  "monthShort": {
+    "january": "Ene",
+    "february": "Peb",
+    "march": "Mar",
+    "april": "Abr",
+    "may": "May",
+    "june": "Hun",
+    "july": "Hul",
+    "august": "Ago",
+    "september": "Set",
+    "october": "Okt",
+    "november": "Nob",
+    "december": "Dis"
+  },
+  "today": "Ngayon"
+}

@@ -1,0 +1,120 @@
+{
+  "title": "Lịch",
+  "monthYearPicker": {
+    "title": "Chọn Tháng & Năm",
+    "selectYear": "Chọn Năm",
+    "selectMonth": "Chọn Tháng",
+    "cancel": "Hủy",
+    "select": "Chọn"
+  },
+  "selectedDateSchedule": {
+    "noEventsDate": "Không có sự kiện nào được lên lịch cho ngày đã chọn",
+    "noEventsDescription": "Thử thêm một sự kiện",
+    "allDay": "Cả Ngày"
+  },
+  "form": {
+    "eventTitle": "Tiêu đề Sự kiện",
+    "eventTitlePlaceholder": "Nhập tiêu đề sự kiện",
+    "eventDescription": "Mô tả",
+    "eventDescriptionPlaceholder": "Nhập mô tả sự kiện (tùy chọn)",
+    "eventDate": "Ngày",
+    "eventTime": "Thời gian",
+    "allDay": "Sự kiện Cả Ngày",
+    "start": "Bắt đầu",
+    "end": "Kết thúc",
+    "reminder": "Nhắc nhở",
+    "reminderOptions": {
+      "none": "Không có",
+      "at": "Đúng thời điểm sự kiện",
+      "5min": "5 phút trước",
+      "10min": "10 phút trước",
+      "15min": "15 phút trước",
+      "30min": "30 phút trước",
+      "1hour": "1 giờ trước",
+      "2hours": "2 giờ trước",
+      "1day": "1 ngày trước"
+    },
+    "repeat": "lặp lại",
+    "endRepeat": "kết thúc lặp lại",
+    "repeatOptions": {
+      "never": "không bao giờ",
+      "daily": "hàng ngày",
+      "weekly": "hàng tuần",
+      "monthly": "hàng tháng",
+      "yearly": "hàng năm"
+    },
+    "selectChild": "Chọn Trẻ em",
+    "selectChildPlaceholder": "Chọn một trẻ em",
+    "save": "Lưu Sự kiện",
+    "cancel": "Hủy"
+  },
+  "addEvent": {
+    "title": "Thêm Sự kiện"
+  },
+  "modifyEvent": {
+    "title": "Chỉnh sửa Sự kiện",
+    "deleteEvent": "Xóa Sự kiện",
+    "confirmDelete": "Xóa Sự kiện",
+    "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa sự kiện này không?",
+    "updateSuccess": "Sự kiện đã được cập nhật thành công",
+    "deleteSuccess": "Sự kiện đã được xóa thành công",
+    "update": "cập nhật"
+  },
+  "validation": {
+    "titleRequired": "Tiêu đề sự kiện là bắt buộc",
+    "dateRequired": "Ngày sự kiện là bắt buộc",
+    "invalidDate": "Vui lòng chọn một ngày hợp lệ"
+  },
+  "eventList": {
+    "upcoming": "Sự kiện Sắp tới",
+    "past": "Sự kiện Đã qua",
+    "noEventsDescription": "Không có sự kiện nào được lên lịch cho tháng này"
+  },
+  "weekDays": {
+    "monday": "Thứ Hai",
+    "tuesday": "Thứ Ba",
+    "wednesday": "Thứ Tư",
+    "thursday": "Thứ Năm",
+    "friday": "Thứ Sáu",
+    "saturday": "Thứ Bảy",
+    "sunday": "Chủ Nhật"
+  },
+  "weekDaysShort": {
+    "monday": "T2",
+    "tuesday": "T3",
+    "wednesday": "T4",
+    "thursday": "T5",
+    "friday": "T6",
+    "saturday": "T7",
+    "sunday": "CN"
+  },
+  "months": {
+    "january": "Tháng Một",
+    "february": "Tháng Hai",
+    "march": "Tháng Ba",
+    "april": "Tháng Tư",
+    "may": "Tháng Năm",
+    "june": "Tháng Sáu",
+    "july": "Tháng Bảy",
+    "august": "Tháng Tám",
+    "september": "Tháng Chín",
+    "october": "Tháng Mười",
+    "november": "Tháng Mười Một",
+    "december": "Tháng Mười Hai"
+  },
+  "monthShort": {
+    "january": "T1",
+    "february": "T2",
+    "march": "T3",
+    "april": "T4",
+    "may": "T5",
+    "june": "T6",
+    "july": "T7",
+    "august": "T8",
+    "september": "T9",
+    "october": "T10",
+    "november": "T11",
+    "december": "T12"
+  },
+  "today": "Hôm nay"
+}

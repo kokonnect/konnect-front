@@ -1,0 +1,120 @@
+{
+  "title": "日历",
+  "monthYearPicker": {
+    "title": "选择月份和年份",
+    "selectYear": "选择年份",
+    "selectMonth": "选择月份",
+    "cancel": "取消",
+    "select": "选择"
+  },
+  "selectedDateSchedule": {
+    "noEventsDate": "所选日期没有安排活动",
+    "noEventsDescription": "尝试添加一个活动",
+    "allDay": "全天"
+  },
+  "form": {
+    "eventTitle": "活动标题",
+    "eventTitlePlaceholder": "输入活动标题",
+    "eventDescription": "描述",
+    "eventDescriptionPlaceholder": "输入活动描述（可选）",
+    "eventDate": "日期",
+    "eventTime": "时间",
+    "allDay": "全天活动",
+    "start": "开始",
+    "end": "结束",
+    "reminder": "提醒",
+    "reminderOptions": {
+      "none": "无",
+      "at": "活动开始时",
+      "5min": "提前5分钟",
+      "10min": "提前10分钟",
+      "15min": "提前15分钟",
+      "30min": "提前30分钟",
+      "1hour": "提前1小时",
+      "2hours": "提前2小时",
+      "1day": "提前1天"
+    },
+    "repeat": "重复",
+    "endRepeat": "结束重复",
+    "repeatOptions": {
+      "never": "从不",
+      "daily": "每日",
+      "weekly": "每周",
+      "monthly": "每月",
+      "yearly": "每年"
+    },
+    "selectChild": "选择孩子",
+    "selectChildPlaceholder": "选择一个孩子",
+    "save": "保存活动",
+    "cancel": "取消"
+  },
+  "addEvent": {
+    "title": "添加活动"
+  },
+  "modifyEvent": {
+    "title": "编辑活动",
+    "deleteEvent": "删除活动",
+    "confirmDelete": "删除活动",
+    "confirmDeleteMessage": "您确定要删除此活动吗？",
+    "updateSuccess": "活动更新成功",
+    "deleteSuccess": "活动删除成功",
+    "update": "更新"
+  },
+  "validation": {
+    "titleRequired": "活动标题是必需的",
+    "dateRequired": "活动日期是必需的",
+    "invalidDate": "请选择有效的日期"
+  },
+  "eventList": {
+    "upcoming": "即将到来的活动",
+    "past": "过去的活动",
+    "noEventsDescription": "本月没有安排活动"
+  },
+  "weekDays": {
+    "monday": "星期一",
+    "tuesday": "星期二",
+    "wednesday": "星期三",
+    "thursday": "星期四",
+    "friday": "星期五",
+    "saturday": "星期六",
+    "sunday": "星期日"
+  },
+  "weekDaysShort": {
+    "monday": "周一",
+    "tuesday": "周二",
+    "wednesday": "周三",
+    "thursday": "周四",
+    "friday": "周五",
+    "saturday": "周六",
+    "sunday": "周日"
+  },
+  "months": {
+    "january": "一月",
+    "february": "二月",
+    "march": "三月",
+    "april": "四月",
+    "may": "五月",
+    "june": "六月",
+    "july": "七月",
+    "august": "八月",
+    "september": "九月",
+    "october": "十月",
+    "november": "十一月",
+    "december": "十二月"
+  },
+  "monthShort": {
+    "january": "1月",
+    "february": "2月",
+    "march": "3月",
+    "april": "4月",
+    "may": "5月",
+    "june": "6月",
+    "july": "7月",
+    "august": "8月",
+    "september": "9月",
+    "october": "10月",
+    "november": "11月",
+    "december": "12月"
+  },
+  "today": "今天"
+}

@@ -1,0 +1,56 @@
+{
+  "title": "ข้อความ",
+  "compose": {
+    "title": "เขียนข้อความ",
+    "nav": "เขียน",
+    "description": "เขียนข้อความเพื่อติดต่อสื่อสารกับครูในภาษาของคุณ",
+    "to": "ถึง",
+    "toPlaceholder": "เลือกผู้รับ",
+    "message": "ข้อความ",
+    "messagePlaceholder": "พิมพ์ข้อความของคุณที่นี่...",
+    "generate": "สร้าง",
+    "editDraft": "แก้ไขร่าง",
+    "koreanTranslation": "การแปลภาษาเกาหลี",
+    "translating": "กำลังแปล...",
+    "cancel": "ยกเลิก"
+  },
+  "templates": {
+    "title": "แม่แบบข้อความ",
+    "nav": "แม่แบบ",
+    "description": "แม่แบบด่วนสำหรับข้อความทั่วไป",
+    "categories": {
+      "all": "ทั้งหมด",
+      "favorite": "รายการโปรด",
+      "absence": "ขาดเรียน",
+      "lateness": "มาสาย",
+      "earlyDismissal": "กลับก่อนเวลา",
+      "homework": "การบ้าน",
+      "meeting": "ขอนัดหมาย",
+      "concern": "ข้อกังวล/คำถาม",
+      "appreciation": "ขอบคุณ",
+      "other": "อื่นๆ"
+    },
+    "useTemplate": "ใช้",
+    "koreanVersion": "เวอร์ชันภาษาเกาหลี",
+    "yourLanguageVersion": "เวอร์ชันภาษาของคุณ",
+    "copyKorean": "คัดลอกภาษาเกาหลี",
+    "editTemplate": "แก้ไข",
+    "noTemplates": "ไม่มีแม่แบบ"
+  },
+  "history": {
+    "title": "ประวัติการแปลข้อความ",
+    "noMessages": "ไม่มีข้อความแปล",
+    "delete": "ลบ"
+  },
+  "translation": {
+    "translateToKorean": "แปลเป็นภาษาเกาหลี",
+    "translateToYour": "แปลเป็นภาษาของคุณ",
+    "originalMessage": "ข้อความต้นฉบับ",
+    "translatedMessage": "ข้อความที่แปลแล้ว",
+    "translating": "กำลังแปล...",
+    "translationFailed": "การแปลล้มเหลว กรุณาลองใหม่",
+    "copyTranslation": "คัดลอกการแปล",
+    "translationCopied": "คัดลอกการแปลไปยังคลิปบอร์ดแล้ว"
+  },
+  "validation": {}
+}

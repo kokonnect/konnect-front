@@ -17,11 +17,7 @@ import {
 
 const primaryColor = "#00B493";
 
-interface Language {
-  code: string;
-  name: string;
-  nativeName: string;
-}
+import { Language } from "@/types";
 
 interface LanguageSelectionModalProps {
   visible: boolean;
@@ -51,9 +47,12 @@ export default function LanguageSelectionModal({
       style={styles.languageOption}
       onPress={() => handleLanguageSelect(item)}
     >
-      <View style={styles.languageInfo}>
-        <Text style={styles.languageName}>{item.nativeName}</Text>
-        <Text style={styles.languageSubtext}>{item.name}</Text>
+      <View style={styles.languageRow}>
+        <Text style={styles.languageFlag}>{item.flag}</Text>
+        <View style={styles.languageInfo}>
+          <Text style={styles.languageName}>{item.nativeName}</Text>
+          <Text style={styles.languageSubtext}>{item.name}</Text>
+        </View>
       </View>
       {currentLanguage === item.code && (
         <MaterialCommunityIcons name="check" size={24} color={primaryColor} />
@@ -135,6 +134,15 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
+  },
+  languageRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  languageFlag: {
+    fontSize: 24,
+    marginRight: 12,
   },
   languageInfo: {
     flex: 1,
