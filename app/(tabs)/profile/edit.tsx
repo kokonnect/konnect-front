@@ -17,6 +17,7 @@ import { useAuthAndUser } from "@/hooks";
 import { Child as BaseChild, UserProfile as BaseUserProfile } from "@/types";
 import AddChildrenModal from "@/components/profile/AddChildrenModal";
 import { showAlert } from "@/utils/alert";
+import { mockUserProfile } from "@/mocks/user";
 
 const primaryColor = "#00B493";
 
@@ -27,37 +28,8 @@ interface Child extends BaseChild {
   teacherName: string;
 }
 
-interface UserProfile {
-  name: string;
-  children: Child[];
-  avatar?: string;
-}
+// Removed unused local UserProfile interface - using imported type instead
 
-// Mock user data (would come from state management in real app)
-const mockUser: UserProfile = {
-  name: "Sarah Johnson",
-  avatar: undefined,
-  children: [
-    {
-      id: "1",
-      name: "Emma Johnson",
-      birthDate: "2015-06-15",
-      school: "Greenfield Elementary",
-      grade: "3rd Grade",
-      class: "3A",
-      teacherName: "Ms. Smith",
-    },
-    {
-      id: "2",
-      name: "Lucas Johnson",
-      birthDate: "2018-03-08",
-      school: "Greenfield Elementary",
-      grade: "Kindergarten",
-      class: "K2",
-      teacherName: "Mr. Brown",
-    },
-  ],
-};
 
 export default function EditProfileScreen() {
   const router = useRouter();
@@ -200,8 +172,8 @@ export default function EditProfileScreen() {
         {/* Avatar Section */}
         <View style={styles.avatarSection}>
           <View style={styles.avatarContainer}>
-            {mockUser.avatar ? (
-              <Image source={{ uri: mockUser.avatar }} style={styles.avatar} />
+            {mockUserProfile.avatar ? (
+              <Image source={{ uri: mockUserProfile.avatar }} style={styles.avatar} />
             ) : (
               <View style={styles.defaultAvatar}>
                 <MaterialCommunityIcons name="account" size={40} color="#fff" />

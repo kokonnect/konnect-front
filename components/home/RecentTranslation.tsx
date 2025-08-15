@@ -11,36 +11,8 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 import { formatDateHistory } from "@/utils/formatDate";
-
-interface TranslationCard {
-  id: string;
-  title: string;
-  description: string;
-  lastViewed: Date;
-}
-
-const mockData: TranslationCard[] = [
-  {
-    id: "1",
-    title: "School Notice",
-    description:
-      "Dear parents, we would like to inform you about the upcoming parent-teacher conference scheduled for next week. Please prepare any questions you may have about your child's progress.",
-    lastViewed: new Date("2024-01-15"),
-  },
-  {
-    id: "2",
-    title: "Field Trip Permission",
-    description: "Permission slip for the science museum field trip.",
-    lastViewed: new Date("2024-01-14"),
-  },
-  {
-    id: "3",
-    title: "Lunch Menu",
-    description:
-      "This week's lunch menu includes healthy options with fresh vegetables and fruits. Special dietary requirements can be accommodated upon request.",
-    lastViewed: new Date("2024-01-13"),
-  },
-];
+import { TranslationResult } from "@/mocks";
+import { mockTranslationHistory } from "@/mocks";
 
 export default function RecentTranslation() {
   const router = useRouter();
@@ -55,22 +27,19 @@ export default function RecentTranslation() {
   const renderRecentTranslationItem = ({
     item,
   }: {
-    item: {
-      id: string;
-      title: string;
-      description: string;
-      lastViewed: Date;
-    };
+    item: TranslationResult;
   }) => (
-    <TouchableOpacity style={styles.card}>
-      <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardDescription}>
-        {truncateDescription(item.description)}
-      </Text>
+    <View style={styles.card}>
+      <View>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text style={styles.cardDescription}>
+          {truncateDescription(item.summary || "")}
+        </Text>
+      </View>
       <Text style={styles.cardDate}>
-        {formatDateHistory(item.lastViewed, i18n.language, t)}
+        {formatDateHistory(item.datetime, i18n.language, t)}
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -93,7 +62,7 @@ export default function RecentTranslation() {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={mockData}
+        data={mockTranslationHistory.slice(0, 3)}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.carousel}
         renderItem={renderRecentTranslationItem}
@@ -148,6 +117,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    justifyContent: "space-between",
   },
   cardTitle: {
     fontSize: 16,

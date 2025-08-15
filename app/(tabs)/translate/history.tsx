@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import SkeletonLoader from "@/components/translate/SkeletonLoader";
 import TranslationHistoryModal from "@/components/translate/TranslationHistoryModal";
 import { formatDateHistory } from "@/utils/formatDate";
+import { TranslationResult } from "@/types";
+import { mockTranslationHistory } from "@/mocks";
 
 const primaryColor = "#00B493";
 
@@ -22,151 +24,6 @@ const getDocumentIcon = (type: "pdf" | "image") => {
   return type === "pdf" ? "file-pdf-box" : "image";
 };
 
-// Render functions
-
-interface DocumentHistoryItem {
-  id: string;
-  title: string;
-  documentType: "pdf" | "image";
-  originalText: string;
-  translatedText: string;
-  summary: string;
-  events: {
-    id: string;
-    title: string;
-    date: Date;
-    description: string;
-  }[];
-  date: Date;
-  fileSize?: string;
-}
-
-// Mock data for document translation history
-const mockDocumentHistory: DocumentHistoryItem[] = [
-  {
-    id: "1",
-    title: "Field Trip Permission Form",
-    documentType: "pdf",
-    originalText:
-      "Annual field trip to Natural History Museum. Permission form and lunch money required for all students participating in this educational visit. Please sign and return by Friday.",
-    translatedText:
-      "연간 자연사 박물관 견학. 이 교육적 방문에 참여하는 모든 학생들에게 허가서와 도시락 비용이 필요합니다. 금요일까지 서명하고 반납해 주세요.",
-    summary:
-      "Annual field trip to Natural History Museum. Permission form and lunch required for all students.",
-    events: [
-      {
-        id: "e1",
-        title: "Field Trip",
-        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
-        description: "Natural History Museum visit",
-      },
-    ],
-    date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
-    fileSize: "245 KB",
-  },
-  {
-    id: "2",
-    title: "Parent-Teacher Conference Notice",
-    documentType: "image",
-    originalText:
-      "Parent-teacher conference scheduled for next week. Please confirm your availability and preferred time slot. Individual meetings will be 20 minutes each.",
-    translatedText:
-      "다음 주에 학부모-교사 상담이 예정되어 있습니다. 가능한 시간과 선호하는 시간대를 확인해 주세요. 개별 상담은 각각 20분입니다.",
-    summary:
-      "Parent-teacher conference scheduled for next week. Please confirm your availability.",
-    events: [
-      {
-        id: "e2",
-        title: "Parent-Teacher Conference",
-        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
-        description: "Individual 20-minute meetings",
-      },
-    ],
-    date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
-    fileSize: "1.2 MB",
-  },
-  {
-    id: "3",
-    title: "Weekly Newsletter",
-    documentType: "pdf",
-    originalText:
-      "This week's updates include upcoming science fair, library book return reminders, and cafeteria menu changes. PTA meeting scheduled for Thursday evening.",
-    translatedText:
-      "이번 주 업데이트에는 다가오는 과학 박람회, 도서관 책 반납 알림, 급식 메뉴 변경사항이 포함됩니다. PTA 회의가 목요일 저녁에 예정되어 있습니다.",
-    summary:
-      "Updates on school activities, upcoming events, and important reminders for parents.",
-    events: [
-      {
-        id: "e3",
-        title: "Science Fair",
-        date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // 10 days from now
-        description: "Student science project exhibition",
-      },
-      {
-        id: "e4",
-        title: "PTA Meeting",
-        date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
-        description: "Thursday evening meeting",
-      },
-    ],
-    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
-    fileSize: "187 KB",
-  },
-  {
-    id: "4",
-    title: "Final Exam Schedule",
-    documentType: "image",
-    originalText:
-      "Final examination schedule for the semester. Mathematics on Monday, Science on Wednesday, English on Friday. Please prepare accordingly and arrive 15 minutes early.",
-    translatedText:
-      "학기 기말고사 일정입니다. 월요일 수학, 수요일 과학, 금요일 영어입니다. 그에 따라 준비하시고 15분 일찍 도착해 주세요.",
-    summary:
-      "Final exam schedule for the semester. Please check the dates and prepare accordingly.",
-    events: [
-      {
-        id: "e5",
-        title: "Math Exam",
-        date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
-        description: "Final mathematics examination",
-      },
-      {
-        id: "e6",
-        title: "Science Exam",
-        date: new Date(Date.now() + 16 * 24 * 60 * 60 * 1000), // 2 weeks + 2 days from now
-        description: "Final science examination",
-      },
-      {
-        id: "e7",
-        title: "English Exam",
-        date: new Date(Date.now() + 18 * 24 * 60 * 60 * 1000), // 2 weeks + 4 days from now
-        description: "Final English examination",
-      },
-    ],
-    date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
-    fileSize: "892 KB",
-  },
-  {
-    id: "5",
-    title: "Holiday Schedule Notice",
-    documentType: "pdf",
-    originalText:
-      "School will be closed for winter holidays from December 22nd to January 8th. Classes resume on January 9th. Have a wonderful holiday season!",
-    translatedText:
-      "학교는 12월 22일부터 1월 8일까지 겨울 방학으로 휴교합니다. 수업은 1월 9일에 재개됩니다. 즐거운 휴일 보내세요!",
-    summary:
-      "School will be closed for the upcoming holidays. Please plan accordingly.",
-    events: [
-      {
-        id: "e8",
-        title: "Winter Holiday",
-        date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-        description: "School closed Dec 22 - Jan 8",
-      },
-    ],
-    date: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 days ago
-    fileSize: "156 KB",
-  },
-];
 const renderSkeletonItem = ({ index }: { index: number }) => (
   <View key={index} style={styles.historyCard}>
     <View style={styles.cardHeader}>
@@ -223,13 +80,13 @@ const renderSkeletonItem = ({ index }: { index: number }) => (
 
 const createRenderHistoryItem =
   (
-    getDocumentIcon: (type: "pdf" | "image") => string,
-    handleItemPress: (item: DocumentHistoryItem) => void,
+    getDocumentIcon: (type: "pdf" | "image") => "file-pdf-box" | "image",
+    handleItemPress: (item: TranslationResult) => void,
     formatDateHistory: (date: Date, language: string, t: any) => string,
     i18n: any,
     t: any,
   ) =>
-  ({ item }: { item: DocumentHistoryItem }) => (
+  ({ item }: { item: TranslationResult }) => (
     <TouchableOpacity
       style={styles.historyCard}
       onPress={() => handleItemPress(item)}
@@ -237,7 +94,7 @@ const createRenderHistoryItem =
       <View style={styles.cardHeader}>
         <View style={styles.titleContainer}>
           <MaterialCommunityIcons
-            name={getDocumentIcon(item.documentType)}
+            name={getDocumentIcon(item.fileType)}
             size={20}
             color={primaryColor}
             style={styles.documentIcon}
@@ -245,9 +102,8 @@ const createRenderHistoryItem =
           <Text style={styles.cardTitle}>{item.title}</Text>
         </View>
         <View style={styles.metaInfo}>
-          <Text style={styles.fileSize}>{item.fileSize}</Text>
           <Text style={styles.dateText}>
-            {formatDateHistory(new Date(item.date), i18n.language, t)}
+            {formatDateHistory(new Date(item.datetime), i18n.language, t)}
           </Text>
         </View>
       </View>
@@ -256,7 +112,7 @@ const createRenderHistoryItem =
         {item.summary}
       </Text>
 
-      {item.events.length > 0 && (
+      {item.events && item.events.length > 0 && (
         <View style={styles.eventsPreview}>
           <MaterialCommunityIcons
             name="calendar-clock"
@@ -274,8 +130,8 @@ const createRenderHistoryItem =
 
 export default function DocumentHistoryScreen() {
   const router = useRouter();
-  const [history, setHistory] = useState<DocumentHistoryItem[]>([]);
-  const [selectedItem, setSelectedItem] = useState<DocumentHistoryItem | null>(
+  const [history, setHistory] = useState<TranslationResult[]>([]);
+  const [selectedItem, setSelectedItem] = useState<TranslationResult | null>(
     null,
   );
   const [showModal, setShowModal] = useState(false);
@@ -290,12 +146,12 @@ export default function DocumentHistoryScreen() {
     setIsLoading(true);
     // Mock loading delay
     setTimeout(() => {
-      setHistory(mockDocumentHistory);
+      setHistory(mockTranslationHistory);
       setIsLoading(false);
     }, 2000);
   };
 
-  const handleItemPress = (item: DocumentHistoryItem) => {
+  const handleItemPress = (item: TranslationResult) => {
     setSelectedItem(item);
     setShowModal(true);
   };

@@ -1,4 +1,5 @@
 import { Child, User } from "@/types";
+import { mockChildren, createMockUser } from "@/mocks/user";
 
 class UserApi {
   private baseUrl = process.env.API_URL;
@@ -7,16 +8,7 @@ class UserApi {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Mock user data
-    const mockUser: User = {
-      id: `user_${Date.now()}`,
-      name: "John Smith",
-      email: "user@example.com",
-      provider: "google",
-      children: [],
-    };
-
-    return mockUser;
+    return createMockUser();
   }
 
   async updateUserProfile(
@@ -26,48 +18,21 @@ class UserApi {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Mock updated user
-    const mockUser: User = {
-      id: `user_${Date.now()}`,
-      name: "John Smith",
-      email: "user@example.com",
-      provider: "google",
-      ...updates,
-    };
-
-    return mockUser;
+    return createMockUser(updates);
   }
 
   async addChild(accessToken: string, child: Child): Promise<User> {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Mock user with new child
-    const mockUser: User = {
-      id: `user_${Date.now()}`,
-      name: "John Smith",
-      email: "user@example.com",
-      provider: "google",
-      children: [child],
-    };
-
-    return mockUser;
+    return createMockUser({ children: [child] });
   }
 
   async removeChild(accessToken: string, childId: string): Promise<User> {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Mock user with child removed
-    const mockUser: User = {
-      id: `user_${Date.now()}`,
-      name: "John Smith",
-      email: "user@example.com",
-      provider: "google",
-      children: [],
-    };
-
-    return mockUser;
+    return createMockUser({ children: [] });
   }
 
   async updateChild(
@@ -80,47 +45,17 @@ class UserApi {
 
     // Mock updated child
     const updatedChild: Child = {
+      ...mockChildren[0],
       id: childId,
-      name: "Emma Johnson",
-      birthDate: "2015-05-15",
-      school: "Riverside Elementary",
-      grade: "3rd Grade",
       ...updates,
     };
 
-    // Mock user with updated child
-    const mockUser: User = {
-      id: `user_${Date.now()}`,
-      name: "John Smith",
-      email: "user@example.com",
-      provider: "google",
-      children: [updatedChild],
-    };
-
-    return mockUser;
+    return createMockUser({ children: [updatedChild] });
   }
 
   async getChildren(accessToken: string): Promise<Child[]> {
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Mock children data
-    const mockChildren: Child[] = [
-      {
-        id: "child_1",
-        name: "Emma Johnson",
-        birthDate: "2015-05-15",
-        school: "Riverside Elementary",
-        grade: "3rd Grade",
-      },
-      {
-        id: "child_2",
-        name: "Lucas Johnson",
-        birthDate: "2013-08-22",
-        school: "Riverside Elementary",
-        grade: "5th Grade",
-      },
-    ];
 
     return mockChildren;
   }

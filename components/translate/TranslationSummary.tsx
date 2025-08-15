@@ -33,7 +33,7 @@ export default function TranslationSummary({
 
 const styles = StyleSheet.create({
   tabContent: {
-    marginBottom: 4,
+    marginBottom: 40,
     flex: 1,
     backgroundColor: "#fff",
     padding: 16,

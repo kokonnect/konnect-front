@@ -24,24 +24,28 @@ const formatSelectedDate = (dateString: string, currentLanCode: string) => {
   });
 };
 
-const formatDateHistory = (date: Date, currentLanCode: string, t: any) => {
+const formatDateHistory = (
+  date: Date | string,
+  currentLanCode: string,
+  t: any,
+) => {
   const now = new Date();
   const diffInDays = Math.floor(
-    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+    (now.getTime() - new Date(date).getTime()) / (1000 * 60 * 60 * 24),
   );
 
   if (diffInDays === 0) return t("today");
   if (diffInDays === 1) return t("yesterday");
   if (diffInDays < 7) return t("daysAgo", { count: diffInDays });
 
-  return date.toLocaleDateString(currentLanCode, {
+  return new Date(date).toLocaleDateString(currentLanCode, {
     month: "short",
     day: "numeric",
   });
 };
 
-const formatEventDate = (date: Date, currentLanCode: string) => {
-  return date.toLocaleDateString(currentLanCode, {
+const formatEventDate = (date: Date | string, currentLanCode: string) => {
+  return new Date(date).toLocaleDateString(currentLanCode, {
     month: "short",
     day: "numeric",
     year: "numeric",

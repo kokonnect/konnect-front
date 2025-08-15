@@ -8,8 +8,10 @@ export interface Child {
   grade: string;
   // Optional fields for extended child information
   age?: number;
-  className?: string;
+  class?: string; // Standardize to 'class' instead of 'className'
+  className?: string; // Keep for backward compatibility
   teacher?: string;
+  teacherName?: string; // Extended teacher information
 }
 
 export interface User {
@@ -22,9 +24,13 @@ export interface User {
 
 export interface UserProfile {
   name: string;
-  email: string;
-  language: string;
+  email?: string;
+  language?: string;
   avatar?: string;
+  children?: Child[];
+  notificationEnabled?: boolean;
+  saveHistoryDTranslation: boolean; // document translation history
+  saveHistoryMTranslation: boolean; // message translation history
 }
 
 // Redux state types
