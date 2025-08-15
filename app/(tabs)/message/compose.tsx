@@ -56,10 +56,13 @@ const mockStorage = {
   },
 };
 
+const temp =
+  "My son is feeling unwell today and cannot attend school. I want to inform his homeroom teacher.";
+
 export default function ComposeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState(temp);
   const [translatedText, setTranslatedText] = useState("");
   const [isTranslating, setIsTranslating] = useState(false);
   const [showTranslation, setShowTranslation] = useState(false);

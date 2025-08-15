@@ -10,67 +10,16 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 import { formatSelectedDate } from "@/utils/formatDate";
-
-interface ScheduleEvent {
-  id: string;
-  title: string;
-  time?: string;
-  isAllDay?: boolean;
-  childName: string;
-  memo: string;
-}
+import { mockCalendarEvents, CalendarEvent } from "@/mocks";
 
 interface SelectedDateScheduleProps {
   selectedDate: string;
 }
 
-// Mock schedule data
-const mockScheduleData: { [key: string]: ScheduleEvent[] } = {
-  "2025-08-20": [
-    {
-      id: "1",
-      title: "School Field Trip",
-      isAllDay: true,
-      childName: "Emma",
-      memo: "Annual field trip to the Natural History Museum. Pack lunch and wear comfortable shoes.",
-    },
-    {
-      id: "2",
-      title: "Parent-Teacher Conference",
-      time: "3:30 PM",
-      childName: "Emma",
-      memo: "Please prepare questions about Emma's progress in mathematics and science subjects.",
-    },
-    {
-      id: "3",
-      title: "Soccer Practice",
-      time: "6:00 PM",
-      childName: "Emma",
-      memo: "Soccer practice at the main field. Remember to bring water bottle and cleats.",
-    },
-  ],
-  "2025-08-22": [
-    {
-      id: "4",
-      title: "School Holiday",
-      isAllDay: true,
-      childName: "Lucas",
-      memo: "School closed for professional development day. No classes scheduled.",
-    },
-    {
-      id: "5",
-      title: "Science Fair",
-      time: "9:00 AM",
-      childName: "Lucas",
-      memo: "Science fair project presentation. Lucas will demonstrate his volcano experiment.",
-    },
-  ],
-};
-
 // Optimized render function
 const createScheduleRenderItem =
   (router: any, t: any) =>
-  ({ item }: { item: ScheduleEvent }) => (
+  ({ item }: { item: CalendarEvent }) => (
     <TouchableOpacity
       style={styles.scheduleItem}
       onPress={() => router.push(`/calendar/modify?eventId=${item.id}`)}
@@ -87,7 +36,7 @@ const createScheduleRenderItem =
         )}
         <Text style={styles.scheduleChild}>{item.childName}</Text>
       </View>
-      <Text style={styles.scheduleMemo}>{item.memo}</Text>
+      <Text style={styles.scheduleMemo}>{item.description}</Text>
     </TouchableOpacity>
   );
 
@@ -112,7 +61,11 @@ export default function SelectedDateSchedule({
 }: SelectedDateScheduleProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const scheduleEvents = mockScheduleData[selectedDate] || [];
+  const scheduleEvents = mockCalendarEvents.filter(
+    (event) =>
+      new Date(event.date).toDateString() ===
+      new Date(selectedDate).toDateString(),
+  );
 
   // Create render function with current router and t function
   const renderScheduleItem = createScheduleRenderItem(router, t);
