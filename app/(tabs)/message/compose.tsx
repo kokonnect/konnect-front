@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
@@ -15,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import MessageHeader from "@/components/message/MessageHeader";
 import MessageInput from "@/components/message/MessageInput";
 import TranslationOutput from "@/components/message/TranslationOutput";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -103,7 +103,7 @@ export default function ComposeScreen() {
       // Save to history
       await mockStorage.saveTranslation(userInput, translation);
     } catch {
-      Alert.alert("Error", "Failed to translate. Please try again.");
+      showAlert("Error", "Failed to translate. Please try again.");
       setShowTranslation(false);
     } finally {
       setIsTranslating(false);
@@ -123,9 +123,9 @@ export default function ComposeScreen() {
   const handleCopyTranslation = async () => {
     try {
       await Clipboard.setStringAsync(translatedText);
-      Alert.alert("Copied", "Translation copied to clipboard");
+      showAlert("Copied", "Translation copied to clipboard");
     } catch {
-      Alert.alert("Error", "Failed to copy text");
+      showAlert("Error", "Failed to copy text");
     }
   };
 
@@ -133,7 +133,7 @@ export default function ComposeScreen() {
     if (translatedText) {
       // Note: expo-speech would be used here if available
       // Speech.speak(translatedText, { language: 'ko' });
-      Alert.alert("TTS", "Text-to-speech would play the Korean translation");
+      showAlert("TTS", "Text-to-speech would play the Korean translation");
     }
   };
 

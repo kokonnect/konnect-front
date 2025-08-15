@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -18,6 +17,7 @@ import {
   setFirstLaunchComplete,
 } from "@/utils/storage";
 import { getAvailableLanguages, changeLanguage } from "@/locales/i18n";
+import { showAlert } from "@/utils/alert";
 
 import { Language } from "@/types";
 
@@ -54,7 +54,7 @@ export default function OnboardingScreen() {
 
   const handleGetStarted = async () => {
     if (!selectedLanguage) {
-      Alert.alert(
+      showAlert(
         t("onboarding.languageRequired"),
         t("onboarding.languageRequiredMessage"),
         [
@@ -81,7 +81,7 @@ export default function OnboardingScreen() {
       router.replace("/(tabs)");
     } catch (error) {
       console.error("Error completing onboarding:", error);
-      Alert.alert(t("common:error"), t("onboarding.somethingWentWrong"), [
+      showAlert(t("common:error"), t("onboarding.somethingWentWrong"), [
         {
           text: t("common:ok"),
           onPress: () => setIsLoading(false),

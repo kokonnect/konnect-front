@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  Alert,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -16,6 +15,7 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useAuthAndUser } from "@/hooks";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -60,7 +60,7 @@ export default function AddChildScreen() {
 
   const handleAddChild = async () => {
     if (!childName.trim() || !childSchool.trim()) {
-      Alert.alert(t("common:error"), t("addChild.form.fillRequiredFields"));
+      showAlert(t("common:error"), t("addChild.form.fillRequiredFields"));
       return;
     }
 
@@ -85,7 +85,7 @@ export default function AddChildScreen() {
       setIsLoading(false);
 
       // Show success message with options
-      Alert.alert(
+      showAlert(
         addedChildren.length === 0
           ? t("addChild.successTitle")
           : t("addChild.childAddedTitle"),
@@ -106,14 +106,14 @@ export default function AddChildScreen() {
         ],
       );
     } catch (err) {
-      Alert.alert(t("common:error"), t("addChild.failedToAdd"));
+      showAlert(t("common:error"), t("addChild.failedToAdd"));
       setIsLoading(false);
     }
   };
 
   const handleContinueToApp = () => {
     if (addedChildren.length === 0) {
-      Alert.alert(
+      showAlert(
         t("addChild.addChildPrompt"),
         t("addChild.atLeastOneChildRequired"),
       );

@@ -8,7 +8,6 @@ import {
   ScrollView,
   TextInput,
   Image,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -17,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthAndUser } from "@/hooks";
 import { Child as BaseChild, UserProfile as BaseUserProfile } from "@/types";
 import AddChildrenModal from "@/components/profile/AddChildrenModal";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -93,7 +93,7 @@ export default function EditProfileScreen() {
 
   const handleSave = () => {
     // In real app, save to backend/state management
-    Alert.alert(
+    showAlert(
       t("profile:editProfile.successTitle"),
       t("profile:editProfile.successMessage"),
     );
@@ -132,7 +132,7 @@ export default function EditProfileScreen() {
 
   const handleSaveChild = () => {
     if (!childName.trim() || !childSchool.trim()) {
-      Alert.alert(
+      showAlert(
         t("error"),
         t("profile:editProfile.validation.requiredWarning"),
       );
@@ -174,7 +174,7 @@ export default function EditProfileScreen() {
 
   const handleDeleteChild = () => {
     if (editingChild) {
-      Alert.alert(
+      showAlert(
         t("profile:children.removeChild"),
         t("profile:children.confirmRemoveMessage", { name: editingChild.name }),
         [

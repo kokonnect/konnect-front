@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Modal,
-  Alert,
   ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
+import { showAlert } from "@/utils/alert";
 
 import UploadButtons from "@/components/translate/UploadButtons";
 import FileStatus from "@/components/translate/FileStatus";
@@ -116,7 +116,7 @@ export default function TranslateScreen() {
   };
 
   const handlePdfUpload = () => {
-    Alert.alert(
+    showAlert(
       "PDF Upload",
       "PDF upload functionality requires expo-document-picker package",
     );
@@ -132,7 +132,7 @@ export default function TranslateScreen() {
 
   const handleCameraCapture = () => {
     setShowImageModal(false);
-    Alert.alert(
+    showAlert(
       "Camera",
       "Camera functionality requires expo-image-picker package",
     );
@@ -148,7 +148,7 @@ export default function TranslateScreen() {
 
   const handleGallerySelect = () => {
     setShowImageModal(false);
-    Alert.alert(
+    showAlert(
       "Gallery",
       "Gallery functionality requires expo-image-picker package",
     );
@@ -361,7 +361,7 @@ export default function TranslateScreen() {
 
   const handleRecentTranslationPress = (item: any) => {
     // Handle recent translation item press
-    Alert.alert("Translation", `Opening: ${item.title}`);
+    showAlert("Translation", `Opening: ${item.title}`);
   };
 
   const renderTabContent = () => {

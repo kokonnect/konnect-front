@@ -9,7 +9,6 @@ import {
   ScrollView,
   Modal,
   FlatList,
-  Alert,
   Switch,
   Platform,
 } from "react-native";
@@ -19,6 +18,7 @@ import { useTranslation } from "react-i18next";
 
 import Button from "@/components/shared/Button";
 import { Child, NotificationOption, RepeatOption } from "@/types";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -278,7 +278,7 @@ export default function CalendarEventForm({
 
   const handleSave = () => {
     if (!eventTitle.trim() || !selectedChild) {
-      Alert.alert("Error", "Please fill in all required fields");
+      showAlert("Error", "Please fill in all required fields");
       return;
     }
 
@@ -358,7 +358,7 @@ export default function CalendarEventForm({
       if (selectedDate >= startDate) {
         setEndDate(selectedDate);
       } else {
-        Alert.alert("Error", "End date cannot be before start date");
+        showAlert("Error", "End date cannot be before start date");
       }
     }
 
@@ -381,7 +381,7 @@ export default function CalendarEventForm({
       if (newEndDate > startDate) {
         setEndDate(newEndDate);
       } else {
-        Alert.alert("Error", "End time must be after start time");
+        showAlert("Error", "End time must be after start time");
       }
     }
 

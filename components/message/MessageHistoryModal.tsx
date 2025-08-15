@@ -6,13 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
 
 import { formatDateHistory } from "@/utils/formatDate";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -47,9 +47,9 @@ export default function MessageHistoryModal({
   const handleCopyKorean = async () => {
     try {
       await Clipboard.setStringAsync(editedKoreanText);
-      Alert.alert("Copied", "Korean text copied to clipboard");
+      showAlert("Copied", "Korean text copied to clipboard");
     } catch {
-      Alert.alert("Error", "Failed to copy text");
+      showAlert("Error", "Failed to copy text");
     }
   };
 
@@ -57,7 +57,7 @@ export default function MessageHistoryModal({
     if (editedKoreanText) {
       // Note: expo-speech would be used here if available
       // Speech.speak(editedKoreanText, { language: 'ko' });
-      Alert.alert("TTS", "Text-to-speech would play the Korean text");
+      showAlert("TTS", "Text-to-speech would play the Korean text");
     }
   };
 

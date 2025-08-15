@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  Alert,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
@@ -14,6 +13,7 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/hooks";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 const { width } = Dimensions.get("window");
@@ -44,7 +44,7 @@ export default function LoginScreen() {
       // Step 3: Navigate to add-child screen for new users
       router.replace("/add-child");
     } catch (error) {
-      Alert.alert(
+      showAlert(
         t("login.loginError"),
         t("login.loginFailedWith", { provider }),
       );

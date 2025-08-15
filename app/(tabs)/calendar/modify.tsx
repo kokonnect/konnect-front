@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 
 import CalendarEventForm, { EventData } from "@/components/shared/CalendarEventForm";
 import { Child, NotificationOption, RepeatOption } from "@/types";
+import { showAlert } from "@/utils/alert";
 
 const mockChildren: Child[] = [
   { id: "1", name: "Emma", birthDate: "2015-03-15", school: "Sunshine Elementary", grade: "3rd Grade" },
@@ -65,7 +65,7 @@ export default function ModifyCalendarScreen() {
   }, []);
 
   const handleSave = (_data: EventData) => {
-    Alert.alert("Success", "Event updated successfully!", [
+    showAlert("Success", "Event updated successfully!", [
       {
         text: "OK",
         onPress: () => router.back(),
@@ -74,7 +74,7 @@ export default function ModifyCalendarScreen() {
   };
 
   const handleDelete = () => {
-    Alert.alert(
+    showAlert(
       "Delete Event",
       "Are you sure you want to delete this event? This action cannot be undone.",
       [
@@ -86,7 +86,7 @@ export default function ModifyCalendarScreen() {
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            Alert.alert("Success", "Event deleted successfully!", [
+            showAlert("Success", "Event deleted successfully!", [
               {
                 text: "OK",
                 onPress: () => router.back(),
