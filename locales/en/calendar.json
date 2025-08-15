@@ -68,7 +68,7 @@
   "eventList": {
     "upcoming": "Upcoming Events",
     "past": "Past Events",
-    "noEvents": "No events"
+    "noEventsDescription": "No events scheduled for this month"
   },
   "weekDays": {
     "monday": "Monday",

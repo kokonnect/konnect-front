@@ -13,13 +13,11 @@ export default function TranslationSummary({
 }: TranslationSummaryProps) {
   if (isLoading) {
     return (
-      <View style={styles.tabContent}>
-        <View style={styles.skeletonContainer}>
-          <SkeletonLoader height={16} width="100%" marginBottom={12} />
-          <SkeletonLoader height={16} width="90%" marginBottom={12} />
-          <SkeletonLoader height={16} width="95%" marginBottom={12} />
-          <SkeletonLoader height={16} width="85%" marginBottom={0} />
-        </View>
+      <View style={styles.skeletonContainer}>
+        <SkeletonLoader height={16} width="100%" marginBottom={12} />
+        <SkeletonLoader height={16} width="90%" marginBottom={12} />
+        <SkeletonLoader height={16} width="95%" marginBottom={12} />
+        <SkeletonLoader height={16} width="85%" marginBottom={0} />
       </View>
     );
   }
@@ -55,6 +53,7 @@ const styles = StyleSheet.create({
   skeletonContainer: {
     backgroundColor: "#fff",
     padding: 16,
+    marginBottom: 40,
     borderRadius: 12,
     shadowColor: "#000",
     shadowOffset: {
