@@ -16,6 +16,7 @@ import UpcomingEvents from "@/components/shared/UpcomingEvents";
 import SelectedDateSchedule from "@/components/calendar/SelectedDateSchedule";
 import MonthYearPicker from "@/components/calendar/MonthYearPicker";
 import { formatMonthYear } from "@/utils/formatDate";
+import { mockCalendarEvents } from "@/mocks/calendar";
 
 const primaryColor = "#00B493";
 
@@ -71,31 +72,6 @@ const setLocaleConfig = (currLanguage: string, t: any) => {
   };
   LocaleConfig.defaultLocale = currLanguage;
 };
-// Mock data for events on specific dates
-const eventsData = {
-  "2025-08-20": {
-    customStyles: {
-      container: {
-        textAlign: "center",
-        borderColor: primaryColor,
-        borderWidth: 1,
-        borderRadius: 24,
-        justifyContent: "center",
-      },
-    },
-  },
-  "2025-08-22": {
-    customStyles: {
-      container: {
-        textAlign: "center",
-        borderColor: primaryColor,
-        borderWidth: 1,
-        borderRadius: 24,
-        justifyContent: "center",
-      },
-    },
-  },
-};
 
 export default function CalendarScreen() {
   const router = useRouter();
@@ -119,14 +95,32 @@ export default function CalendarScreen() {
 
   // Combine events data with selected date
   const getMarkedDates = () => {
-    const marked = { ...eventsData };
+    const marked: any = {};
+
+    // Mark all event dates
+    mockCalendarEvents.forEach((event) => {
+      const dateStr = new Date(event.date).toISOString().split("T")[0];
+      marked[dateStr] = {
+        customStyles: {
+          container: {
+            borderColor: primaryColor,
+            borderWidth: 1,
+            borderRadius: 16,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        },
+      };
+    });
 
     // Add selected date styling
     if (selected) {
       marked[selected] = {
         ...marked[selected],
         customStyles: {
-          ...(marked[selected]?.customStyles || {}),
+          container: {
+            ...(marked[selected]?.customStyles?.container || {}),
+          },
           text: {
             color: "#fff",
             width: 24,
@@ -193,6 +187,7 @@ export default function CalendarScreen() {
             </View>
           )}
           enableSwipeMonths={true}
+          hideExtraDays={true}
           hideArrows={true}
           markingType={"custom"}
           theme={{
@@ -214,7 +209,16 @@ export default function CalendarScreen() {
         {selected ? (
           <SelectedDateSchedule selectedDate={selected} />
         ) : (
-          <UpcomingEvents showViewAll={false} currentMonth={currentMonth} />
+          <UpcomingEvents
+            showViewAll={false}
+            currentMonth={currentMonth}
+            events={mockCalendarEvents.filter((event) => {
+              const eventMonth = new Date(event.date)
+                .toISOString()
+                .substring(0, 7);
+              return eventMonth === currentMonth;
+            })}
+          />
         )}
       </ScrollView>
       <MonthYearPicker

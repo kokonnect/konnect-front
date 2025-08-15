@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import Button from "@/components/shared/Button";
 import { Child, NotificationOption, RepeatOption } from "@/types";
 import { showAlert } from "@/utils/alert";
+import { mockChildren } from "@/mocks/user";
 
 const primaryColor = "#00B493";
 
@@ -41,36 +42,6 @@ interface CalendarEventFormProps {
   onCancel: () => void;
 }
 
-const mockChildren: Child[] = [
-  {
-    id: "1",
-    name: "Emma",
-    birthDate: "2015-03-15",
-    school: "Sunshine Elementary",
-    grade: "3rd Grade",
-  },
-  {
-    id: "2",
-    name: "Lucas",
-    birthDate: "2013-07-22",
-    school: "Riverside Elementary",
-    grade: "5th Grade",
-  },
-  {
-    id: "3",
-    name: "Sophia",
-    birthDate: "2016-11-08",
-    school: "Oak Tree Elementary",
-    grade: "2nd Grade",
-  },
-  {
-    id: "4",
-    name: "Oliver",
-    birthDate: "2014-09-12",
-    school: "Pine Valley Elementary",
-    grade: "4th Grade",
-  },
-];
 
 const notificationOptions: NotificationOption[] = [
   { id: "1", label: "none", value: 0 },

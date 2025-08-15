@@ -11,20 +11,14 @@ import { useTranslation } from "react-i18next";
 
 import SkeletonLoader from "./SkeletonLoader";
 import { formatDateHistory } from "@/utils/formatDate";
+import { TranslationResult } from "@/types";
 
 const primaryColor = "#00B493";
 
-interface RecentTranslationItem {
-  id: string;
-  title: string;
-  date: Date;
-  summary: string;
-}
-
 interface RecentTranslationsProps {
-  translations: RecentTranslationItem[];
+  translations: TranslationResult[];
   isLoading?: boolean;
-  onItemPress?: (item: RecentTranslationItem) => void;
+  onItemPress?: (item: TranslationResult) => void;
 }
 
 export default function RecentTranslations({
@@ -56,7 +50,7 @@ export default function RecentTranslations({
     </View>
   );
 
-  const renderTranslationItem = ({ item }: { item: RecentTranslationItem }) => (
+  const renderTranslationItem = ({ item }: { item: TranslationResult }) => (
     <TouchableOpacity
       style={styles.translationItem}
       onPress={() => onItemPress?.(item)}
@@ -67,10 +61,10 @@ export default function RecentTranslations({
           {item.title}
         </Text>
         <Text style={styles.itemDate}>
-          {formatDateHistory(item.date, i18n.language, t)}
+          {formatDateHistory(item.datetime, i18n.language, t)}
         </Text>
         <Text style={styles.itemSummary} numberOfLines={2} ellipsizeMode="tail">
-          {truncateText(item.summary)}
+          {truncateText(item.summary || "")}
         </Text>
       </View>
     </TouchableOpacity>

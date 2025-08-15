@@ -6,36 +6,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import * as Clipboard from "expo-clipboard";
 
 import { formatDateHistory, formatEventDate } from "@/utils/formatDate";
+import { TranslationResult, TranslationEvent } from "@/types";
 
 const primaryColor = "#00B493";
 
-interface DocumentHistoryItem {
-  id: string;
-  title: string;
-  documentType: "pdf" | "image";
-  originalText: string;
-  translatedText: string;
-  summary: string;
-  events: {
-    id: string;
-    title: string;
-    date: Date;
-    description: string;
-  }[];
-  date: Date;
-  fileSize?: string;
-}
-
 interface TranslationHistoryModalProps {
   visible: boolean;
-  selectedItem: DocumentHistoryItem | null;
+  selectedItem: TranslationResult | null;
   onClose: () => void;
 }
 
@@ -50,7 +32,7 @@ export default function TranslationHistoryModal({
     return type === "pdf" ? "file-pdf-box" : "image";
   };
 
-  const renderEventItem = (event: any) => (
+  const renderEventItem = (event: TranslationEvent) => (
     <View key={event.id} style={styles.eventItem}>
       <View style={styles.eventHeader}>
         <Text style={styles.eventTitle}>{event.title}</Text>
@@ -69,22 +51,20 @@ export default function TranslationHistoryModal({
       animationType="fade"
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.modalOverlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
-        <View
-          style={styles.modalContent}
-          onStartShouldSetResponder={() => true}
-        >
+      <View style={styles.modalOverlay}>
+        <TouchableOpacity
+          style={styles.overlayBackground}
+          activeOpacity={1}
+          onPress={onClose}
+        />
+        <View style={styles.modalContent}>
           <View style={styles.modalHeader}>
             <View style={styles.modalHeaderText}>
               <View style={styles.modalTitleContainer}>
                 <MaterialCommunityIcons
                   name={
                     selectedItem
-                      ? getDocumentIcon(selectedItem.documentType)
+                      ? getDocumentIcon(selectedItem.fileType)
                       : "file"
                   }
                   size={20}
@@ -95,8 +75,7 @@ export default function TranslationHistoryModal({
               </View>
               <Text style={styles.modalDate}>
                 {selectedItem &&
-                  formatDateHistory(selectedItem.date, i18n.language, t)}{" "}
-                • {selectedItem?.fileSize}
+                  formatDateHistory(selectedItem.datetime, i18n.language, t)}
               </Text>
             </View>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
@@ -114,7 +93,7 @@ export default function TranslationHistoryModal({
               </Text>
               <View style={styles.textContainer}>
                 <Text style={styles.translatedText}>
-                  {selectedItem?.translatedText}
+                  {selectedItem?.fullText}
                 </Text>
               </View>
 
@@ -140,7 +119,7 @@ export default function TranslationHistoryModal({
             </View>
           </ScrollView>
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 }
@@ -148,9 +127,16 @@ export default function TranslationHistoryModal({
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  overlayBackground: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
     backgroundColor: "#fff",
@@ -159,6 +145,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     maxHeight: "80%",
     padding: 20,
+    zIndex: 1,
   },
   modalScrollView: {
     flexShrink: 1,

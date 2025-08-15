@@ -8,28 +8,13 @@ import { useTranslation } from "react-i18next";
 const primaryColor = "#00B493";
 
 export default function WelcomeBanner() {
-  const { user, isAuthenticated, logout } = useAuthAndUser();
+  const { user, isAuthenticated } = useAuthAndUser();
   const router = useRouter();
   const { t } = useTranslation("common");
 
   const handleLogin = () => {
     router.push("/login");
   };
-
-  // Note: handleLogout is available if needed for future logout functionality
-  // const handleLogout = () => {
-  //   Alert.alert(t('logoutConfirmTitle'), t('logoutConfirmMessage'), [
-  //     {
-  //       text: t('cancel'),
-  //       style: "cancel",
-  //     },
-  //     {
-  //       text: t('logout'),
-  //       onPress: logout,
-  //       style: "destructive",
-  //     },
-  //   ]);
-  // };
 
   if (isAuthenticated && user) {
     return (

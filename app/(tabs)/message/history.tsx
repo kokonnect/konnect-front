@@ -14,50 +14,8 @@ import { useTranslation } from "react-i18next";
 import { formatDateHistory } from "@/utils/formatDate";
 import MessageHistoryModal from "@/components/message/MessageHistoryModal";
 import SkeletonLoader from "@/components/translate/SkeletonLoader";
-
-const primaryColor = "#00B493";
-
-interface HistoryItem {
-  id: string;
-  title: string; // AI-generated title
-  original: string;
-  translated: string;
-  date: Date;
-}
-
-// Mock data for history with AI-generated titles
-const mockHistoryData: HistoryItem[] = [
-  {
-    id: "1",
-    title: "Absence Notification",
-    original: "Hello, my child will be absent today due to illness.",
-    translated: "안녕하세요, 오늘 저희 아이가 아파서 결석할 예정입니다.",
-    date: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-  },
-  {
-    id: "2",
-    title: "Meeting Request",
-    original: "Can we schedule a meeting to discuss my child's progress?",
-    translated: "제 아이의 학습 진행 상황에 대해 상담을 예약할 수 있을까요?",
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-  },
-  {
-    id: "3",
-    title: "Thank You Message",
-    original: "Thank you for your support with Emma's learning.",
-    translated: "Emma의 학습에 대한 선생님의 지원에 감사드립니다.",
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), // 2 days ago
-  },
-  {
-    id: "4",
-    title: "Late Arrival Notice",
-    original:
-      "Please excuse Lucas for being late today. We had a doctor's appointment.",
-    translated:
-      "오늘 Lucas가 병원 예약으로 인해 늦었습니다. 양해 부탁드립니다.",
-    date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
-  },
-];
+import { mockMessageHistory } from "@/mocks/message";
+import { MessageHistoryItem } from "@/components/message/types";
 
 // Skeleton component for loading state
 const renderSkeletonItem = ({ index }: { index: number }) => (
@@ -85,8 +43,10 @@ const renderSkeletonItem = ({ index }: { index: number }) => (
 
 export default function HistoryScreen() {
   const router = useRouter();
-  const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null);
+  const [history, setHistory] = useState<MessageHistoryItem[]>([]);
+  const [selectedItem, setSelectedItem] = useState<MessageHistoryItem | null>(
+    null,
+  );
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { t, i18n } = useTranslation();
@@ -99,17 +59,17 @@ export default function HistoryScreen() {
   const loadHistory = async () => {
     // Mock loading delay
     setTimeout(() => {
-      setHistory(mockHistoryData);
+      setHistory(mockMessageHistory);
       setIsLoading(false);
     }, 1500);
   };
 
-  const handleItemPress = (item: HistoryItem) => {
+  const handleItemPress = (item: MessageHistoryItem) => {
     setSelectedItem(item);
     setShowModal(true);
   };
 
-  const renderHistoryItem = ({ item }: { item: HistoryItem }) => (
+  const renderHistoryItem = ({ item }: { item: MessageHistoryItem }) => (
     <TouchableOpacity
       style={styles.historyCard}
       onPress={() => handleItemPress(item)}

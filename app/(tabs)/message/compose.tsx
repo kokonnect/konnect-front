@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  ActivityIndicator,
-} from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
 import { useTranslation } from "react-i18next";
@@ -15,6 +8,7 @@ import MessageHeader from "@/components/message/MessageHeader";
 import MessageInput from "@/components/message/MessageInput";
 import TranslationOutput from "@/components/message/TranslationOutput";
 import { showAlert } from "@/utils/alert";
+import { mockMessageTranslations } from "@/mocks";
 
 const primaryColor = "#00B493";
 
@@ -23,19 +17,11 @@ const mockTranslate = async (text: string): Promise<string> => {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  // Mock Korean translation
-  const mockTranslations: { [key: string]: string } = {
-    hello: "안녕하세요",
-    "thank you": "감사합니다",
-    "my child will be absent today": "오늘 저희 아이가 결석할 예정입니다",
-    "can we schedule a meeting": "미팅 일정을 잡을 수 있을까요",
-  };
-
   // Simple mock translation logic
-  const lowerText = text.toLowerCase();
-  for (const [eng, kor] of Object.entries(mockTranslations)) {
-    if (lowerText.includes(eng)) {
-      return text.toLowerCase().replace(eng, kor);
+  // const lowerText = text.toLowerCase();
+  for (const [eng, kor] of Object.entries(mockMessageTranslations)) {
+    if (text.includes(eng)) {
+      return kor;
     }
   }
 

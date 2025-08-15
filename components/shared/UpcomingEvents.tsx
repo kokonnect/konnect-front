@@ -10,77 +10,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { formatMonthShortDate } from "@/utils/formatDate";
-
-interface Event {
-  id: string;
-  title: string;
-  date: Date;
-  time: string;
-  childName: string;
-}
+import { CalendarEvent } from "@/types/calendar";
 
 interface UpcomingEventsProps {
+  isMain?: boolean;
   showViewAll?: boolean;
-  events?: Event[];
+  events: CalendarEvent[];
   currentMonth?: string; // Format: "YYYY-MM"
 }
 
-const mockEvents: Event[] = [
-  {
-    id: "1",
-    title: "Parent-Teacher Conference",
-    date: new Date("2025-08-20"),
-    time: "3:30 PM",
-    childName: "Emma",
-  },
-  {
-    id: "2",
-    title: "Science Fair",
-    date: new Date("2025-08-22"),
-    time: "9:00 AM",
-    childName: "Lucas",
-  },
-  {
-    id: "3",
-    title: "Soccer Practice",
-    date: new Date("2025-08-20"),
-    time: "6:00 PM",
-    childName: "Emma",
-  },
-  {
-    id: "4",
-    title: "Math Competition",
-    date: new Date("2025-09-05"),
-    time: "10:00 AM",
-    childName: "Lucas",
-  },
-  {
-    id: "5",
-    title: "School Field Trip",
-    date: new Date("2025-09-15"),
-    time: "8:00 AM",
-    childName: "Emma",
-  },
-  {
-    id: "6",
-    title: "Piano Recital",
-    date: new Date("2025-10-10"),
-    time: "7:00 PM",
-    childName: "Lucas",
-  },
-];
-
 const createEventItemRenderer =
-  (filteredEvents: Event[], formatDate: (date: Date, lang: string) => string, language: string) =>
-  ({ item, index }: { item: Event; index: number }) => (
-    <TouchableOpacity
-      style={[
-        styles.eventItem,
-        index === filteredEvents.slice(0, 3).length - 1 && styles.lastItem,
-      ]}
+  (
+    events: CalendarEvent[],
+    formatDate: (date: Date, lang: string) => string,
+    language: string,
+  ) =>
+  ({ item, index }: { item: CalendarEvent; index: number }) => (
+    <View
+      style={[styles.eventItem, index === events.length - 1 && styles.lastItem]}
     >
       <View style={styles.dateContainer}>
-        <Text style={styles.dateText}>{formatDate(item.date, language)}</Text>
+        <Text style={styles.dateText}>
+          {formatDate(item.date as Date, language)}
+        </Text>
       </View>
       <View style={styles.eventDetails}>
         <Text style={styles.eventTitle}>{item.title}</Text>
@@ -90,34 +42,18 @@ const createEventItemRenderer =
           <Text style={styles.childName}>{item.childName}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
 export default function UpcomingEvents({
   showViewAll = true,
   events,
-  currentMonth,
 }: UpcomingEventsProps) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
-  // Filter events for the current month if provided
-  const getFilteredEvents = () => {
-    const eventsToUse = events || mockEvents;
-
-    if (currentMonth) {
-      return eventsToUse.filter((event) => {
-        const eventMonth = event.date.toISOString().substring(0, 7);
-        return eventMonth === currentMonth;
-      });
-    }
-
-    return eventsToUse;
-  };
-
-  const filteredEvents = getFilteredEvents();
   const renderEventItem = createEventItemRenderer(
-    filteredEvents,
+    events,
     formatMonthShortDate,
     i18n.language,
   );
@@ -142,7 +78,7 @@ export default function UpcomingEvents({
       </View>
 
       <View style={styles.eventsList}>
-        {filteredEvents.length === 0 ? (
+        {events.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
               {t("calendar:eventList.noEventsDescription")}
@@ -150,7 +86,7 @@ export default function UpcomingEvents({
           </View>
         ) : (
           <FlatList
-            data={filteredEvents.slice(0, 3)}
+            data={events}
             keyExtractor={(item) => item.id}
             scrollEnabled={false}
             renderItem={renderEventItem}

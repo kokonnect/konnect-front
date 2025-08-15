@@ -6,12 +6,7 @@ interface AlertButton {
   style?: 'default' | 'cancel' | 'destructive';
 }
 
-interface ShowAlertOptions {
-  title: string;
-  message?: string;
-  buttons?: AlertButton[];
-  options?: any;
-}
+// Removed unused interface
 
 export const showAlert = (
   title: string,
