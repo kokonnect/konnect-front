@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Modal, Alert } from "react-native";
+import { View, StyleSheet, Modal } from "react-native";
 import CalendarEventForm, { EventData } from "@/components/shared/CalendarEventForm";
 import { TranslationEvent } from "./types";
 import { Child, NotificationOption, RepeatOption } from "@/types";
+import { showAlert } from "@/utils/alert";
 
 const mockChildren: Child[] = [
   { id: "1", name: "Emma", birthDate: "2015-03-15", school: "Sunshine Elementary", grade: "3rd Grade" },
@@ -80,7 +81,7 @@ export default function CalendarModal({
   }, [eventData, visible]);
 
   const handleSave = (_data: EventData) => {
-    Alert.alert("Success", "Event added to calendar successfully!", [
+    showAlert("Success", "Event added to calendar successfully!", [
       {
         text: "OK",
         onPress: () => {

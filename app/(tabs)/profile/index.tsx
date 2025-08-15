@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   Image,
   FlatList,
-  Alert,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -20,6 +19,7 @@ import { useAuthAndUser } from "@/hooks";
 import { Child, User } from "@/types";
 import UserProfileCard from "@/components/profile/UserProfileCard";
 import ChildrenSection from "@/components/profile/ChildrenSection";
+import { showAlert } from "@/utils/alert";
 
 const mockChildren: Child[] = [
   {
@@ -51,7 +51,7 @@ export default function ProfileScreen() {
 
   const LogoutSection = () => {
     const handleLogout = () => {
-      Alert.alert(t("logoutConfirmTitle"), t("logoutConfirmMessage"), [
+      showAlert(t("logoutConfirmTitle"), t("logoutConfirmMessage"), [
         {
           text: t("cancel"),
           style: "cancel",
