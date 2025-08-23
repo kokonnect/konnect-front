@@ -52,6 +52,14 @@ export const refreshTokenAsync = createAsyncThunk(
   },
 );
 
+export const getGuestTokenAsync = createAsyncThunk(
+  "auth/getGuestToken",
+  async (language: string = "ENGLISH") => {
+    const response = await authApi.getGuestToken(language);
+    return response;
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -134,6 +142,22 @@ const authSlice = createSlice({
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
+      })
+      // Guest Token
+      .addCase(getGuestTokenAsync.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getGuestTokenAsync.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken || null;
+        state.isAuthenticated = false; // Guest is not authenticated user
+        state.error = null;
+      })
+      .addCase(getGuestTokenAsync.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Guest token failed";
       });
   },
 });
