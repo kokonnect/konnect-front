@@ -5,6 +5,7 @@ import {
   TargetLanguage,
 } from "@/types/translate";
 
+// [문서번역] - api, 백엔드에 맞도록 수정하세요.
 class TranslateApi {
   private baseUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -130,11 +131,12 @@ class TranslateApi {
     const languageNames = {
       [TargetLanguage.ENGLISH]: "English",
       [TargetLanguage.KOREAN]: "한국어",
-      [TargetLanguage.SPANISH]: "Español",
-      [TargetLanguage.FRENCH]: "Français",
-      [TargetLanguage.GERMAN]: "Deutsch",
-      [TargetLanguage.JAPANESE]: "日本語",
       [TargetLanguage.CHINESE]: "中文",
+      [TargetLanguage.THAI]: "ไทย",
+      [TargetLanguage.VIETNAMESE]: "Tiếng Việt",
+      [TargetLanguage.JAPANESE]: "日本語",
+      [TargetLanguage.KHMER]: "ខ្មែរ",
+      [TargetLanguage.FILIPINO]: "Filipino",
     };
     return languageNames[language] || language;
   }
