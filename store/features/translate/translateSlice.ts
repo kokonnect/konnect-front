@@ -13,16 +13,12 @@ import { translateApi } from "@/services/translateApi";
  */
 export const translateFileThunk = createAsyncThunk(
   "translate/translateFile",
-  async (request: FileTranslationRequest, { rejectWithValue }) => {
+  async (request: FileTranslationRequest, { getState, rejectWithValue }) => {
     try {
-      // For development, use mock translation
-      // [문서번역] 여기서 실제 api로 수정하세요.
-      const isDevelopment = process.env.NODE_ENV === "development";
-      if (isDevelopment) {
-        return await translateApi.createMockTranslation(request);
-      } else {
-        return await translateApi.translateFile(request);
-      }
+      const state = getState() as { auth: any };
+      const accessToken = state.auth.accessToken;
+
+      return await translateApi.translateFile(request, accessToken);
     } catch (error) {
       return rejectWithValue(
         error instanceof Error ? error.message : "Translation failed",
