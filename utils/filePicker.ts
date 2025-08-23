@@ -57,15 +57,40 @@ export const pickImageFromGallery =
         // Create File object from the selected image
         const response = await fetch(asset.uri);
         const blob = await response.blob();
-        const file = new File([blob], asset.fileName || "selected_image.jpg", {
-          type: asset.type || "image/jpeg",
+        
+        // Get proper MIME type
+        const fileName = asset.fileName || "selected_image.jpg";
+        let mimeType = blob.type || "image/jpeg"; // Use blob.type first
+        
+        // Fallback to extension-based detection if blob.type is generic
+        if (!mimeType || mimeType === "image" || mimeType === "application/octet-stream") {
+          const extension = fileName.split('.').pop()?.toLowerCase();
+          switch (extension) {
+            case 'png':
+              mimeType = "image/png";
+              break;
+            case 'gif':
+              mimeType = "image/gif";
+              break;
+            case 'webp':
+              mimeType = "image/webp";
+              break;
+            case 'jpg':
+            case 'jpeg':
+            default:
+              mimeType = "image/jpeg";
+              break;
+          }
+        }
+        
+        const file = new File([blob], fileName, {
+          type: mimeType,
         });
 
         return {
           file,
           fileType: FileType.IMAGE,
           targetLanguage: getTargetLanguageFromI18n(),
-          useSimpleLanguage: true,
         };
       }
     } catch (error) {
@@ -106,15 +131,40 @@ export const pickImageFromCamera =
         // Create File object from the camera image
         const response = await fetch(asset.uri);
         const blob = await response.blob();
-        const file = new File([blob], asset.fileName || "camera_capture.jpg", {
-          type: asset.type || "image/jpeg",
+        
+        // Get proper MIME type
+        const fileName = asset.fileName || "camera_capture.jpg";
+        let mimeType = blob.type || "image/jpeg"; // Use blob.type first
+        
+        // Fallback to extension-based detection if blob.type is generic
+        if (!mimeType || mimeType === "image" || mimeType === "application/octet-stream") {
+          const extension = fileName.split('.').pop()?.toLowerCase();
+          switch (extension) {
+            case 'png':
+              mimeType = "image/png";
+              break;
+            case 'gif':
+              mimeType = "image/gif";
+              break;
+            case 'webp':
+              mimeType = "image/webp";
+              break;
+            case 'jpg':
+            case 'jpeg':
+            default:
+              mimeType = "image/jpeg";
+              break;
+          }
+        }
+        
+        const file = new File([blob], fileName, {
+          type: mimeType,
         });
 
         return {
           file,
           fileType: FileType.IMAGE,
           targetLanguage: getTargetLanguageFromI18n(),
-          useSimpleLanguage: true,
         };
       }
     } catch (error) {
@@ -149,7 +199,6 @@ export const pickPDF = async (): Promise<FileTranslationRequest | null> => {
         file,
         fileType: FileType.PDF,
         targetLanguage: getTargetLanguageFromI18n(),
-        useSimpleLanguage: true,
       };
     }
   } catch (error) {
