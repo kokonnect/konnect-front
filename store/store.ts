@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
 import userReducer from "./features/user/userSlice";
+import translateReducer from "./features/translate/translateSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     user: userReducer,
+    translate: translateReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -15,6 +17,12 @@ export const store = configureStore({
           "user/addChild/fulfilled",
           "user/updateUser/fulfilled",
           "user/fetchUser/fulfilled",
+          "translate/translateFile/fulfilled",
+          "translate/retranslateFile/fulfilled",
+        ],
+        ignoredPaths: [
+          "translate.currentSession.createdAt",
+          "translate.currentSession.request.file",
         ],
       },
     }),

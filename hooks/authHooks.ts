@@ -13,8 +13,8 @@ import {
   clearError,
   setTokens,
   clearTokens,
-} from "./authSlice";
-import { setUser, clearUser } from "../user/userSlice";
+} from "@/store/features/auth/authSlice";
+import { setUser, clearUser } from "@/store/features/user/userSlice";
 
 export function useAppAuth() {
   const dispatch = useDispatch<AppDispatch>();
