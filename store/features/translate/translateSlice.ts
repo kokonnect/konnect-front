@@ -5,6 +5,7 @@ import {
   TargetLanguage,
 } from "@/types/translate";
 import { translateApi } from "@/services/translateApi";
+import { getGuestTokenAsync } from "@/store/features/auth/authSlice";
 
 // AsyncThunks
 
@@ -13,10 +14,16 @@ import { translateApi } from "@/services/translateApi";
  */
 export const translateFileThunk = createAsyncThunk(
   "translate/translateFile",
-  async (request: FileTranslationRequest, { getState, rejectWithValue }) => {
+  async (request: FileTranslationRequest, { dispatch, getState, rejectWithValue }) => {
     try {
       const state = getState() as { auth: any };
-      const accessToken = state.auth.accessToken;
+      let accessToken = state.auth.accessToken;
+
+      // If no access token, get guest token
+      if (!accessToken) {
+        const guestTokenResponse = await dispatch(getGuestTokenAsync("ENGLISH")).unwrap();
+        accessToken = guestTokenResponse.accessToken;
+      }
 
       return await translateApi.translateFile(request, accessToken);
     } catch (error) {
