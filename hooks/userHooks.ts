@@ -15,8 +15,8 @@ import {
   setUser,
   clearUser,
   clearError,
-} from "./userSlice";
-import { selectAccessToken } from "../auth/authSlice";
+} from "@/store/features/user/userSlice";
+import { selectAccessToken } from "@/store/features/auth/authSlice";
 import { Child, User } from "@/types";
 
 export function useUser() {

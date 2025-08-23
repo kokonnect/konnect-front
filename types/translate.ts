@@ -1,5 +1,49 @@
 // Translation and Document processing related types
 
+// Enums to match backend
+export enum FileType {
+  IMAGE = "IMAGE",
+  PDF = "PDF",
+}
+
+export enum TargetLanguage {
+  ENGLISH = "ENGLISH",
+  KOREAN = "KOREAN",
+  SPANISH = "SPANISH",
+  FRENCH = "FRENCH",
+  GERMAN = "GERMAN",
+  JAPANESE = "JAPANESE",
+  CHINESE = "CHINESE",
+}
+
+// Backend Request Model
+export interface FileTranslationRequest {
+  file: File | FormData;
+  fileType: FileType;
+  targetLanguage: TargetLanguage;
+  useSimpleLanguage?: boolean;
+  sourceLanguageHint?: string;
+}
+
+// Backend Response Model
+export interface FileTranslationResponse {
+  extractedText: string;
+  translatedText: string;
+  summary: string;
+  originalFileName: string;
+  fileType: FileType;
+  targetLanguage: TargetLanguage;
+  targetLanguageName: string;
+  usedSimpleLanguage: boolean;
+  fileSize: number;
+  originalTextLength: number;
+  translatedTextLength: number;
+  totalProcessingTimeMs: number;
+  pageCount: number;
+  sourceLanguageHint?: string;
+}
+
+// Legacy interface (keep for backward compatibility)
 export interface TranslationResult {
   id: string;
   title?: string;

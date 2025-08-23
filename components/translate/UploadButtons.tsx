@@ -24,8 +24,8 @@ export default function UploadButtons({
   const [showImageModal, setShowImageModal] = useState(false);
 
   // redux store에 저장해야 함.
-  const [image, setImage] = useState<string | null>(null);
-  const [pdf, setPdf] = useState<string | null>(null);
+  // const [image, setImage] = useState<string | null>(null);
+  // const [pdf, setPdf] = useState<string | null>(null);
 
   const pickImageGallery = async () => {
     const mediaLibraryPermission =
@@ -45,7 +45,8 @@ export default function UploadButtons({
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      // setImage(result.assets[0].uri);
+      console.log("Image selected:", result.assets[0].uri);
     }
   };
 
@@ -67,7 +68,8 @@ export default function UploadButtons({
       console.log(result);
 
       if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        // setImage(result.assets[0].uri);
+        console.log("Camera image:", result.assets[0].uri);
       }
     } catch (e) {
       console.log(e);
@@ -87,22 +89,26 @@ export default function UploadButtons({
     console.log(result);
 
     if (!result.canceled) {
-      setPdf(result.assets[0].uri);
+      // setPdf(result.assets[0].uri);
+      console.log("PDF selected:", result.assets[0].uri);
     }
   };
 
   const handleCameraCapture = () => {
     console.log("handleCameraCapture");
     pickCamera();
+    onCameraCapture();
   };
 
   const handleGallerySelect = () => {
     console.log("handleGallerySelect");
     pickImageGallery();
+    onGallerySelect();
   };
 
   const handlePDFUpload = () => {
     pickPDF();
+    onPdfUpload();
   };
 
   return (
