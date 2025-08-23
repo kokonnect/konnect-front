@@ -3,20 +3,16 @@ import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 
-import { UploadedFile } from "./types";
-
 const primaryColor = "#00B493";
 
 interface FileStatusProps {
-  uploadedFile: UploadedFile | null;
+  uploadedFile: File | undefined;
   isTranslating: boolean;
-  onRemoveFile?: () => void;
 }
 
 export default function FileStatus({
   uploadedFile,
   isTranslating,
-  onRemoveFile,
 }: FileStatusProps) {
   const { t } = useTranslation();
   if (!uploadedFile && !isTranslating) return null;
