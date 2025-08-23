@@ -9,11 +9,12 @@ export enum FileType {
 export enum TargetLanguage {
   ENGLISH = "ENGLISH",
   KOREAN = "KOREAN",
-  SPANISH = "SPANISH",
-  FRENCH = "FRENCH",
-  GERMAN = "GERMAN",
-  JAPANESE = "JAPANESE",
+  VIETNAMESE = "VIETNAMESE",
   CHINESE = "CHINESE",
+  THAI = "THAI",
+  JAPANESE = "JAPANESE",
+  FILIPINO = "FILIPINO",
+  KHMER = "KHMER",
 }
 
 // Backend Request Model

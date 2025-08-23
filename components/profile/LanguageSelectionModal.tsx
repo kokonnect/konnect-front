@@ -15,9 +15,9 @@ import {
   getAvailableLanguages,
 } from "@/locales/i18n";
 
-const primaryColor = "#00B493";
-
 import { Language } from "@/types";
+
+const primaryColor = "#00B493";
 
 interface LanguageSelectionModalProps {
   visible: boolean;

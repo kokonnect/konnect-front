@@ -11,8 +11,7 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 import { formatDateHistory } from "@/utils/formatDate";
-import { TranslationResult } from "@/mocks";
-import { mockTranslationHistory } from "@/mocks";
+import { TranslationResult , mockTranslationHistory } from "@/mocks";
 
 export default function RecentTranslation() {
   const router = useRouter();
