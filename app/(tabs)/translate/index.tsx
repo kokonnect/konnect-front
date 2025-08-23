@@ -6,11 +6,18 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Modal,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { showAlert } from "@/utils/alert";
+import { useFileTranslation } from "@/hooks";
+import {
+  pickImageFromGallery,
+  pickImageFromCamera,
+  pickPDF,
+} from "@/utils/filePicker";
 
 import UploadButtons from "@/components/translate/UploadButtons";
 import FileStatus from "@/components/translate/FileStatus";
@@ -24,26 +31,29 @@ import CalendarModal from "@/components/translate/CalendarModal";
 import RecentTranslations from "@/components/translate/RecentTranslations";
 import VocabularyGuide from "@/components/translate/VocabularyGuide";
 import VocabularyModal from "@/components/translate/VocabularyModal";
-import {
-  TranslationResult,
-  TabType,
-  UploadedFile,
-} from "@/components/translate/types";
-import {
-  mockTranslationResult,
-  mockTranslationHistory,
-  createMockUploadedFile,
-} from "@/mocks/translate";
+import { FileTranslationRequest, FileType } from "@/types/translate";
+import { TabType, UploadedFile } from "@/components/translate/types";
+import { mockTranslationHistory } from "@/mocks/translate";
 
 export default function TranslateScreen() {
   const router = useRouter();
-  const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
-  const [isTranslating, setIsTranslating] = useState(false);
-  const [isRetranslating, setIsRetranslating] = useState(false);
-  const [translationResult, setTranslationResult] =
-    useState<TranslationResult | null>(null);
+
+  // Hook for translation state management
+  const {
+    currentRequest,
+    isTranslating,
+    translationResult,
+    translationError,
+    translateFile,
+    clearTranslation,
+  } = useFileTranslation();
+
+  // Local UI state (keep for performance)
   const [activeTab, setActiveTab] = useState<TabType>("summary");
   const [showWarning, setShowWarning] = useState(true);
+
+  // Image upload modal state
+  const [showImageModal, setShowImageModal] = useState(false);
 
   // Calendar modal states
   const [showCalendarModal, setShowCalendarModal] = useState(false);
@@ -53,12 +63,27 @@ export default function TranslateScreen() {
   const [showVocabularyModal, setShowVocabularyModal] = useState(false);
 
   // Recent translations states
-  const [recentTranslations, setRecentTranslations] = useState<
-    TranslationResult[]
-  >([]);
+  const [recentTranslations, setRecentTranslations] = useState<any[]>([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
   const { t } = useTranslation();
+
+  const getUploadedFileFromRequest = (
+    request: FileTranslationRequest | null,
+  ): UploadedFile | null => {
+    if (!request) return null;
+
+    const fileName =
+      request.file instanceof FormData
+        ? "uploaded_file"
+        : request.file.name || "uploaded_file";
+
+    return {
+      name: fileName,
+      type: request.fileType === FileType.PDF ? "pdf" : "image",
+      size: request.file instanceof FormData ? 0 : request.file.size,
+    };
+  };
 
   // Load recent translations on component mount
   useEffect(() => {
@@ -76,64 +101,50 @@ export default function TranslateScreen() {
   }, []);
 
   const handleImageUpload = () => {
-    showAlert(
-      "Image Upload",
-      "Image upload functionality will be handled by UploadButtons component",
-    );
+    setShowImageModal(true);
   };
 
-  const handlePdfUpload = () => {
-    showAlert(
-      "PDF Upload",
-      "PDF upload functionality requires expo-document-picker package",
-    );
-    setTimeout(() => {
-      const uploadedFile = createMockUploadedFile("document.pdf", "pdf");
-      setUploadedFile(uploadedFile);
-      startTranslation();
-    }, 1000);
+  const handlePdfUpload = async () => {
+    try {
+      const request = await pickPDF();
+      if (request) {
+        await translateFile(request);
+      }
+    } catch (error) {
+      console.error("PDF translation failed:", error);
+      showAlert("Translation Error", "Failed to translate the PDF");
+    }
   };
 
-  const handleCameraCapture = () => {
-    showAlert(
-      "Camera",
-      "Camera functionality requires expo-image-picker package",
-    );
-    setTimeout(() => {
-      const uploadedFile = createMockUploadedFile("photo_capture.jpg", "image");
-      setUploadedFile(uploadedFile);
-      startTranslation();
-    }, 1000);
+  const handleCameraCapture = async () => {
+    try {
+      const request = await pickImageFromCamera();
+      if (request) {
+        setShowImageModal(false);
+        await translateFile(request);
+      }
+    } catch (error) {
+      console.error("Camera translation failed:", error);
+      showAlert("Translation Error", "Failed to translate the captured image");
+    }
   };
 
-  const handleGallerySelect = () => {
-    showAlert(
-      "Gallery",
-      "Gallery functionality requires expo-image-picker package",
-    );
-    setTimeout(() => {
-      const uploadedFile = createMockUploadedFile(
-        "selected_image.jpg",
-        "image",
-      );
-      setUploadedFile(uploadedFile);
-      startTranslation();
-    }, 1000);
-  };
-
-  const startTranslation = () => {
-    setIsTranslating(true);
-    setShowWarning(true); // Reset warning for new translation
-
-    setTimeout(() => {
-      setTranslationResult(mockTranslationResult);
-      setIsTranslating(false);
-    }, 3000);
+  const handleGallerySelect = async () => {
+    try {
+      const request = await pickImageFromGallery();
+      if (request) {
+        setShowImageModal(false);
+        await translateFile(request);
+      }
+    } catch (error) {
+      console.error("Gallery translation failed:", error);
+      showAlert("Translation Error", "Failed to translate the selected image");
+    }
   };
 
   const handleRemoveFile = () => {
-    setUploadedFile(null);
-    setTranslationResult(null);
+    clearTranslation();
+    setShowWarning(true);
   };
 
   const handleAddEvent = (event: any) => {
@@ -142,24 +153,8 @@ export default function TranslateScreen() {
   };
 
   const handleDone = () => {
-    // Save to history first
-    if (translationResult && uploadedFile) {
-      const historyItem = {
-        id: Date.now().toString(),
-        fileName: uploadedFile.name,
-        fileType: uploadedFile.type,
-        summary: translationResult.summary,
-        fullText: translationResult.fullText,
-        originalText: translationResult.originalText,
-        events: translationResult.events,
-        date: new Date(),
-      };
-      console.log("Saved to history:", historyItem);
-    }
-
     // Reset to initial state
-    setUploadedFile(null);
-    setTranslationResult(null);
+    clearTranslation();
     setActiveTab("summary");
     setShowWarning(true);
   };
@@ -168,18 +163,18 @@ export default function TranslateScreen() {
     setShowWarning(false);
   };
 
-  const handleRetranslate = () => {
-    if (!uploadedFile) return;
+  const handleRetranslate = async () => {
+    if (!currentRequest) return;
 
-    setIsRetranslating(true);
     setActiveTab("summary"); // Reset to summary tab
 
-    // Simulate retranslation process
-    setTimeout(() => {
-      // Generate slightly different translation to show it's working
-      setTranslationResult(mockTranslationResult);
-      setIsRetranslating(false);
-    }, 2500);
+    try {
+      // Re-translate with the current request
+      await translateFile(currentRequest);
+    } catch (error) {
+      console.error("Retranslation failed:", error);
+      showAlert("Retranslation Error", "Failed to retranslate the document");
+    }
   };
 
   // Calendar modal handlers
@@ -210,11 +205,11 @@ export default function TranslateScreen() {
           <>
             <TranslationSummary
               summary={translationResult.summary || ""}
-              isLoading={isRetranslating}
+              isLoading={isTranslating}
             />
             <VocabularyGuide
-              vocabulary={translationResult.vocabulary}
-              isLoading={isRetranslating}
+              vocabulary={[]} // Vocabulary not available in API yet
+              isLoading={isTranslating}
               onPress={() => setShowVocabularyModal(true)}
             />
           </>
@@ -222,17 +217,17 @@ export default function TranslateScreen() {
       case "fullText":
         return (
           <TranslationFullText
-            fullText={translationResult.fullText || ""}
-            originalText={translationResult.originalText || ""}
-            isLoading={isRetranslating}
+            fullText={translationResult.translatedText || ""}
+            originalText={translationResult.extractedText || ""}
+            isLoading={isTranslating}
           />
         );
       case "events":
         return (
           <TranslationEvents
-            events={translationResult.events || []}
+            events={[]} // Events not available in API yet
             onAddEvent={handleAddEvent}
-            isLoading={isRetranslating}
+            isLoading={isTranslating}
           />
         );
       default:
@@ -258,7 +253,7 @@ export default function TranslateScreen() {
         <TranslationButtons
           onDone={handleDone}
           onRetranslate={handleRetranslate}
-          isRetranslating={isRetranslating}
+          isRetranslating={isTranslating}
         />
       </View>
     );
@@ -283,7 +278,7 @@ export default function TranslateScreen() {
         </View>
       </View>
 
-      {!uploadedFile && (
+      {!currentRequest && (
         <ScrollView
           contentContainerStyle={styles.initialContent}
           showsVerticalScrollIndicator={false}
@@ -291,8 +286,6 @@ export default function TranslateScreen() {
           <UploadButtons
             onImageUpload={handleImageUpload}
             onPdfUpload={handlePdfUpload}
-            onCameraCapture={handleCameraCapture}
-            onGallerySelect={handleGallerySelect}
           />
           <RecentTranslations
             translations={recentTranslations}
@@ -304,10 +297,20 @@ export default function TranslateScreen() {
 
       <View style={styles.content}>
         <FileStatus
-          uploadedFile={uploadedFile}
+          uploadedFile={getUploadedFileFromRequest(currentRequest)}
           isTranslating={isTranslating}
           onRemoveFile={handleRemoveFile}
         />
+
+        {/* Show translation error if exists */}
+        {translationError && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>
+              Translation Error: {translationError}
+            </Text>
+          </View>
+        )}
+
         {renderTranslationResults()}
       </View>
 
@@ -323,9 +326,56 @@ export default function TranslateScreen() {
       <VocabularyModal
         visible={showVocabularyModal}
         onClose={() => setShowVocabularyModal(false)}
-        vocabulary={translationResult?.vocabulary}
-        isLoading={isRetranslating}
+        vocabulary={[]} // Vocabulary not available in API yet
+        isLoading={isTranslating}
       />
+
+      {/* Image Upload Modal */}
+      <Modal
+        visible={showImageModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowImageModal(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowImageModal(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              {t("translate:upload.chooseImageSource")}
+            </Text>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleCameraCapture}
+            >
+              <MaterialCommunityIcons name="camera" size={24} color="#00B493" />
+              <Text style={styles.modalOptionText}>
+                {t("translate:upload.takePhoto")}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={handleGallerySelect}
+            >
+              <MaterialCommunityIcons name="image" size={24} color="#00B493" />
+              <Text style={styles.modalOptionText}>
+                {t("translate:upload.fromGallery")}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalCancel}
+              onPress={() => setShowImageModal(false)}
+            >
+              <Text style={styles.modalCancelText}>{t("common:cancel")}</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -377,5 +427,64 @@ const styles = StyleSheet.create({
   },
   tabContentWrapper: {
     flex: 1,
+  },
+  errorContainer: {
+    backgroundColor: "#fee",
+    padding: 12,
+    marginVertical: 8,
+    borderRadius: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: "#f44",
+  },
+  errorText: {
+    color: "#c44",
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 24,
+    width: "100%",
+    maxWidth: 300,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 24,
+  },
+  modalOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    marginBottom: 8,
+    borderRadius: 8,
+    backgroundColor: "#f8f8f8",
+  },
+  modalOptionText: {
+    marginLeft: 16,
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "500",
+  },
+  modalCancel: {
+    marginTop: 16,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  modalCancelText: {
+    fontSize: 16,
+    color: "#666",
+    fontWeight: "500",
   },
 });

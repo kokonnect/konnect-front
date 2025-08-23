@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
-import { useAuth } from "@/store/features/auth/authHooks";
+import { useAuth } from "@/hooks";
 
 interface AuthGuardProps {
   children: ReactNode;
