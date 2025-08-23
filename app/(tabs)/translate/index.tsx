@@ -31,8 +31,7 @@ import CalendarModal from "@/components/translate/CalendarModal";
 import RecentTranslations from "@/components/translate/RecentTranslations";
 import VocabularyGuide from "@/components/translate/VocabularyGuide";
 import VocabularyModal from "@/components/translate/VocabularyModal";
-import { FileTranslationRequest, FileType } from "@/types/translate";
-import { TabType, UploadedFile } from "@/components/translate/types";
+import { TabType } from "@/components/translate/types";
 import { mockTranslationHistory } from "@/mocks/translate";
 
 export default function TranslateScreen() {
@@ -52,40 +51,21 @@ export default function TranslateScreen() {
   const [activeTab, setActiveTab] = useState<TabType>("summary");
   const [showWarning, setShowWarning] = useState(true);
 
-  // Image upload modal state
+  // modal states
   const [showImageModal, setShowImageModal] = useState(false);
-
-  // Calendar modal states
   const [showCalendarModal, setShowCalendarModal] = useState(false);
-  const [selectedEventData, setSelectedEventData] = useState(null);
-
-  // Vocabulary modal states
   const [showVocabularyModal, setShowVocabularyModal] = useState(false);
 
-  // Recent translations states
+  // Event data for calendar modal
+  const [selectedEventData, setSelectedEventData] = useState(null);
+
+  // Recent translations states, 추후 상태 저장해서 사용
   const [recentTranslations, setRecentTranslations] = useState<any[]>([]);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
 
   const { t } = useTranslation();
 
-  const getUploadedFileFromRequest = (
-    request: FileTranslationRequest | null,
-  ): UploadedFile | null => {
-    if (!request) return null;
-
-    const fileName =
-      request.file instanceof FormData
-        ? "uploaded_file"
-        : request.file.name || "uploaded_file";
-
-    return {
-      name: fileName,
-      type: request.fileType === FileType.PDF ? "pdf" : "image",
-      size: request.file instanceof FormData ? 0 : request.file.size,
-    };
-  };
-
-  // Load recent translations on component mount
+  // [문서번역 - 화면 처음에 최근 번역 내역 불러오기, 현재 redux 상태에는 없음]Load recent translations on component mount
   useEffect(() => {
     const loadRecentTranslations = async () => {
       setIsLoadingHistory(true);
@@ -100,10 +80,42 @@ export default function TranslateScreen() {
     loadRecentTranslations();
   }, []);
 
+  // 이미지 업로드 버튼 눌렀을 때, 모달 보이도록
   const handleImageUpload = () => {
     setShowImageModal(true);
   };
 
+  // [문서번역] 카메라로 촬영, 시뮬레이터는 안됨
+  const handleCameraCapture = async () => {
+    try {
+      const request = await pickImageFromCamera();
+      setShowImageModal(false);
+
+      if (request) {
+        await translateFile(request);
+      }
+    } catch (error) {
+      console.error("Camera translation failed:", error);
+      showAlert("Translation Error", "Failed to translate the captured image");
+    }
+  };
+
+  // [문서번역] 이미지로 불러오기
+  const handleGallerySelect = async () => {
+    try {
+      const request = await pickImageFromGallery();
+      setShowImageModal(false);
+
+      if (request) {
+        await translateFile(request);
+      }
+    } catch (error) {
+      console.error("Gallery translation failed:", error);
+      showAlert("Translation Error", "Failed to translate the selected image");
+    }
+  };
+
+  // [문서번역] pdf 업로드 버튼 클릭시
   const handlePdfUpload = async () => {
     try {
       const request = await pickPDF();
@@ -114,37 +126,6 @@ export default function TranslateScreen() {
       console.error("PDF translation failed:", error);
       showAlert("Translation Error", "Failed to translate the PDF");
     }
-  };
-
-  const handleCameraCapture = async () => {
-    try {
-      const request = await pickImageFromCamera();
-      if (request) {
-        setShowImageModal(false);
-        await translateFile(request);
-      }
-    } catch (error) {
-      console.error("Camera translation failed:", error);
-      showAlert("Translation Error", "Failed to translate the captured image");
-    }
-  };
-
-  const handleGallerySelect = async () => {
-    try {
-      const request = await pickImageFromGallery();
-      if (request) {
-        setShowImageModal(false);
-        await translateFile(request);
-      }
-    } catch (error) {
-      console.error("Gallery translation failed:", error);
-      showAlert("Translation Error", "Failed to translate the selected image");
-    }
-  };
-
-  const handleRemoveFile = () => {
-    clearTranslation();
-    setShowWarning(true);
   };
 
   const handleAddEvent = (event: any) => {
@@ -193,7 +174,7 @@ export default function TranslateScreen() {
 
   const handleRecentTranslationPress = (item: any) => {
     // Handle recent translation item press
-    showAlert("Translation", `Opening: ${item.title}`);
+    // showAlert("Translation", `Opening: ${item.title}`);
   };
 
   const renderTabContent = () => {
@@ -295,17 +276,61 @@ export default function TranslateScreen() {
         </ScrollView>
       )}
 
+      {/* Custom Image Upload Modal - using absolute positioning for instant disappear */}
+      {showImageModal && (
+        <View style={styles.customModalContainer}>
+          <TouchableOpacity
+            style={styles.modalOverlay}
+            activeOpacity={1}
+            onPress={() => setShowImageModal(false)}
+          >
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>
+                {t("translate:upload.chooseImageSource")}
+              </Text>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={handleCameraCapture}
+              >
+                <MaterialCommunityIcons name="camera" size={24} color="#00B493" />
+                <Text style={styles.modalOptionText}>
+                  {t("translate:upload.takePhoto")}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalOption}
+                onPress={handleGallerySelect}
+              >
+                <MaterialCommunityIcons name="image" size={24} color="#00B493" />
+                <Text style={styles.modalOptionText}>
+                  {t("translate:upload.fromGallery")}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.modalCancel}
+                onPress={() => setShowImageModal(false)}
+              >
+                <Text style={styles.modalCancelText}>{t("common:cancel")}</Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={styles.content}>
         <FileStatus
-          uploadedFile={getUploadedFileFromRequest(currentRequest)}
+          uploadedFile={currentRequest?.file as File}
           isTranslating={isTranslating}
-          onRemoveFile={handleRemoveFile}
         />
 
         {/* Show translation error if exists */}
         {translationError && (
           <View style={styles.errorContainer}>
             <Text style={styles.errorText}>
+              {/* i18n 적용 필요 */}
               Translation Error: {translationError}
             </Text>
           </View>
@@ -329,53 +354,6 @@ export default function TranslateScreen() {
         vocabulary={[]} // Vocabulary not available in API yet
         isLoading={isTranslating}
       />
-
-      {/* Image Upload Modal */}
-      <Modal
-        visible={showImageModal}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowImageModal(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowImageModal(false)}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {t("translate:upload.chooseImageSource")}
-            </Text>
-
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={handleCameraCapture}
-            >
-              <MaterialCommunityIcons name="camera" size={24} color="#00B493" />
-              <Text style={styles.modalOptionText}>
-                {t("translate:upload.takePhoto")}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={handleGallerySelect}
-            >
-              <MaterialCommunityIcons name="image" size={24} color="#00B493" />
-              <Text style={styles.modalOptionText}>
-                {t("translate:upload.fromGallery")}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalCancel}
-              onPress={() => setShowImageModal(false)}
-            >
-              <Text style={styles.modalCancelText}>{t("common:cancel")}</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
     </SafeAreaView>
   );
 }
@@ -440,6 +418,14 @@ const styles = StyleSheet.create({
     color: "#c44",
     fontSize: 14,
     fontWeight: "500",
+  },
+  customModalContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
   },
   modalOverlay: {
     flex: 1,
