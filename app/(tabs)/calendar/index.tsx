@@ -204,6 +204,7 @@ export default function CalendarScreen() {
               lineHeight: 24,
               textAlign: "center",
             },
+            todayTextColor: primaryColor,
           }}
         />
         {selected ? (
