@@ -14,6 +14,7 @@ class TranslateApi {
    */
   async translateFile(
     request: FileTranslationRequest,
+    accessToken?: string,
   ): Promise<FileTranslationResponse> {
     const formData = new FormData();
 
@@ -26,27 +27,20 @@ class TranslateApi {
       formData.append("file", request.file);
     }
 
-    // Add other fields
+    // Add required fields
     formData.append("fileType", request.fileType);
     formData.append("targetLanguage", request.targetLanguage);
 
-    if (request.useSimpleLanguage !== undefined) {
-      formData.append(
-        "useSimpleLanguage",
-        request.useSimpleLanguage.toString(),
-      );
+    const headers: Record<string, string> = {};
+    
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
     }
-
-    if (request.sourceLanguageHint) {
-      formData.append("sourceLanguageHint", request.sourceLanguageHint);
-    }
-
-    const response = await fetch(`${this.baseUrl}/api/[문서번역]-번역`, {
+    
+    const response = await fetch(`${this.baseUrl}/api/ai/translate`, {
       method: "POST",
       body: formData,
-      headers: {
-        Accept: "application/json",
-      },
+      headers,
     });
 
     if (!response.ok) {
@@ -54,7 +48,14 @@ class TranslateApi {
       throw new Error(`Translation failed: ${response.status} - ${errorText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Extract result from the response wrapper
+    if (data.isSuccess && data.result) {
+      return data.result;
+    } else {
+      throw new Error(data.message || "Translation failed");
+    }
   }
 
   /**
@@ -126,6 +127,7 @@ class TranslateApi {
       sourceLanguageHint: request.sourceLanguageHint,
     };
   }
+
 
   private getLanguageName(language: TargetLanguage): string {
     const languageNames = {
