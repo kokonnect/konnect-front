@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
-  Modal,
   ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -27,8 +26,6 @@ import VocabularyGuide from "@/components/translate/VocabularyGuide";
 import VocabularyModal from "@/components/translate/VocabularyModal";
 import {
   TranslationResult,
-  TranslationHistoryItem,
-  TranslationEvent,
   TabType,
   UploadedFile,
 } from "@/components/translate/types";
@@ -38,12 +35,9 @@ import {
   createMockUploadedFile,
 } from "@/mocks/translate";
 
-const primaryColor = "#00B493";
-
 export default function TranslateScreen() {
   const router = useRouter();
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
-  const [showImageModal, setShowImageModal] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
   const [isRetranslating, setIsRetranslating] = useState(false);
   const [translationResult, setTranslationResult] =
@@ -82,7 +76,10 @@ export default function TranslateScreen() {
   }, []);
 
   const handleImageUpload = () => {
-    setShowImageModal(true);
+    showAlert(
+      "Image Upload",
+      "Image upload functionality will be handled by UploadButtons component",
+    );
   };
 
   const handlePdfUpload = () => {
@@ -98,7 +95,6 @@ export default function TranslateScreen() {
   };
 
   const handleCameraCapture = () => {
-    setShowImageModal(false);
     showAlert(
       "Camera",
       "Camera functionality requires expo-image-picker package",
@@ -111,7 +107,6 @@ export default function TranslateScreen() {
   };
 
   const handleGallerySelect = () => {
-    setShowImageModal(false);
     showAlert(
       "Gallery",
       "Gallery functionality requires expo-image-picker package",
@@ -296,6 +291,8 @@ export default function TranslateScreen() {
           <UploadButtons
             onImageUpload={handleImageUpload}
             onPdfUpload={handlePdfUpload}
+            onCameraCapture={handleCameraCapture}
+            onGallerySelect={handleGallerySelect}
           />
           <RecentTranslations
             translations={recentTranslations}
@@ -313,61 +310,6 @@ export default function TranslateScreen() {
         />
         {renderTranslationResults()}
       </View>
-
-      {/* Image Upload Modal */}
-      <Modal
-        visible={showImageModal}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={() => setShowImageModal(false)}
-      >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowImageModal(false)}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {t("translate:upload.chooseImageSource")}
-            </Text>
-
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={handleCameraCapture}
-            >
-              <MaterialCommunityIcons
-                name="camera"
-                size={24}
-                color={primaryColor}
-              />
-              <Text style={styles.modalOptionText}>
-                {t("translate:upload.takePhoto")}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={handleGallerySelect}
-            >
-              <MaterialCommunityIcons
-                name="image"
-                size={24}
-                color={primaryColor}
-              />
-              <Text style={styles.modalOptionText}>
-                {t("translate:upload.fromGallery")}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.modalCancel}
-              onPress={() => setShowImageModal(false)}
-            >
-              <Text style={styles.modalCancelText}>{t("common:cancel")}</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
 
       {/* Calendar Modal */}
       <CalendarModal
@@ -435,51 +377,5 @@ const styles = StyleSheet.create({
   },
   tabContentWrapper: {
     flex: 1,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    padding: 24,
-    width: "100%",
-    maxWidth: 300,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  modalOption: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    marginBottom: 8,
-    borderRadius: 8,
-    backgroundColor: "#f8f8f8",
-  },
-  modalOptionText: {
-    marginLeft: 16,
-    fontSize: 16,
-    color: "#333",
-    fontWeight: "500",
-  },
-  modalCancel: {
-    marginTop: 16,
-    paddingVertical: 12,
-    alignItems: "center",
-  },
-  modalCancelText: {
-    fontSize: 16,
-    color: "#666",
-    fontWeight: "500",
   },
 });

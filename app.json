@@ -35,7 +35,21 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "This app requires access to your photos to upload images.",
+          "cameraPermission": "This app requires access to your camera to take photos.",
+          "microphonePermission": "This app requires access to your microphone to record audio."
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
