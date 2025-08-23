@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Modal,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -293,7 +292,11 @@ export default function TranslateScreen() {
                 style={styles.modalOption}
                 onPress={handleCameraCapture}
               >
-                <MaterialCommunityIcons name="camera" size={24} color="#00B493" />
+                <MaterialCommunityIcons
+                  name="camera"
+                  size={24}
+                  color="#00B493"
+                />
                 <Text style={styles.modalOptionText}>
                   {t("translate:upload.takePhoto")}
                 </Text>
@@ -303,7 +306,11 @@ export default function TranslateScreen() {
                 style={styles.modalOption}
                 onPress={handleGallerySelect}
               >
-                <MaterialCommunityIcons name="image" size={24} color="#00B493" />
+                <MaterialCommunityIcons
+                  name="image"
+                  size={24}
+                  color="#00B493"
+                />
                 <Text style={styles.modalOptionText}>
                   {t("translate:upload.fromGallery")}
                 </Text>
