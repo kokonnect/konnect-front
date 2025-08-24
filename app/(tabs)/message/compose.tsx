@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import * as Speech from "expo-speech";
 import { useTranslation } from "react-i18next";
 
 import MessageHeader from "@/components/message/MessageHeader";
@@ -120,9 +121,7 @@ export default function ComposeScreen() {
 
   const handleTTS = () => {
     if (translatedText) {
-      // Note: expo-speech would be used here if available
-      // Speech.speak(translatedText, { language: 'ko' });
-      showAlert("TTS", "Text-to-speech would play the Korean translation");
+      Speech.speak(translatedText, { language: 'ko' });
     }
   };
 

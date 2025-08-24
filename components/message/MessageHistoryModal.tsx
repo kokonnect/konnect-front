@@ -10,6 +10,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import * as Clipboard from "expo-clipboard";
+import * as Speech from "expo-speech";
 
 import { formatDateHistory } from "@/utils/formatDate";
 import { showAlert } from "@/utils/alert";
@@ -55,9 +56,7 @@ export default function MessageHistoryModal({
 
   const handleTTS = () => {
     if (editedKoreanText) {
-      // Note: expo-speech would be used here if available
-      // Speech.speak(editedKoreanText, { language: 'ko' });
-      showAlert("TTS", "Text-to-speech would play the Korean text");
+      Speech.speak(editedKoreanText, { language: 'ko' });
     }
   };
 
