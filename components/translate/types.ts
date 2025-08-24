@@ -6,7 +6,4 @@ export type {
   VocabularyItem,
   UploadedFile,
   TabType,
-  TranslationRequest,
-  TranslationOptions,
-  TranslationProgress,
-} from '@/types/translate';
+} from "@/types/translate";
