@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
+import * as Speech from "expo-speech";
 import { t } from "i18next";
 import MessageHeader from "@/components/message/MessageHeader";
 import { showAlert } from "@/utils/alert";
@@ -131,9 +132,7 @@ export default function TemplateScreen() {
 
   const handleTTS = () => {
     if (editedKoreanText) {
-      // Note: expo-speech would be used here if available
-      // Speech.speak(editedKoreanText, { language: 'ko' });
-      showAlert("TTS", "Text-to-speech would play here");
+      Speech.speak(editedKoreanText, { language: 'ko' });
     }
   };
 
