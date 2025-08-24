@@ -6,7 +6,9 @@ import {
   FileTranslationRequest,
   FileType,
   TargetLanguage,
+  UploadFile,
 } from "@/types/translate";
+import { Platform } from "react-native";
 
 // [문서 번역] 백엔드 형식에 맞도록 수정 필요
 // 함수 위치도 아예 바꿀 수 있다면 좋음
@@ -57,32 +59,50 @@ export const pickImageFromGallery =
         // Create File object from the selected image
         const response = await fetch(asset.uri);
         const blob = await response.blob();
-        
+
         // Get proper MIME type
         const fileName = asset.fileName || "selected_image.jpg";
         let mimeType = blob.type || "image/jpeg"; // Use blob.type first
-        
+
         // Fallback to extension-based detection if blob.type is generic
-        if (!mimeType || mimeType === "image" || mimeType === "application/octet-stream") {
-          const extension = fileName.split('.').pop()?.toLowerCase();
+        if (
+          !mimeType ||
+          mimeType === "image" ||
+          mimeType === "application/octet-stream"
+        ) {
+          const extension = fileName.split(".").pop()?.toLowerCase();
           switch (extension) {
-            case 'png':
+            case "png":
               mimeType = "image/png";
               break;
-            case 'gif':
+            case "gif":
               mimeType = "image/gif";
               break;
-            case 'webp':
+            case "webp":
               mimeType = "image/webp";
               break;
-            case 'jpg':
-            case 'jpeg':
+            case "jpg":
+            case "jpeg":
             default:
               mimeType = "image/jpeg";
               break;
           }
         }
-        
+
+        if (Platform.OS !== "web") {
+          const fileForUpload = {
+            uri: asset.uri,
+            name: asset.fileName ?? "no-name.jpg",
+            type: asset.mimeType ?? "image/jpeg",
+          } as UploadFile;
+
+          return {
+            file: fileForUpload,
+            fileType: FileType.IMAGE,
+            targetLanguage: getTargetLanguageFromI18n(),
+          };
+        }
+
         const file = new File([blob], fileName, {
           type: mimeType,
         });
@@ -131,32 +151,50 @@ export const pickImageFromCamera =
         // Create File object from the camera image
         const response = await fetch(asset.uri);
         const blob = await response.blob();
-        
+
         // Get proper MIME type
         const fileName = asset.fileName || "camera_capture.jpg";
         let mimeType = blob.type || "image/jpeg"; // Use blob.type first
-        
+
         // Fallback to extension-based detection if blob.type is generic
-        if (!mimeType || mimeType === "image" || mimeType === "application/octet-stream") {
-          const extension = fileName.split('.').pop()?.toLowerCase();
+        if (
+          !mimeType ||
+          mimeType === "image" ||
+          mimeType === "application/octet-stream"
+        ) {
+          const extension = fileName.split(".").pop()?.toLowerCase();
           switch (extension) {
-            case 'png':
+            case "png":
               mimeType = "image/png";
               break;
-            case 'gif':
+            case "gif":
               mimeType = "image/gif";
               break;
-            case 'webp':
+            case "webp":
               mimeType = "image/webp";
               break;
-            case 'jpg':
-            case 'jpeg':
+            case "jpg":
+            case "jpeg":
             default:
               mimeType = "image/jpeg";
               break;
           }
         }
-        
+
+        if (Platform.OS !== "web") {
+          const fileForUpload = {
+            uri: asset.uri,
+            name: asset.fileName ?? "no-name.jpg",
+            type: asset.mimeType ?? "image/jpeg",
+          } as UploadFile;
+
+          return {
+            file: fileForUpload,
+            fileType: FileType.IMAGE,
+            targetLanguage: getTargetLanguageFromI18n(),
+          };
+        }
+
         const file = new File([blob], fileName, {
           type: mimeType,
         });
@@ -194,6 +232,20 @@ export const pickPDF = async (): Promise<FileTranslationRequest | null> => {
       const file = new File([blob], asset.name, {
         type: "application/pdf",
       });
+
+      if (Platform.OS !== "web") {
+        const fileForUpload = {
+          uri: asset.uri,
+          name: asset.name ?? "no-name.pdf",
+          type: asset.mimeType ?? "application/pdf",
+        } as UploadFile;
+
+        return {
+          file: fileForUpload,
+          fileType: FileType.PDF,
+          targetLanguage: getTargetLanguageFromI18n(),
+        };
+      }
 
       return {
         file,

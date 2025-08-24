@@ -17,9 +17,14 @@ export enum TargetLanguage {
   KHMER = "KHMER",
 }
 
+export interface UploadFile {
+  uri: string;
+  name: string;
+  type: string;
+}
 // Backend Request Model
 export interface FileTranslationRequest {
-  file: File | FormData;
+  file: File | UploadFile | FormData;
   fileType: FileType;
   targetLanguage: TargetLanguage;
   useSimpleLanguage?: boolean;
