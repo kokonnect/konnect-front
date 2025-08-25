@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -31,6 +31,7 @@ export default function MessageInput({
   showTranslation,
 }: MessageInputProps) {
   const { t } = useTranslation();
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <View
@@ -48,9 +49,12 @@ export default function MessageInput({
 
       <TextInput
         style={[styles.textInput, showTranslation && styles.textInputShrinked]}
-        placeholder={t("message:compose.messagePlaceholder")}
+        placeholder={isFocused || userInput ? "" : t("message:compose.messagePlaceholder")}
+        placeholderTextColor="lightgray"
         value={userInput}
         onChangeText={(text) => onInputChange(text.slice(0, MAX_CHAR_LIMIT))}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         multiline
         textAlignVertical="top"
         scrollEnabled={true}
