@@ -15,7 +15,9 @@ import SkeletonLoader from "@/components/translate/SkeletonLoader";
 import TranslationHistoryModal from "@/components/translate/TranslationHistoryModal";
 import { formatDateHistory } from "@/utils/formatDate";
 import { TranslationResult } from "@/types";
-import { mockTranslationHistory } from "@/mocks";
+import { useTranslationHistory } from "@/hooks";
+import { mapHistoryToTranslationResults } from "@/utils/historyMapper";
+import { showAlert } from "@/utils/alert";
 
 const primaryColor = "#00B493";
 
@@ -130,26 +132,29 @@ const createRenderHistoryItem =
 
 export default function DocumentHistoryScreen() {
   const router = useRouter();
-  const [history, setHistory] = useState<TranslationResult[]>([]);
   const [selectedItem, setSelectedItem] = useState<TranslationResult | null>(
     null,
   );
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const { t, i18n } = useTranslation();
+  
+  // Use translation history hook
+  const { history, isLoadingHistory, historyError, fetchHistory } = useTranslationHistory();
+  
+  // Convert API history to legacy format for UI compatibility
+  const translationResults = mapHistoryToTranslationResults(history);
 
   useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        await fetchHistory();
+      } catch (error) {
+        showAlert("Error", "Failed to load translation history");
+      }
+    };
+    
     loadHistory();
-  }, []);
-
-  const loadHistory = async () => {
-    setIsLoading(true);
-    // Mock loading delay
-    setTimeout(() => {
-      setHistory(mockTranslationHistory);
-      setIsLoading(false);
-    }, 2000);
-  };
+  }, [fetchHistory]);
 
   const handleItemPress = (item: TranslationResult) => {
     setSelectedItem(item);
@@ -178,7 +183,7 @@ export default function DocumentHistoryScreen() {
         <View style={styles.headerSpacer} />
       </View>
 
-      {isLoading ? (
+      {isLoadingHistory ? (
         <View style={styles.listContent}>
           {[0, 1, 2, 3, 4].map((index) => renderSkeletonItem({ index }))}
         </View>
@@ -196,7 +201,7 @@ export default function DocumentHistoryScreen() {
               </Text>
             </View>
           }
-          data={history}
+          data={translationResults}
           keyExtractor={(item) => item.id}
           renderItem={renderHistoryItem}
           contentContainerStyle={styles.listContent}
