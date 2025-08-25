@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { showAlert } from "@/utils/alert";
-import { useFileTranslation } from "@/hooks";
+import { useFileTranslation, useTranslationHistory } from "@/hooks";
 import {
   pickImageFromGallery,
   pickImageFromCamera,
@@ -31,7 +31,7 @@ import RecentTranslations from "@/components/translate/RecentTranslations";
 import VocabularyGuide from "@/components/translate/VocabularyGuide";
 import VocabularyModal from "@/components/translate/VocabularyModal";
 import { TabType } from "@/components/translate/types";
-import { mockTranslationHistory } from "@/mocks/translate";
+import { mapHistoryToTranslationResults } from "@/utils/historyMapper";
 
 export default function TranslateScreen() {
   const router = useRouter();
@@ -58,26 +58,26 @@ export default function TranslateScreen() {
   // Event data for calendar modal
   const [selectedEventData, setSelectedEventData] = useState(null);
 
-  // Recent translations states, 추후 상태 저장해서 사용
-  const [recentTranslations, setRecentTranslations] = useState<any[]>([]);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+  // Use translation history hook for recent translations
+  const { history, isLoadingHistory: historyLoading, fetchHistory } = useTranslationHistory();
+  
+  // Convert API history to legacy format and limit to 3 items
+  const recentTranslations = mapHistoryToTranslationResults(history.slice(0, 3));
 
   const { t } = useTranslation();
 
-  // [문서번역 - 화면 처음에 최근 번역 내역 불러오기, 현재 redux 상태에는 없음]Load recent translations on component mount
+  // Load recent translations on component mount
   useEffect(() => {
     const loadRecentTranslations = async () => {
-      setIsLoadingHistory(true);
-
-      // Simulate API call delay
-      setTimeout(() => {
-        setRecentTranslations(mockTranslationHistory);
-        setIsLoadingHistory(false);
-      }, 1500);
+      try {
+        await fetchHistory();
+      } catch (error) {
+        console.error("Failed to load recent translations:", error);
+      }
     };
 
     loadRecentTranslations();
-  }, []);
+  }, [fetchHistory]);
 
   // 이미지 업로드 버튼 눌렀을 때, 모달 보이도록
   const handleImageUpload = () => {
@@ -91,7 +91,7 @@ export default function TranslateScreen() {
       setShowImageModal(false);
 
       if (request) {
-        await translateFile(request);
+        await translateFile(request, true); // Enable history refresh
       }
     } catch (error) {
       console.error("Camera translation failed:", error);
@@ -106,7 +106,7 @@ export default function TranslateScreen() {
       setShowImageModal(false);
 
       if (request) {
-        await translateFile(request);
+        await translateFile(request, true); // Enable history refresh
       }
     } catch (error) {
       console.error("Gallery translation failed:", error);
@@ -119,7 +119,7 @@ export default function TranslateScreen() {
     try {
       const request = await pickPDF();
       if (request) {
-        await translateFile(request);
+        await translateFile(request, true); // Enable history refresh
       }
     } catch (error) {
       console.error("PDF translation failed:", error);
@@ -132,11 +132,18 @@ export default function TranslateScreen() {
     setShowCalendarModal(true);
   };
 
-  const handleDone = () => {
+  const handleDone = async () => {
     // Reset to initial state
     clearTranslation();
     setActiveTab("summary");
     setShowWarning(true);
+    
+    // Refresh recent translations after completing a translation
+    try {
+      await fetchHistory();
+    } catch (error) {
+      console.error("Failed to refresh recent translations:", error);
+    }
   };
 
   const handleDismissWarning = () => {
@@ -269,7 +276,7 @@ export default function TranslateScreen() {
           />
           <RecentTranslations
             translations={recentTranslations}
-            isLoading={isLoadingHistory}
+            isLoading={historyLoading}
             onItemPress={handleRecentTranslationPress}
           />
         </ScrollView>
