@@ -41,7 +41,7 @@ export function useAuthAndUser() {
 export { useAuth, useAppAuth } from "./authHooks";
 export { useUser } from "./userHooks";
 export { useCalendar } from "./calendarHooks";
-export { useMessage } from "./messageHooks";
+export { useMessageCompose } from "./messageHooks";
 export {
   useFileTranslation,
   useFileTranslationResult,

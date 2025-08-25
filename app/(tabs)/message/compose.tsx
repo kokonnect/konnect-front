@@ -9,100 +9,43 @@ import MessageHeader from "@/components/message/MessageHeader";
 import MessageInput from "@/components/message/MessageInput";
 import TranslationOutput from "@/components/message/TranslationOutput";
 import { showAlert } from "@/utils/alert";
-import { mockMessageTranslations } from "@/mocks";
+import { useMessageCompose } from "@/hooks/messageHooks";
 
 const primaryColor = "#00B493";
 
-// Mock translation function - replace with actual API call
-const mockTranslate = async (text: string): Promise<string> => {
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // Simple mock translation logic
-  // const lowerText = text.toLowerCase();
-  for (const [eng, kor] of Object.entries(mockMessageTranslations)) {
-    if (text.includes(eng)) {
-      return kor;
-    }
-  }
-
-  // Default mock translation
-  return `[번역됨] ${text}`;
-};
-
-// Mock storage functions - replace with AsyncStorage
-const mockStorage = {
-  history: [] as {
-    id: string;
-    original: string;
-    translated: string;
-    date: Date;
-  }[],
-
-  async saveTranslation(original: string, translated: string) {
-    const item = {
-      id: Date.now().toString(),
-      original,
-      translated,
-      date: new Date(),
-    };
-    this.history.unshift(item);
-    // In real app, save to AsyncStorage here
-    return item;
-  },
-
-  async getHistory() {
-    // In real app, load from AsyncStorage here
-    return this.history;
-  },
-};
-
-const temp =
-  "My son is feeling unwell today and cannot attend school. I want to inform his homeroom teacher.";
-
 export default function ComposeScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const [userInput, setUserInput] = useState(temp);
-  const [translatedText, setTranslatedText] = useState("");
-  const [isTranslating, setIsTranslating] = useState(false);
+  const [userInput, setUserInput] = useState("");
   const [showTranslation, setShowTranslation] = useState(false);
   const { t } = useTranslation();
 
-  // Handle prefilled data from history
-  useEffect(() => {
-    if (params.prefillOriginal) {
-      setUserInput(params.prefillOriginal as string);
-    }
-    if (params.prefillTranslated) {
-      setTranslatedText(params.prefillTranslated as string);
-      setShowTranslation(true);
-    }
-  }, [params]);
+  const {
+    currentResult,
+    isComposing,
+    composeError,
+    composeMessage,
+    clearMessageState,
+    setRequest,
+    clearError,
+  } = useMessageCompose();
+
+  const translatedText = currentResult?.translatedMessage || "";
 
   const handleGenerate = async () => {
     if (!userInput.trim()) return;
 
-    setIsTranslating(true);
-    setShowTranslation(true);
-
     try {
-      const translation = await mockTranslate(userInput);
-      setTranslatedText(translation);
-
-      // Save to history
-      await mockStorage.saveTranslation(userInput, translation);
-    } catch {
-      showAlert("Error", "Failed to translate. Please try again.");
-      setShowTranslation(false);
-    } finally {
-      setIsTranslating(false);
+      setRequest({ message: userInput });
+      await composeMessage({ message: userInput });
+      setShowTranslation(true);
+    } catch (error) {
+      showAlert("Error", `Failed to compose message: ${error}`);
     }
   };
 
   const handleClear = () => {
     setUserInput("");
-    setTranslatedText("");
+    clearMessageState();
     setShowTranslation(false);
   };
 
@@ -121,7 +64,7 @@ export default function ComposeScreen() {
 
   const handleTTS = () => {
     if (translatedText) {
-      Speech.speak(translatedText, { language: 'ko' });
+      Speech.speak(translatedText, { language: "ko" });
     }
   };
 
@@ -141,7 +84,7 @@ export default function ComposeScreen() {
         <MessageInput
           userInput={userInput}
           onInputChange={(text) => setUserInput(text)}
-          isTranslating={isTranslating}
+          isTranslating={isComposing}
           onClear={handleClear}
           onEditDraft={handleEditDraft}
           onGenerate={handleGenerate}
@@ -152,11 +95,11 @@ export default function ComposeScreen() {
 
         {showTranslation && (
           <TranslationOutput
-            isTranslating={isTranslating}
+            isTranslating={isComposing}
             translatedText={translatedText}
             onCopy={handleCopyTranslation}
             onTTS={handleTTS}
-            onTextChange={setTranslatedText}
+            onTextChange={() => {}}
           />
         )}
       </View>
