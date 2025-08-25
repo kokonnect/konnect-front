@@ -49,6 +49,32 @@ export interface FileTranslationResponse {
   sourceLanguageHint?: string;
 }
 
+// API History Response Types
+export interface HistoryItem {
+  documentId: number;
+  title: string;
+  description: string;
+  createdAt: string;
+  fileName: string;
+  fileType: "PDF" | "IMAGE";
+  fileSize: number;
+  pageCount: number;
+  extractedText: string;
+  translatedLanguage: string;
+  translatedText: string;
+  summary: string;
+}
+
+export interface TranslationHistoryResponse {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    histories: HistoryItem[];
+    totalCount: number;
+  };
+}
+
 // Legacy interface (keep for backward compatibility)
 export interface TranslationResult {
   id: string;
