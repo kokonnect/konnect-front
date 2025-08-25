@@ -3,6 +3,7 @@ import {
   FileTranslationResponse,
   FileType,
   TargetLanguage,
+  TranslationHistoryResponse,
 } from "@/types/translate";
 
 // [문서번역] - api, 백엔드에 맞도록 수정하세요.
@@ -128,6 +129,25 @@ class TranslateApi {
     };
   }
 
+  /**
+   * Get translation history
+   */
+  async getTranslationHistory(accessToken: string): Promise<TranslationHistoryResponse> {
+    const response = await fetch(`${this.baseUrl}/api/ai/translate/history`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+        "Accept": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch history: ${response.status} - ${errorText}`);
+    }
+
+    return await response.json();
+  }
 
   private getLanguageName(language: TargetLanguage): string {
     const languageNames = {
