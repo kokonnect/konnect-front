@@ -46,4 +46,5 @@ export {
   useFileTranslation,
   useFileTranslationResult,
   useFileTranslationLifecycle,
+  useTranslationHistory,
 } from "./fileTranslateHooks";

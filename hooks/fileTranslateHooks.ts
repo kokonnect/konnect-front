@@ -6,14 +6,19 @@ import {
   setCurrentRequest,
   clearTranslation,
   clearTranslationError,
+  fetchTranslationHistoryThunk,
   selectCurrentRequest,
   selectIsTranslating,
   selectTranslationError,
   selectCurrentResult,
+  selectHistory,
+  selectIsLoadingHistory,
+  selectHistoryError,
 } from "@/store/features/translate/translateSlice";
 import {
   FileTranslationRequest,
   FileTranslationResponse,
+  HistoryItem,
 } from "@/types/translate";
 
 interface UseFileTranslationReturn {
@@ -24,7 +29,7 @@ interface UseFileTranslationReturn {
   translationResult: FileTranslationResponse | null;
 
   // Actions
-  translateFile: (request: FileTranslationRequest) => Promise<void>;
+  translateFile: (request: FileTranslationRequest, refreshHistory?: boolean) => Promise<void>;
   clearTranslation: () => void;
   clearError: () => void;
 
@@ -44,7 +49,7 @@ export function useFileTranslation(): UseFileTranslationReturn {
 
   // Actions
   const translateFile = useCallback(
-    async (request: FileTranslationRequest): Promise<void> => {
+    async (request: FileTranslationRequest, refreshHistory?: boolean): Promise<void> => {
       try {
         // Set current request first
         dispatch(setCurrentRequest(request));
@@ -54,6 +59,17 @@ export function useFileTranslation(): UseFileTranslationReturn {
 
         // Translation completed successfully
         console.log("Translation completed:", result.originalFileName);
+        
+        // Refresh history if requested
+        if (refreshHistory) {
+          try {
+            await dispatch(fetchTranslationHistoryThunk()).unwrap();
+            console.log("History refreshed after translation");
+          } catch (historyError) {
+            console.error("Failed to refresh history:", historyError);
+            // Don't throw here, translation was successful
+          }
+        }
       } catch (error) {
         // Error is already handled by the thunk and stored in state
         console.error("Translation failed:", error);
@@ -165,5 +181,35 @@ export function useFileTranslationLifecycle() {
     isProcessing,
     isCompleted,
     resetTranslation,
+  };
+}
+
+/**
+ * Hook for translation history management
+ */
+export function useTranslationHistory() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const history = useSelector(selectHistory);
+  const isLoadingHistory = useSelector(selectIsLoadingHistory);
+  const historyError = useSelector(selectHistoryError);
+
+  const fetchHistory = useCallback(async () => {
+    try {
+      await dispatch(fetchTranslationHistoryThunk()).unwrap();
+    } catch (error) {
+      console.error("Failed to fetch history:", error);
+      throw error;
+    }
+  }, [dispatch]);
+
+  const hasHistory = useMemo(() => history.length > 0, [history.length]);
+
+  return {
+    history,
+    isLoadingHistory,
+    historyError,
+    fetchHistory,
+    hasHistory,
   };
 }
