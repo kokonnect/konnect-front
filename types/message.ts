@@ -1,4 +1,17 @@
 // Message and Communication related types
+
+export interface MessageComposeRequest {
+  message: string;
+}
+
+export interface MessageComposeResponse {
+  originalMessage: string;
+  translatedMessage: string;
+  targetLanguage: string;
+  processingTimeMs: number;
+}
+
+// legacy templates
 export interface MessageTemplate {
   id: string;
   title: string;
