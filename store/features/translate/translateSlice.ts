@@ -3,6 +3,7 @@ import {
   FileTranslationRequest,
   FileTranslationResponse,
   TargetLanguage,
+  HistoryItem,
 } from "@/types/translate";
 import { translateApi } from "@/services/translateApi";
 import { getGuestTokenAsync } from "@/store/features/auth/authSlice";
@@ -68,6 +69,31 @@ export const retranslateFileThunk = createAsyncThunk(
   },
 );
 
+/**
+ * Fetch translation history
+ */
+export const fetchTranslationHistoryThunk = createAsyncThunk(
+  "translate/fetchHistory",
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const state = getState() as { auth: any };
+      let accessToken = state.auth.accessToken;
+
+      // If no access token, get guest token
+      if (!accessToken) {
+        const guestTokenResponse = await dispatch(getGuestTokenAsync("ENGLISH")).unwrap();
+        accessToken = guestTokenResponse.accessToken;
+      }
+
+      return await translateApi.getTranslationHistory(accessToken);
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Failed to fetch history",
+      );
+    }
+  },
+);
+
 // State Interface
 export interface TranslationState {
   // Current translation request
@@ -87,6 +113,12 @@ export interface TranslationState {
 
   // Current translation result
   currentResult: FileTranslationResponse | null;
+
+  // History state
+  history: HistoryItem[];
+  isLoadingHistory: boolean;
+  historyError: string | null;
+  totalHistoryCount: number;
 }
 
 // Initial State
@@ -99,6 +131,12 @@ const initialState: TranslationState = {
   uploadError: null,
   translationError: null,
   currentResult: null,
+
+  // History initial state
+  history: [],
+  isLoadingHistory: false,
+  historyError: null,
+  totalHistoryCount: 0,
 };
 
 // Slice
@@ -163,6 +201,20 @@ const translateSlice = createSlice({
       .addCase(translateFileThunk.rejected, (state, action) => {
         state.isTranslating = false;
         state.translationError = action.payload as string;
+      })
+      // Fetch history thunk
+      .addCase(fetchTranslationHistoryThunk.pending, (state) => {
+        state.isLoadingHistory = true;
+        state.historyError = null;
+      })
+      .addCase(fetchTranslationHistoryThunk.fulfilled, (state, action) => {
+        state.isLoadingHistory = false;
+        state.history = action.payload.result.histories;
+        state.totalHistoryCount = action.payload.result.totalCount;
+      })
+      .addCase(fetchTranslationHistoryThunk.rejected, (state, action) => {
+        state.isLoadingHistory = false;
+        state.historyError = action.payload as string;
       });
   },
 });
@@ -192,5 +244,15 @@ export const selectTranslationError = (state: {
 }) => state.translate.translationError;
 export const selectCurrentResult = (state: { translate: TranslationState }) =>
   state.translate.currentResult;
+
+// History selectors
+export const selectHistory = (state: { translate: TranslationState }) =>
+  state.translate.history;
+export const selectIsLoadingHistory = (state: { translate: TranslationState }) =>
+  state.translate.isLoadingHistory;
+export const selectHistoryError = (state: { translate: TranslationState }) =>
+  state.translate.historyError;
+export const selectTotalHistoryCount = (state: { translate: TranslationState }) =>
+  state.translate.totalHistoryCount;
 
 export default translateSlice.reducer;
